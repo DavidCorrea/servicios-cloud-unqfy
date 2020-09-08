@@ -1,13 +1,15 @@
 # UNQfy
 
-## Pasos para instalar
-- Clonar el repositorio en tu computadora;
-- Instalar Node (nosotros estamos usando la versión 14.4.0)
+## Requerimientos
+- Node (14.4.0)
+
+## Instalación
+- Clonar el repositorio
 - `npm install`
 
 ## Comandos
-- Para correr los tests: `npm test`
-- Para correr el linter: `npm eslint`
+- Para correr los tests: `npm run test`
+- Para correr el linter: `npm run lint`
 
 ## Visados
 
