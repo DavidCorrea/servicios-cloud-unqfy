@@ -1,0 +1,46 @@
+<diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>525</x><y>140</y><w>120</w><h>120</h></coordinates><panel_attributes>&lt;&lt;tracks&gt;&gt;
+--
+-id: Number
++title: String
++duration: Number
++genres: Array</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>755</x><y>140</y><w>90</w><h>90</h></coordinates><panel_attributes>&lt;&lt;album&gt;&gt;
+--
+-id: Number
++name: String
++year: Number</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>635</x><y>170</y><w>140</w><h>40</h></coordinates><panel_attributes>lt=&lt;-
+m1=0..1
+m2=0..n</panel_attributes><additional_attributes>120;10;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1015</x><y>140</y><w>90</w><h>90</h></coordinates><panel_attributes>&lt;&lt;artist&gt;&gt;
+--
+-id: Number
++name: String
++country: String</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>835</x><y>170</y><w>200</w><h>40</h></coordinates><panel_attributes>lt=&lt;-
+m1=0..1
+m2=0..n</panel_attributes><additional_attributes>180;10;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>535</x><y>340</y><w>120</w><h>120</h></coordinates><panel_attributes>&lt;&lt;playlists&gt;&gt;
+--
+-id: Number
++name: String
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>575</x><y>250</y><w>50</w><h>110</h></coordinates><panel_attributes>lt=&lt;-
+m1=0..n
+m2=0..1</panel_attributes><additional_attributes>10;10;10;90</additional_attributes></element><element><id>UMLClass</id><coordinates><x>25</x><y>140</y><w>120</w><h>120</h></coordinates><panel_attributes>&lt;&lt;user&gt;&gt;
+--
+-id: Number
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>135</x><y>190</y><w>160</w><h>40</h></coordinates><panel_attributes>lt=&lt;-
+m1=0..n
+m2=0..1</panel_attributes><additional_attributes>140;10;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>275</x><y>140</y><w>120</w><h>120</h></coordinates><panel_attributes>&lt;&lt;reproduction&gt;&gt;
+--
+-id: Number
++repetitions: Number</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>385</x><y>190</y><w>160</w><h>40</h></coordinates><panel_attributes>lt=&lt;-
+m1=0..1
+m2=0..n</panel_attributes><additional_attributes>140;10;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>115</x><y>490</y><w>120</w><h>120</h></coordinates><panel_attributes>&lt;&lt;UNQfy&gt;&gt;
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>85</x><y>250</y><w>100</w><h>260</h></coordinates><panel_attributes>lt=&lt;-
+m1=0..n
+m2=0..1</panel_attributes><additional_attributes>10;10;60;240</additional_attributes></element><element><id>Relation</id><coordinates><x>195</x><y>250</y><w>350</w><h>260</h></coordinates><panel_attributes>lt=&lt;-
+m1=0..n
+m2=0..1</panel_attributes><additional_attributes>330;10;10;240</additional_attributes></element><element><id>Relation</id><coordinates><x>225</x><y>370</y><w>330</w><h>160</h></coordinates><panel_attributes>lt=&lt;-
+m1=0..n
+m2=0..1</panel_attributes><additional_attributes>310;10;210;10;10;140</additional_attributes></element><element><id>Relation</id><coordinates><x>225</x><y>220</y><w>600</w><h>360</h></coordinates><panel_attributes>lt=&lt;-
+m1=0..n
+m2=0..1</panel_attributes><additional_attributes>560;10;560;330;10;330</additional_attributes></element><element><id>Relation</id><coordinates><x>225</x><y>220</y><w>870</w><h>390</h></coordinates><panel_attributes>lt=&lt;-
+m1=0..n
+m2=0..1</panel_attributes><additional_attributes>830;10;830;360;10;360</additional_attributes></element></diagram>
