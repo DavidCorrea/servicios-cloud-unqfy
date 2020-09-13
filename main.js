@@ -1,6 +1,8 @@
 
 
 const fs = require('fs'); // necesitado para guardar/cargar unqfy
+const { get } = require('https');
+const unqfy = require('./unqfy');
 const unqmod = require('./unqfy'); // importamos el modulo unqfy
 
 // Retorna una instancia de UNQfy. Si existe filename, recupera la instancia desde el archivo.
@@ -47,7 +49,17 @@ function saveUNQfy(unqfy, filename = 'data.json') {
 */
 
 function main() {
+  let unqfy = getUNQfy();
   console.log('arguments: ');
+  if(process.argv[2].toString() === "addArtist"){
+    let artistData = {name: process.argv[4]}
+    if (process.argv.length > 4){
+      artistData.country= process.argv[6]
+      console.log(artistData)
+    }
+    unqfy.addArtist(artistData)
+  }
+
   process.argv.forEach(argument => console.log(argument));
 }
 
