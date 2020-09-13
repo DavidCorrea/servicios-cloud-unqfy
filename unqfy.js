@@ -1,9 +1,21 @@
 
 const picklify = require('picklify'); // para cargar/guarfar unqfy
 const fs = require('fs'); // para cargar/guarfar unqfy
+const libartist = require('./artist');
 
 
 class UNQfy {
+
+  constructor(){
+    this.artists = [];
+    this.id = 0;
+  }
+
+  // Retorna el id y lo incrementa 
+  getId(){
+    this.id++;
+    return this.id -1;
+  }
 
   // artistData: objeto JS con los datos necesarios para crear un artista
   //   artistData.name (string)
@@ -15,6 +27,9 @@ class UNQfy {
     - una propiedad name (string)
     - una propiedad country (string)
   */
+    let artist = new libartist.artist(this.getId(),artistData.name,artistData.country);
+    this.artists.push(artist);
+    return artist;
   }
 
 
