@@ -52,11 +52,8 @@ function main() {
   let unqfy = getUNQfy();
   console.log('arguments: ');
   if(process.argv[2].toString() === "addArtist"){
-    let artistData = {name: process.argv[4]}
-    if (process.argv.length > 4){
-      artistData.country= process.argv[6]
-      console.log(artistData)
-    }
+    let artistData = {name: process.argv[4], country: process.argv[6]}
+    console.log(artistData)
     unqfy.addArtist(artistData)
   }
 
