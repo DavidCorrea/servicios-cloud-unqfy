@@ -1,7 +1,7 @@
 /* eslint-env node, mocha */
 
 const assert = require('chai').assert;
-const libunqfy = require('./unqfy');
+const UNQfy = require('../src/unqfy');
 
 
 function createAndAddArtist(unqfy, artistName, country) {
@@ -22,7 +22,7 @@ describe('Add, remove and filter data', () => {
   let unqfy = null;
 
   beforeEach(() => {
-    unqfy = new libunqfy.UNQfy();
+    unqfy = new UNQfy();
   });
 
   it('should add an artist', () => {
@@ -30,7 +30,12 @@ describe('Add, remove and filter data', () => {
 
     assert.equal(artist.name, 'Guns n\' Roses');
     assert.equal(artist.country, 'USA');
+  });
 
+  it('should raise an error if an artist with the same name already exists', () => {
+    createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+
+    assert.throws(() => createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA'), "Couldn't create new Artist: Name was already taken");
   });
 
   it('should add an album to an artist', () => {
@@ -120,7 +125,7 @@ describe('Playlist Creation and properties', () => {
   let unqfy = null;
 
   beforeEach(() => {
-    unqfy = new libunqfy.UNQfy();
+    unqfy = new UNQfy();
   });
 
   it('should create a playlist as requested', () => {

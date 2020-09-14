@@ -7,9 +7,13 @@
 - Clonar el repositorio
 - `npm install`
 
-## Comandos
+## Comandos (Proyecto)
 - Para correr los tests: `npm run test`
 - Para correr el linter: `npm run lint`
+
+## Comandos (UNQfy)
+- `addArtist name "NAME" country "COUNTRY"`
+- `getArtist id "ID"`
 
 ## Visados
 
