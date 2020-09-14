@@ -1,46 +1,157 @@
-<diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>525</x><y>140</y><w>120</w><h>120</h></coordinates><panel_attributes>&lt;&lt;tracks&gt;&gt;
+<diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>545</x><y>0</y><w>180</w><h>170</h></coordinates><panel_attributes>Track
 --
 -id: Number
-+title: String
-+duration: Number
-+genres: Array</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>755</x><y>140</y><w>90</w><h>90</h></coordinates><panel_attributes>&lt;&lt;album&gt;&gt;
+-title: String
+-duration: Number
+-genres: Array[String]
+--
++getId()
++getTitle()
++getDuration()
++getGenres()</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>845</x><y>0</y><w>180</w><h>170</h></coordinates><panel_attributes>Album
 --
 -id: Number
-+name: String
-+year: Number</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>635</x><y>170</y><w>140</w><h>40</h></coordinates><panel_attributes>lt=&lt;-
-m1=0..1
-m2=0..n</panel_attributes><additional_attributes>120;10;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1015</x><y>140</y><w>90</w><h>90</h></coordinates><panel_attributes>&lt;&lt;artist&gt;&gt;
+-name: String
+-year: Number
+-tracks: Array(Track)
+--
++getId()
++getName()
++getYear()
++addTrack(...)
++getAllSongs()</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1145</x><y>0</y><w>180</w><h>170</h></coordinates><panel_attributes>Artist
 --
 -id: Number
-+name: String
-+country: String</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>835</x><y>170</y><w>200</w><h>40</h></coordinates><panel_attributes>lt=&lt;-
-m1=0..1
-m2=0..n</panel_attributes><additional_attributes>180;10;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>535</x><y>340</y><w>120</w><h>120</h></coordinates><panel_attributes>&lt;&lt;playlists&gt;&gt;
+-name: String
+-country: String
+-albums: Array(Album)
+--
++getId()
++getName()
++getCountry()
++addAlbum(...)
++getAllTracks()</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>545</x><y>270</y><w>180</w><h>170</h></coordinates><panel_attributes>Playlist
 --
 -id: Number
-+name: String
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>575</x><y>250</y><w>50</w><h>110</h></coordinates><panel_attributes>lt=&lt;-
-m1=0..n
-m2=0..1</panel_attributes><additional_attributes>10;10;10;90</additional_attributes></element><element><id>UMLClass</id><coordinates><x>25</x><y>140</y><w>120</w><h>120</h></coordinates><panel_attributes>&lt;&lt;user&gt;&gt;
+-name: String
+--
++getId()
++getName()
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>215</x><y>270</y><w>240</w><h>170</h></coordinates><panel_attributes>User
 --
 -id: Number
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>135</x><y>190</y><w>160</w><h>40</h></coordinates><panel_attributes>lt=&lt;-
-m1=0..n
-m2=0..1</panel_attributes><additional_attributes>140;10;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>275</x><y>140</y><w>120</w><h>120</h></coordinates><panel_attributes>&lt;&lt;reproduction&gt;&gt;
+--
++getId()
++getPlayedSongs()
++getNumberOfReproductionsForSong(...)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>245</x><y>0</y><w>180</w><h>170</h></coordinates><panel_attributes>Reproduction
 --
 -id: Number
-+repetitions: Number</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>385</x><y>190</y><w>160</w><h>40</h></coordinates><panel_attributes>lt=&lt;-
-m1=0..1
-m2=0..n</panel_attributes><additional_attributes>140;10;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>115</x><y>490</y><w>120</w><h>120</h></coordinates><panel_attributes>&lt;&lt;UNQfy&gt;&gt;
+-repetitions: Number
 --
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>85</x><y>250</y><w>100</w><h>260</h></coordinates><panel_attributes>lt=&lt;-
++getId()
++getRepetitions()</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>495</x><y>790</y><w>280</w><h>540</h></coordinates><panel_attributes>UNQfy
+--
+-usersRepository: UserRepository
+-tracksRepository: TrackRepository
+-playlistsRepository: PlaylistRepository
+-albumsRepository: AlbumRepository
+-artistsRepository: ArtistRepository
+-reproductionsRepository: ReproductionRepository
+--
++addArtist(...)
++removeArtist(...)
++addAlbum(...)
++removeAlbum(...)
++addTrack(...)
++removeTrack(...)
++createPlaylist(...)
++deletePlaylist(...)
++addUser(...)
+
++getArtistById(...)
++getAlbumById(...)
++getTrackById(...)
++getPlaylistById(...)
+
++getTracksMatchingGenres(...)
++getTracksMatchingArtist(...)
+
++getArtistsWithNameLike(...)
++getAlbumsWithNameLike(...)
++getTracksWithNameLike(...)
+
++getSongsPlayedByUser(...)
++getUserNumberOfReproductionsForSong(...)
++createUserReproductionForSong(...)
+
++createTopThreeSongsListOfUser(...)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>320</x><y>160</y><w>50</w><h>130</h></coordinates><panel_attributes>lt=-
 m1=0..n
-m2=0..1</panel_attributes><additional_attributes>10;10;60;240</additional_attributes></element><element><id>Relation</id><coordinates><x>195</x><y>250</y><w>350</w><h>260</h></coordinates><panel_attributes>lt=&lt;-
+m2=1</panel_attributes><additional_attributes>10;10;10;110</additional_attributes></element><element><id>Relation</id><coordinates><x>590</x><y>160</y><w>50</w><h>130</h></coordinates><panel_attributes>lt=-
 m1=0..n
-m2=0..1</panel_attributes><additional_attributes>330;10;10;240</additional_attributes></element><element><id>Relation</id><coordinates><x>225</x><y>370</y><w>330</w><h>160</h></coordinates><panel_attributes>lt=&lt;-
-m1=0..n
-m2=0..1</panel_attributes><additional_attributes>310;10;210;10;10;140</additional_attributes></element><element><id>Relation</id><coordinates><x>225</x><y>220</y><w>600</w><h>360</h></coordinates><panel_attributes>lt=&lt;-
-m1=0..n
-m2=0..1</panel_attributes><additional_attributes>560;10;560;330;10;330</additional_attributes></element><element><id>Relation</id><coordinates><x>225</x><y>220</y><w>870</w><h>390</h></coordinates><panel_attributes>lt=&lt;-
-m1=0..n
-m2=0..1</panel_attributes><additional_attributes>830;10;830;360;10;360</additional_attributes></element></diagram>
+m2=0..n</panel_attributes><additional_attributes>10;110;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>660</x><y>160</y><w>130</w><h>450</h></coordinates><panel_attributes>lt=-
+m2=0..n</panel_attributes><additional_attributes>10;430;10;320;110;320;110;70;10;70;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>590</x><y>430</y><w>50</w><h>180</h></coordinates><panel_attributes>lt=-
+m2=0..n</panel_attributes><additional_attributes>10;160;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1010</x><y>80</y><w>160</w><h>40</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=0..n</panel_attributes><additional_attributes>140;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>710</x><y>80</y><w>160</w><h>40</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=0..n</panel_attributes><additional_attributes>140;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>410</x><y>80</y><w>160</w><h>40</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=0..n</panel_attributes><additional_attributes>140;10;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>250</x><y>590</y><w>170</w><h>160</h></coordinates><panel_attributes>UserRepository
+--
+-nextId: Number
+--
++initializeWith(...)
++create(...)
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1140</x><y>590</y><w>180</w><h>150</h></coordinates><panel_attributes>ArtistRepository
+--
+-nextId: Number
+--
++initializeWith(...)
++create(...)
++remove(...)
++getById(...)
++getWithNameLike(...)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>850</x><y>590</y><w>170</w><h>160</h></coordinates><panel_attributes>AlbumRepository
+--
+-nextId: Number
+--
++initializeWith(...)
++create(...)
++remove(...)
++getById(...)
++getWithNameLike(...)
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>660</x><y>590</y><w>170</w><h>160</h></coordinates><panel_attributes>TrackRepository
+--
+-nextId: Number
+--
++initializeWith(...)
++create(...)
++remove(...)
++getById(...)
++getByGenres(...)
++getWithNameLike(...)
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>30</x><y>590</y><w>200</w><h>160</h></coordinates><panel_attributes>ReproductionRepository 
+--
+-nextId: Number
+--
++initializeWith(...)
++create(...)
++getAllForUser(...)
++getNumberOfReproductionsByUserForSong(...)
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>440</x><y>590</y><w>170</w><h>160</h></coordinates><panel_attributes>PlaylistRepository
+--
+-nextId: Number
+--
++initializeWith(...)
++create(...)
++delete(...)
++getById(...)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>590</x><y>740</y><w>30</w><h>70</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;50;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>660</x><y>740</y><w>30</w><h>70</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;50;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>920</x><y>160</y><w>50</w><h>450</h></coordinates><panel_attributes>lt=-
+m2=0..n</panel_attributes><additional_attributes>10;430;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1220</x><y>160</y><w>50</w><h>450</h></coordinates><panel_attributes>lt=-
+m2=0..n</panel_attributes><additional_attributes>10;430;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>320</x><y>430</y><w>50</w><h>180</h></coordinates><panel_attributes>lt=-
+m2=0..n</panel_attributes><additional_attributes>10;160;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>120</x><y>80</y><w>150</w><h>530</h></coordinates><panel_attributes>lt=-
+m2=0..n</panel_attributes><additional_attributes>10;510;10;10;130;10</additional_attributes></element><element><id>Relation</id><coordinates><x>320</x><y>740</y><w>200</w><h>120</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>180;100;10;100;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>120</x><y>740</y><w>400</w><h>140</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>380;120;10;120;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>760</x><y>740</y><w>190</w><h>120</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;100;170;100;170;10</additional_attributes></element><element><id>Relation</id><coordinates><x>760</x><y>730</y><w>490</w><h>150</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;130;470;130;470;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1030</x><y>420</y><w>100</w><h>80</h></coordinates><panel_attributes>/Repository/
+--
+-nextId: Number
+--
++initializeWith(...)
++create(...)
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>200</x><y>490</y><w>900</w><h>120</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>880;10;880;60;10;60;10;100</additional_attributes></element><element><id>Relation</id><coordinates><x>390</x><y>490</y><w>710</w><h>120</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>690;10;690;60;10;60;10;100</additional_attributes></element><element><id>Relation</id><coordinates><x>570</x><y>490</y><w>530</w><h>120</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>510;10;510;60;10;60;10;100</additional_attributes></element><element><id>Relation</id><coordinates><x>800</x><y>490</y><w>300</w><h>120</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>280;10;280;60;10;60;10;100</additional_attributes></element><element><id>Relation</id><coordinates><x>990</x><y>490</y><w>110</w><h>120</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>90;10;90;60;10;60;10;100</additional_attributes></element><element><id>Relation</id><coordinates><x>1070</x><y>490</y><w>110</w><h>120</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;60;90;60;90;100</additional_attributes></element></diagram>
