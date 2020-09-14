@@ -1,19 +1,72 @@
 
 
 const fs = require('fs'); // necesitado para guardar/cargar unqfy
-const unqmod = require('./unqfy'); // importamos el modulo unqfy
+const { get } = require('https');
+const UNQfy = require('./src/unqfy'); // importamos el modulo unqfy
+
+const DATA_FILENAME = 'data.json';
+const ADD_ARTIST = 'addArtist';
+const GET_ARTIST = 'getArtist';
+const validExecutableCommands = [ADD_ARTIST, GET_ARTIST];
+
+const commandsArguments = {
+  [ADD_ARTIST]: ['name', 'country'],
+  [GET_ARTIST]: ['id']
+}
 
 // Retorna una instancia de UNQfy. Si existe filename, recupera la instancia desde el archivo.
-function getUNQfy(filename = 'data.json') {
-  let unqfy = new unqmod.UNQfy();
-  if (fs.existsSync(filename)) {
-    unqfy = unqmod.UNQfy.load(filename);
+function getUNQfy() {
+  let unqfy = new UNQfy();
+
+  if (fs.existsSync(DATA_FILENAME)) {
+    unqfy = UNQfy.load(DATA_FILENAME);
   }
+
   return unqfy;
 }
 
-function saveUNQfy(unqfy, filename = 'data.json') {
-  unqfy.save(filename);
+function saveUNQfy(unqfy) {
+  unqfy.save(DATA_FILENAME);
+}
+
+function validateCommand(command) {
+  if(!validExecutableCommands.includes(command)) {
+    throw new Error(`"${command}" is not a valid command.`);
+  }
+}
+
+function validateCommandArguments(command, args) {
+  const expectedArgs = commandsArguments[command];
+  const areAllArgsSupplied = expectedArgs.every((expectedArg) => args.includes(expectedArg));
+
+  if(!areAllArgsSupplied) {
+    throw new Error(`Not all required arguments were supplied: ${expectedArgs.join(', ')}`);
+  }
+}
+
+function fieldValueFromArgs(args, field) {
+  const fieldIndex = args.indexOf(field);
+
+  return args[fieldIndex + 1];
+}
+
+function executeCommandWithArgs(unqfy, command, args) {
+  validateCommand(command);
+  validateCommandArguments(command, args);
+
+  if(command === ADD_ARTIST){
+    const name = fieldValueFromArgs(args, 'name');
+    const country = fieldValueFromArgs(args, 'country');
+
+    unqfy.addArtist({ name, country });
+  }
+
+  if(command === GET_ARTIST){
+    const artistId = fieldValueFromArgs(args, 'id');
+    const artist = unqfy.getArtistById(parseInt(artistId));
+
+    console.log(artist);
+  }
 }
 
 /*
@@ -43,12 +96,14 @@ function saveUNQfy(unqfy, filename = 'data.json') {
    2. Obtener instancia de UNQfy (getUNQFy)
    3. Ejecutar el comando correspondiente en Unqfy
    4. Guardar el estado de UNQfy (saveUNQfy)
-
 */
-
 function main() {
-  console.log('arguments: ');
-  process.argv.forEach(argument => console.log(argument));
+  const command = process.argv[2];
+  const args = process.argv.splice(3);
+  const unqfy = getUNQfy();
+
+  executeCommandWithArgs(unqfy, command, args);
+  saveUNQfy(unqfy);
 }
 
 main();
