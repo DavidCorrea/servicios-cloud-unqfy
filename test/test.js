@@ -3,7 +3,6 @@
 const assert = require('chai').assert;
 const UNQfy = require('../src/unqfy');
 
-
 function createAndAddArtist(unqfy, artistName, country) {
   const artist = unqfy.addArtist({ name: artistName, country });
   return artist;
@@ -16,7 +15,6 @@ function createAndAddAlbum(unqfy, artistId, albumName, albumYear) {
 function createAndAddTrack(unqfy, albumId, trackName, trackDuraction, trackGenres) {
   return unqfy.addTrack(albumId, { name: trackName, duration: trackDuraction, genres: trackGenres });
 }
-
 
 describe('Add, remove and filter data', () => {
   let unqfy = null;
@@ -36,6 +34,14 @@ describe('Add, remove and filter data', () => {
     createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
 
     assert.throws(() => createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA'), "Couldn't create new Artist: Name was already taken");
+  });
+
+  it('should raise an error if an artist has an empty name', () => {
+    assert.throws(() => createAndAddArtist(unqfy, '', 'USA'), "Couldn't create new Artist: Name cannot be empty");
+  });
+
+  it('should raise an error if an artist has an empty country', () => {
+    assert.throws(() => createAndAddArtist(unqfy, 'Guns n\' Roses', ''), "Couldn't create new Artist: Country cannot be empty");
   });
 
   it('should add an album to an artist', () => {
