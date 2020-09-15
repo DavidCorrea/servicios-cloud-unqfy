@@ -1,15 +1,22 @@
 const picklify = require('picklify'); // para cargar/guarfar unqfy
 const fs = require('fs'); // para cargar/guarfar unqfy
 const Artist = require('./artist');
-const ArtistRepository = require('./artistRepository');
 
 class UNQfy {
   constructor() {
-    this.artistRepository = new ArtistRepository();
+    this.ids = {}
+    this.artists = [];
   }
 
   addArtist({ name, country }) {
-    return this.artistRepository.create(name, country);
+    this._validateIsNotEmpty(name, 'Name');
+    this._validateIsNotEmpty(country, 'Country');
+    this._validateNameIsAvailable(name);
+
+    const artist = new Artist(this._nextId(Artist), name, country);
+    this.artists.push(artist);
+
+    return artist;
   }
 
   // albumData: objeto JS con los datos necesarios para crear un album
@@ -40,7 +47,7 @@ class UNQfy {
   }
 
   getArtistById(id) {
-    return this.artistRepository.getById(id);
+    return this.artist.find((artist) => artist.id === id);
   }
 
   getAlbumById(id) {
@@ -89,8 +96,29 @@ class UNQfy {
   static load(filename) {
     const serializedData = fs.readFileSync(filename, {encoding: 'utf-8'});
     //COMPLETAR POR EL ALUMNO: Agregar a la lista todas las clases que necesitan ser instanciadas
-    const classes = [UNQfy, Artist, ArtistRepository];
+    const classes = [UNQfy, Artist];
     return picklify.unpicklify(JSON.parse(serializedData), classes);
+  }
+
+  _nextId(clazz) {
+    const className = clazz.name;
+    const currentId = this.ids[className];
+    const nextId = currentId || 0;
+    this.ids[className] = nextId + 1;
+
+    return nextId;
+  }
+
+  _validateIsNotEmpty(value, errorMessage) {
+    if (value.length === 0) {
+      throw new Error(`Couldn't create new Artist: ${errorMessage} cannot be empty`);
+    }
+  }
+
+  _validateNameIsAvailable(name) {
+    if (this.artists.some((artist) => artist.name === name)) {
+      throw new Error("Couldn't create new Artist: Name was already taken");
+    }
   }
 }
 
