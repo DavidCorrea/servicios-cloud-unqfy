@@ -38,9 +38,14 @@ function validateCommand(command) {
 function validateCommandArguments(command, args) {
   const expectedArgs = commandsArguments[command];
   const areAllArgsSupplied = expectedArgs.every((expectedArg) => args.includes(expectedArg));
+  const doAllArgsHaveValue = expectedArgs.length * 2 === args.length;
 
   if(!areAllArgsSupplied) {
     throw new Error(`Not all required arguments were supplied: ${expectedArgs.join(', ')}`);
+  }
+
+  if(!doAllArgsHaveValue) {
+    throw new Error(`Not all required arguments had a value: ${expectedArgs.join(', ')}`);
   }
 }
 
