@@ -1,6 +1,7 @@
 const picklify = require('picklify'); // para cargar/guarfar unqfy
 const fs = require('fs'); // para cargar/guarfar unqfy
 const Artist = require('./artist');
+const Album = require('./Album');
 
 class UNQfy {
   constructor() {
@@ -9,8 +10,8 @@ class UNQfy {
   }
 
   addArtist({ name, country }) {
-    this._validateIsNotEmpty(name, 'Name');
-    this._validateIsNotEmpty(country, 'Country');
+    this._validateIsNotEmpty(name, 'Artist', 'Name');
+    this._validateIsNotEmpty(country, 'Artist', 'Country');
     this._validateNameIsAvailable(name);
 
     const artist = new Artist(this._nextId(Artist), name, country);
@@ -24,11 +25,13 @@ class UNQfy {
   //   albumData.year (number)
   // retorna: el nuevo album creado
   addAlbum(artistId, albumData) {
-  /* Crea un album y lo agrega al artista con id artistId.
-    El objeto album creado debe tener (al menos):
-     - una propiedad name (string)
-     - una propiedad year (number)
-  */
+    this._validateIsNotEmpty(albumData.name, 'Album', 'Name');
+    this._validateIsNotEmpty(albumData.year, 'Album', 'Year');
+
+    const artist = this.getArtistById(artistId)
+    this._validateIfExist(artist, 'Artist');
+
+    return artist.addAlbum(this._nextId(Album), albumData.name, albumData.year);
   }
 
 
@@ -47,7 +50,7 @@ class UNQfy {
   }
 
   getArtistById(id) {
-    return this.artist.find((artist) => artist.id === id);
+    return this.artists.find((artist) => artist.id === id);
   }
 
   getAlbumById(id) {
@@ -109,15 +112,21 @@ class UNQfy {
     return nextId;
   }
 
-  _validateIsNotEmpty(value, errorMessage) {
+  _validateIsNotEmpty(value, errorMessageClass, errorMessageParameter) {
     if (value.length === 0) {
-      throw new Error(`Couldn't create new Artist: ${errorMessage} cannot be empty`);
+      throw new Error(`Couldn't create new ${errorMessageClass}: ${errorMessageParameter} cannot be empty`);
     }
   }
 
   _validateNameIsAvailable(name) {
     if (this.artists.some((artist) => artist.name === name)) {
       throw new Error("Couldn't create new Artist: Name was already taken");
+    }
+  }
+  
+  _validateIfExist(value, errorMessage) {
+    if (!value) {
+      throw new Error(`${errorMessage} does not exist`);
     }
   }
 }
