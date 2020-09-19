@@ -7,11 +7,13 @@ const UNQfy = require('./src/unqfy'); // importamos el modulo unqfy
 const DATA_FILENAME = 'data.json';
 const ADD_ARTIST = 'addArtist';
 const GET_ARTIST = 'getArtist';
-const validExecutableCommands = [ADD_ARTIST, GET_ARTIST];
+const ADD_ALBUM = 'addAlbum';
+const validExecutableCommands = [ADD_ARTIST, GET_ARTIST,ADD_ALBUM];
 
 const commandsArguments = {
   [ADD_ARTIST]: ['name', 'country'],
-  [GET_ARTIST]: ['id']
+  [GET_ARTIST]: ['id'],
+  [ADD_ALBUM]: ['name', 'artist', 'year']
 }
 
 // Retorna una instancia de UNQfy. Si existe filename, recupera la instancia desde el archivo.
@@ -71,6 +73,14 @@ function executeCommandWithArgs(unqfy, command, args) {
     const artist = unqfy.getArtistById(parseInt(artistId));
 
     console.log(artist);
+  }
+
+  if(command === ADD_ALBUM){
+    const name = fieldValueFromArgs(args, 'name');
+    const artist = fieldValueFromArgs(args, 'artist');
+    const year = fieldValueFromArgs(args, 'year');
+
+    unqfy.addAlbum(unqfy.getArtistIdByName(artist),{name, year})
   }
 }
 
