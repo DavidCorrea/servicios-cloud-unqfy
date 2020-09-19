@@ -19,7 +19,7 @@
 - [Visado 1](https://docs.google.com/document/d/1Tfkl6l1_ly4FybquDjTqMHa5gdmrYgvvZpXZaneRFvA/edit?usp=sharing)
 
 ## UML
-![image](https://user-images.githubusercontent.com/5796552/93045888-c1e28d80-f62e-11ea-914d-699daa04eacd.png)
+![UML](https://user-images.githubusercontent.com/32984697/93656451-faa0af00-fa00-11ea-801f-a3c8251ef998.PNG)
 
 ---
 ###### Goffredo, Gastón - Correa, David
