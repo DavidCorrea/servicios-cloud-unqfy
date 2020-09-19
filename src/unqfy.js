@@ -1,7 +1,7 @@
 const picklify = require('picklify'); // para cargar/guarfar unqfy
 const fs = require('fs'); // para cargar/guarfar unqfy
 const Artist = require('./artist');
-const Album = require('./Album');
+const Album = require('./album');
 
 class UNQfy {
   constructor() {
