@@ -2,6 +2,7 @@ const picklify = require('picklify'); // para cargar/guarfar unqfy
 const fs = require('fs'); // para cargar/guarfar unqfy
 const Artist = require('./artist');
 const Album = require('./album');
+const Track = require('./track');
 
 class UNQfy {
   constructor() {
@@ -41,12 +42,14 @@ class UNQfy {
   //   trackData.genres (lista de strings)
   // retorna: el nuevo track creado
   addTrack(albumId, trackData) {
-  /* Crea un track y lo agrega al album con id albumId.
-  El objeto track creado debe tener (al menos):
-      - una propiedad name (string),
-      - una propiedad duration (number),
-      - una propiedad genres (lista de strings)
-  */
+    this._validateIsNotEmpty(trackData.name, 'Track', 'Title');
+    this._validateIsNotEmpty(trackData.duration, 'Track', 'Duration');
+    this._validateIsNotEmpty(trackData.genres, 'Track', 'genres');
+
+    const album = this.getAlbumById(albumId)
+    this._validateIfExist(album, 'Album');
+
+    return album.addTrack(this._nextId(Track),trackData.name,trackData.duration, trackData.genres)
   }
 
   getArtistById(id) {
@@ -54,6 +57,7 @@ class UNQfy {
   }
 
   getAlbumById(id) {
+    return this.artists.reduce((acum, current) => acum.concat(current.albums),[]).find((album => album.id === id))
 
   }
 
