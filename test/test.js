@@ -23,6 +23,8 @@ describe('Add, remove and filter data', () => {
     unqfy = new UNQfy();
   });
 
+// Artist
+
   it('should add an artist', () => {
     const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
 
@@ -51,6 +53,30 @@ describe('Add, remove and filter data', () => {
     assert.equal(album.name, 'Appetite for Destruction');
     assert.equal(album.year, 1987);
   });
+
+// Album
+
+  it('should raise an error when adding an albun if an artist does not exists', () => {
+    assert.throws(() => createAndAddAlbum(unqfy, 1, 'Album1', 1987), "Couldn't add new Album: Artist does not exist");
+  });
+
+  it('should raise an error if an album with the same name already exists', () => {
+    const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+    const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+
+    assert.throws(() => createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987), "Couldn't create new Album: Name was already taken");
+  });
+
+  it('should raise an error if an album has an empty name', () => {
+    const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+    assert.throws(() => createAndAddAlbum(unqfy, artist.id, '', 1987), "Couldn't create new Album: Name cannot be empty");
+  });
+
+  it('should raise an error if an album has an empty artist', () => {
+    assert.throws(() => createAndAddAlbum(unqfy, undefined, 'Appetite for Destruction', 1987), "Couldn't create new Album: Artist cannot be empty");
+  });
+
+  // Track
 
   it('should add a track to an album', () => {
     const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
