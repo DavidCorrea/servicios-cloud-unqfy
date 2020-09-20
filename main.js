@@ -17,7 +17,10 @@ const REMOVE_PLAYLIST = 'removePlaylist';
 const SEARCH_BY_NAME = 'searchByName';
 const TRACKS_BY_ARTIST = 'tracksByArtist';
 const TRACKS_BY_GENRES = 'tracksByGenres';
-const ALL = 'all'
+const ALL_ARTISTS = 'allArtists';
+const ALL_ALBUMS = 'allAlbums';
+const ALL_TRACKS = 'allTracks';
+const ALL_PLAYLISTS = 'allPlaylists';
 
 const validExecutableCommands = [
   ADD_ARTIST,
@@ -32,7 +35,10 @@ const validExecutableCommands = [
   SEARCH_BY_NAME,
   TRACKS_BY_ARTIST,
   TRACKS_BY_GENRES,
-  ALL,
+  ALL_ARTISTS,
+  ALL_ALBUMS,
+  ALL_TRACKS,
+  ALL_PLAYLISTS,
 ];
 
 const commandsArguments = {
@@ -48,7 +54,10 @@ const commandsArguments = {
   [SEARCH_BY_NAME]: ['name'],
   [TRACKS_BY_ARTIST]: ['artistName'],
   [TRACKS_BY_GENRES]: ['genres'],
-  [ALL]: [],
+  [ALL_ARTISTS]: [],
+  [ALL_ALBUMS]: [],
+  [ALL_TRACKS]: [],
+  [ALL_PLAYLISTS]: [],
 }
 
 // Retorna una instancia de UNQfy. Si existe filename, recupera la instancia desde el archivo.
@@ -179,7 +188,7 @@ function executeCommandWithArgs(unqfy, command, args) {
     case SEARCH_BY_NAME: {
       const name = fieldValueFromArgs(args, 'name');
 
-      console.log( unqfy.searchByName(name));
+      console.log(unqfy.searchByName(name));
       break;
     }
     case TRACKS_BY_ARTIST: {
@@ -194,8 +203,20 @@ function executeCommandWithArgs(unqfy, command, args) {
       console.log(unqfy.getTracksMatchingGenres(genres))
       break;
     }
-    case ALL: {
-      console.log( unqfy.searchByName(""));
+    case ALL_ARTISTS: {
+      console.log(unqfy.allArtists());
+      break;
+    }
+    case ALL_ALBUMS: {
+      console.log(unqfy.allAlbums());
+      break;
+    }
+    case ALL_TRACKS: {
+      console.log(unqfy.allTracks());
+      break;
+    }
+    case ALL_PLAYLISTS: {
+      console.log(unqfy.allPlaylists());
       break;
     }
   }
