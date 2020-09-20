@@ -61,11 +61,11 @@ class UNQfy {
   }
 
   getAlbumById(id) {
-    return this.artists.reduce((acum, current) => acum.concat(current.albums),[]).find((album => album.id === id));
+    return this._getAllAlbums().find((album => album.id === id));
   }
 
   getAlbumIdByName(name){
-    return this.artists.reduce((acum, current) => acum.concat(current.albums),[]).find((album => album.name === name)).id;
+    return this._getAllAlbums().find((album => album.name === name)).id;
   }
 
   getTrackById(id) {
@@ -78,7 +78,7 @@ class UNQfy {
 
   searchByName(name){
     const allArtists = this.artists;
-    const allAlbums = allArtists.reduce((acum, current) => acum.concat(current.albums),[]);
+    const allAlbums = this._getAllAlbums();
     const allTracks = allAlbums.reduce((acum, current) => acum.concat(current.tracks),[]);
     //const allPlaylist = this.getPlaylistById;
 
@@ -93,11 +93,10 @@ class UNQfy {
   // genres: array de generos(strings)
   // retorna: los tracks que contenga alguno de los generos en el parametro genres
   getTracksMatchingGenres(genres2) {
-    const allAlbums = this.artists.reduce((acum, current) => acum.concat(current.albums),[]);
+    const allAlbums = this._getAllAlbums();
     const allTracks = allAlbums.reduce((acum, current) => acum.concat(current.tracks),[]);
 
     return allTracks.filter((track) => track.genres.filter(x => genres2.includes(x)).length > 0)
-
   }
 
   // artistName: nombre de artista(string)
@@ -157,6 +156,10 @@ class UNQfy {
     if (!value) {
       throw new Error(`${errorMessage} does not exist`);
     }
+  }
+
+  _getAllAlbums() {
+    return this.artists.reduce((acum, current) => acum.concat(current.albums), []);
   }
 }
 
