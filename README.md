@@ -26,6 +26,8 @@
     node main.js addArtist name "Artista1" country "Countr1"
 
     node main.js addAlbum name "Album1" artist "Artista1" year "2020"
+    
+    node main.js addTrack title "Track" album "Album1" duration "200" genres "Pop,Rock"
 
 ---
 ###### Goffredo, Gastón - Correa, David
