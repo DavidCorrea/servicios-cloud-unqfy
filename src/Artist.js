@@ -1,4 +1,4 @@
-const Album = require('./album');
+const Album = require('./Album');
 
 class Artist {
   constructor(id, name, country){
@@ -8,7 +8,6 @@ class Artist {
     this.albums = [];
   }
 
-  
   addAlbum(albumId, albumName, albumYear) {
     this._validateNameIsAvailable(albumName);
 
@@ -18,12 +17,15 @@ class Artist {
     return album;
   }
 
+  allTracks() {
+    return this.albums.map(album => album.tracks).reduce((artistTracks, albumTracks) => artistTracks.concat(albumTracks), []);
+  }
+
   _validateNameIsAvailable(name) {
     if (this.albums.some((album) => album.name === name)) {
       throw new Error("Couldn't create new Album: Name was already taken");
     }
   }
-
 }  
 
 module.exports = Artist;
