@@ -204,11 +204,21 @@ function executeCommandWithArgs(unqfy, command, args) {
       break;
     }
     case ALL_ARTISTS: {
-      console.log(unqfy.allArtists());
+      const artists = unqfy.allArtists();
+      const artistLog = artists.map(artist =>({ 
+        name: artist.name,
+        country: artist.country,
+        albums: artist.albums.map(album => album.name)
+      }));
+
+      console.log(artistLog);
       break;
     }
     case ALL_ALBUMS: {
-      console.log(unqfy.allAlbums());
+      const albums = unqfy.allAlbums();
+      albums.forEach(album => album.tracks = album.tracks.map(track => track.title));
+
+      console.log(albums);
       break;
     }
     case ALL_TRACKS: {
@@ -216,7 +226,13 @@ function executeCommandWithArgs(unqfy, command, args) {
       break;
     }
     case ALL_PLAYLISTS: {
-      console.log(unqfy.allPlaylists());
+      playlists = unqfy.allPlaylists();
+      playlists.forEach(playlist => {
+        playlist.duration = playlist.duration();
+        playlist.tracks = playlist.tracks.map(track => track.title); 
+      });
+
+      console.log(playlists);
       break;
     }
   }
