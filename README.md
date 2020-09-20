@@ -13,13 +13,10 @@
 
 ## Comandos (UNQfy)
 - `addArtist name "NAME" country "COUNTRY"`
-- `getArtist id "ID"`
-
-## Visados
-- [Visado 1](https://docs.google.com/document/d/1Tfkl6l1_ly4FybquDjTqMHa5gdmrYgvvZpXZaneRFvA/edit?usp=sharing)
-
-## UML
-![UML](https://user-images.githubusercontent.com/32984697/93656451-faa0af00-fa00-11ea-801f-a3c8251ef998.PNG)
+- `getArtist id ID`
+- `addAlbum name "NAME" artist "ARTIST_NAME" year YEAR`
+- `addTrack title "TITLE" album "ALBUM_NAME" duration DURATION_IN_SECONDS genres "GENRE_1,GENRE_2"`
+- `createPlaylist name "NAME genres "GENRE_1,GENRE_2" maxDuration MAX_DURATION_IN_SECONDS`
 
 ## Set de pruebas desde consola 
 - `node main.js addArtist name "Artista1" country "Countr1"`
@@ -29,6 +26,12 @@
 
 ## Script que popula y realiza operaciones varias.
 - `./runUnqfy.sh` (Probablemente haya que darle permisos con `chmod +rx runUnqfy.sh`)
+
+## Visados
+- [Visado 1](https://docs.google.com/document/d/1Tfkl6l1_ly4FybquDjTqMHa5gdmrYgvvZpXZaneRFvA/edit?usp=sharing)
+
+## UML
+![UML](https://user-images.githubusercontent.com/32984697/93656451-faa0af00-fa00-11ea-801f-a3c8251ef998.PNG)
 
 ---
 ###### Goffredo, Gastón - Correa, David

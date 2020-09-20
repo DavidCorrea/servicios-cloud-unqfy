@@ -80,44 +80,46 @@ function executeCommandWithArgs(unqfy, command, args) {
   validateCommand(command);
   validateCommandArguments(command, args);
 
-  if(command === ADD_ARTIST){
-    const name = fieldValueFromArgs(args, 'name');
-    const country = fieldValueFromArgs(args, 'country');
+  switch(command) {
+    case ADD_ARTIST: {
+      const name = fieldValueFromArgs(args, 'name');
+      const country = fieldValueFromArgs(args, 'country');
 
-    unqfy.addArtist({ name, country });
-  }
+      unqfy.addArtist({ name, country });
+      break;
+    }
+    case GET_ARTIST: {
+      const artistId = numberFieldValueFromArgs(args, 'id');
+      const artist = unqfy.getArtistById(artistId);
 
-  if(command === GET_ARTIST){
-    const artistId = numberFieldValueFromArgs(args, 'id');
-    const artist = unqfy.getArtistById(artistId);
+      console.log(artist);
+      break;
+    }
+    case ADD_ALBUM: {
+      const name = fieldValueFromArgs(args, 'name');
+      const artist = fieldValueFromArgs(args, 'artist');
+      const year = fieldValueFromArgs(args, 'year');
 
-    console.log(artist);
-  }
-
-  if(command === ADD_ALBUM){
-    const name = fieldValueFromArgs(args, 'name');
-    const artist = fieldValueFromArgs(args, 'artist');
-    const year = fieldValueFromArgs(args, 'year');
-
-    unqfy.addAlbum(unqfy.getArtistIdByName(artist),{name, year})
-  }
-
-  if(command === ADD_TRACK){
-    //['title', 'album', 'duration', 'genres']
-    const name = fieldValueFromArgs(args, 'title');
-    const album = fieldValueFromArgs(args, 'album');
-    const duration = fieldValueFromArgs(args, 'duration');
-    const genres = arrayFieldValueFromArgs(args, 'genres');
-
-    unqfy.addTrack(unqfy.getAlbumIdByName(album), {name, duration, genres})
-  }
-
-  if(command === CREATE_PLAYLIST){
-    const name = fieldValueFromArgs(args, 'name');
-    const genres = arrayFieldValueFromArgs(args, 'genres');
-    const maxDuration = numberFieldValueFromArgs(args, 'maxDuration');
-    
-    unqfy.createPlaylist(name, genres, maxDuration);
+      unqfy.addAlbum(unqfy.getArtistIdByName(artist),{name, year});
+      break;
+    }
+    case ADD_TRACK: {
+      const name = fieldValueFromArgs(args, 'title');
+      const album = fieldValueFromArgs(args, 'album');
+      const duration = fieldValueFromArgs(args, 'duration');
+      const genres = arrayFieldValueFromArgs(args, 'genres');
+  
+      unqfy.addTrack(unqfy.getAlbumIdByName(album), {name, duration, genres});
+      break;
+    }
+    case CREATE_PLAYLIST: {
+      const name = fieldValueFromArgs(args, 'name');
+      const genres = arrayFieldValueFromArgs(args, 'genres');
+      const maxDuration = numberFieldValueFromArgs(args, 'maxDuration');
+      
+      unqfy.createPlaylist(name, genres, maxDuration);
+      break;
+    }
   }
 }
 
