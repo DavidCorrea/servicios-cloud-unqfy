@@ -95,14 +95,14 @@ class UNQfy {
   searchByName(name){
     const allArtists = this.artists;
     const allAlbums = this._allAlbums();
-    const allTracks = allAlbums.reduce((acum, current) => acum.concat(current.tracks),[]);
+    const allTracks = this._allTracks();
     const allPlaylist = this.playlists;
 
     return {
-        artists: allArtists.filter((artist) => artist.name.includes(name)),
-        albums: allAlbums.filter((album) => album.name.includes(name)),
-        tracks: allTracks.filter((track) => track.title.includes(name)),
-        playlists: allPlaylist.filter((playlist) => playlist.name.includes(name))
+      artists: allArtists.filter((artist) => artist.name.includes(name)),
+      albums: allAlbums.filter((album) => album.name.includes(name)),
+      tracks: allTracks.filter((track) => track.title.includes(name)),
+      playlists: allPlaylist.filter((playlist) => playlist.name.includes(name))
     }
   }
 
@@ -111,7 +111,7 @@ class UNQfy {
   }
 
   getTracksMatchingArtist(artistName) {
-      return this.getArtistByName(artistName).allTracks();
+    return this.getArtistByName(artistName).allTracks();
   }
 
   removeArtist(artistId) {
