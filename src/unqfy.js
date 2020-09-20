@@ -91,7 +91,7 @@ class UNQfy {
   }
 
   getTracksMatchingArtist(artistName) {
-      return this.getArtistByName(artistName).albums.reduce((acum, current) => acum.concat(current.tracks), []);
+      return this.getArtistByName(artistName).allTracks();
   }
 
   createPlaylist(name, genresToInclude, maxDuration) {
