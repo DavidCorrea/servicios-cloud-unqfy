@@ -7,6 +7,7 @@ const UNQfy = require('./src/unqfy'); // importamos el modulo unqfy
 const DATA_FILENAME = 'data.json';
 const ADD_ARTIST = 'addArtist';
 const GET_ARTIST = 'getArtist';
+const REMOVE_ARTIST = 'removeArtist';
 const ADD_ALBUM = 'addAlbum';
 const REMOVE_ALBUM = 'removeAlbum';
 const ADD_TRACK = 'addTrack';
@@ -15,7 +16,8 @@ const CREATE_PLAYLIST = 'createPlaylist';
 
 const validExecutableCommands = [
   ADD_ARTIST,
-  GET_ARTIST, 
+  GET_ARTIST,
+  REMOVE_ARTIST,
   ADD_ALBUM,
   REMOVE_ALBUM,
   ADD_TRACK,
@@ -26,6 +28,7 @@ const validExecutableCommands = [
 const commandsArguments = {
   [ADD_ARTIST]: ['name', 'country'],
   [GET_ARTIST]: ['id'],
+  [REMOVE_ARTIST]: ['name'],
   [ADD_ALBUM]: ['name', 'artist', 'year'],
   [REMOVE_ALBUM]: ['artistName', 'albumName'],
   [ADD_TRACK]: ['title', 'album', 'duration', 'genres'],
@@ -99,6 +102,13 @@ function executeCommandWithArgs(unqfy, command, args) {
       const artist = unqfy.getArtistById(artistId);
 
       console.log(artist);
+      break;
+    }
+    case REMOVE_ARTIST: {
+      const artistName = fieldValueFromArgs(args, 'name');
+      const artistId = unqfy.getArtistIdByName(artistName);
+
+      unqfy.removeArtist(artistId);
       break;
     }
     case ADD_ALBUM: {
