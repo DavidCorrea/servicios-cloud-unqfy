@@ -177,16 +177,19 @@ function executeCommandWithArgs(unqfy, command, args) {
       const name = fieldValueFromArgs(args, 'name');
 
       console.log( unqfy.searchByName(name));
+      break;
     }
     case TRACKS_BY_ARTIST: {
       const artistName = fieldValueFromArgs(args, 'artistName');
 
       console.log(unqfy.getTracksMatchingArtist(artistName));
+      break;
     }
     case TRACKS_BY_GENRES: {
       const genres = arrayFieldValueFromArgs(args, 'genres');
 
       console.log(unqfy.getTracksMatchingGenres(genres))
+      break;
     }
   }
 }
