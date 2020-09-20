@@ -1,6 +1,8 @@
 const picklify = require('picklify'); // para cargar/guarfar unqfy
 const fs = require('fs'); // para cargar/guarfar unqfy
 const Artist = require('./artist');
+const Album = require('./album');
+const Track = require('./track');
 
 class UNQfy {
   constructor() {
@@ -9,8 +11,8 @@ class UNQfy {
   }
 
   addArtist({ name, country }) {
-    this._validateIsNotEmpty(name, 'Name');
-    this._validateIsNotEmpty(country, 'Country');
+    this._validateIsNotEmpty(name, 'Artist', 'Name');
+    this._validateIsNotEmpty(country, 'Artist', 'Country');
     this._validateNameIsAvailable(name);
 
     const artist = new Artist(this._nextId(Artist), name, country);
@@ -24,11 +26,13 @@ class UNQfy {
   //   albumData.year (number)
   // retorna: el nuevo album creado
   addAlbum(artistId, albumData) {
-  /* Crea un album y lo agrega al artista con id artistId.
-    El objeto album creado debe tener (al menos):
-     - una propiedad name (string)
-     - una propiedad year (number)
-  */
+    this._validateIsNotEmpty(albumData.name, 'Album', 'Name');
+    this._validateIsNotEmpty(albumData.year, 'Album', 'Year');
+
+    const artist = this.getArtistById(artistId)
+    this._validateIfExist(artist, 'Artist');
+
+    return artist.addAlbum(this._nextId(Album), albumData.name, albumData.year);
   }
 
 
@@ -38,20 +42,30 @@ class UNQfy {
   //   trackData.genres (lista de strings)
   // retorna: el nuevo track creado
   addTrack(albumId, trackData) {
-  /* Crea un track y lo agrega al album con id albumId.
-  El objeto track creado debe tener (al menos):
-      - una propiedad name (string),
-      - una propiedad duration (number),
-      - una propiedad genres (lista de strings)
-  */
+    this._validateIsNotEmpty(trackData.name, 'Track', 'Title');
+    this._validateIsNotEmpty(trackData.duration, 'Track', 'Duration');
+    this._validateIsNotEmpty(trackData.genres, 'Track', 'genres');
+
+    const album = this.getAlbumById(albumId)
+    this._validateIfExist(album, 'Album');
+
+    return album.addTrack(this._nextId(Track),trackData.name,trackData.duration, trackData.genres)
   }
 
   getArtistById(id) {
-    return this.artist.find((artist) => artist.id === id);
+    return this.artists.find((artist) => artist.id === id);
+  }
+
+  getArtistIdByName(name){
+    return this.artists.find((artist) => artist.name === name).id;
   }
 
   getAlbumById(id) {
+    return this.artists.reduce((acum, current) => acum.concat(current.albums),[]).find((album => album.id === id));
+  }
 
+  getAlbumIdByName(name){
+    return this.artists.reduce((acum, current) => acum.concat(current.albums),[]).find((album => album.name === name)).id;
   }
 
   getTrackById(id) {
@@ -96,7 +110,7 @@ class UNQfy {
   static load(filename) {
     const serializedData = fs.readFileSync(filename, {encoding: 'utf-8'});
     //COMPLETAR POR EL ALUMNO: Agregar a la lista todas las clases que necesitan ser instanciadas
-    const classes = [UNQfy, Artist];
+    const classes = [UNQfy, Artist, Album, Track];
     return picklify.unpicklify(JSON.parse(serializedData), classes);
   }
 
@@ -109,15 +123,21 @@ class UNQfy {
     return nextId;
   }
 
-  _validateIsNotEmpty(value, errorMessage) {
+  _validateIsNotEmpty(value, errorMessageClass, errorMessageParameter) {
     if (value.length === 0) {
-      throw new Error(`Couldn't create new Artist: ${errorMessage} cannot be empty`);
+      throw new Error(`Couldn't create new ${errorMessageClass}: ${errorMessageParameter} cannot be empty`);
     }
   }
 
   _validateNameIsAvailable(name) {
     if (this.artists.some((artist) => artist.name === name)) {
       throw new Error("Couldn't create new Artist: Name was already taken");
+    }
+  }
+  
+  _validateIfExist(value, errorMessage) {
+    if (!value) {
+      throw new Error(`${errorMessage} does not exist`);
     }
   }
 }

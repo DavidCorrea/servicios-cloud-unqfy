@@ -21,6 +21,14 @@
 ## UML
 ![UML](https://user-images.githubusercontent.com/32984697/93656451-faa0af00-fa00-11ea-801f-a3c8251ef998.PNG)
 
+## Set de pruebas desde consola 
+
+    node main.js addArtist name "Artista1" country "Countr1"
+
+    node main.js addAlbum name "Album1" artist "Artista1" year "2020"
+    
+    node main.js addTrack title "Track" album "Album1" duration "200" genres "Pop,Rock"
+
 ---
 ###### Goffredo, Gastón - Correa, David
 ###### UNQ 2020 S2 - Servicios Cloud - UNQfy
