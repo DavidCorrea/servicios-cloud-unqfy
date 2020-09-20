@@ -23,6 +23,7 @@
 - `removePlaylist name "NAME"`
 - `searchByName name "NAME"`
 - `tracksByArtist artistName "ARTIST_NAME"`
+- `tracksByGenres genres "GENRE_1,GENRE_2"`
 
 ## Set de pruebas desde consola 
 - `node main.js addArtist name "Artista1" country "Countr1"`
@@ -35,6 +36,7 @@
 - `node main.js removePlaylist name "My Playlist"`
 - `node main.js searchByName name "a"`
 - `node main.js tracksByArtist artistName "Artista1"`
+- `node main.js tracksByGenres genres "Pop"`
 
 ## Script que popula y realiza operaciones varias.
 - `./runUnqfy.sh` (Probablemente haya que darle permisos con `chmod +rx runUnqfy.sh`)
