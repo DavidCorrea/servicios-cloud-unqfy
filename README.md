@@ -15,9 +15,10 @@
 - `addArtist name "NAME" country "COUNTRY"`
 - `getArtist id ID`
 - `addAlbum name "NAME" artist "ARTIST_NAME" year YEAR`
+- `removeAlbum artistName "ARTIST_NAME" albumName "ALBUM_NAME"`
 - `addTrack title "TITLE" album "ALBUM_NAME" duration DURATION_IN_SECONDS genres "GENRE_1,GENRE_2"`
-- `createPlaylist name "NAME genres "GENRE_1,GENRE_2" maxDuration MAX_DURATION_IN_SECONDS`
 - `removeTrack albumName "ALBUM_NAME" trackTitle "TRACK_TITLE"`
+- `createPlaylist name "NAME genres "GENRE_1,GENRE_2" maxDuration MAX_DURATION_IN_SECONDS`
 
 ## Set de pruebas desde consola 
 - `node main.js addArtist name "Artista1" country "Countr1"`
