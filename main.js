@@ -106,7 +106,7 @@ function executeCommandWithArgs(unqfy, command, args) {
     case ADD_TRACK: {
       const name = fieldValueFromArgs(args, 'title');
       const album = fieldValueFromArgs(args, 'album');
-      const duration = fieldValueFromArgs(args, 'duration');
+      const duration = numberFieldValueFromArgs(args, 'duration');
       const genres = arrayFieldValueFromArgs(args, 'genres');
   
       unqfy.addTrack(unqfy.getAlbumIdByName(album), {name, duration, genres});

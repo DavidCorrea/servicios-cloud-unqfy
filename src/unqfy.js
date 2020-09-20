@@ -35,7 +35,7 @@ class UNQfy {
 
   addTrack(albumId, trackData) {
     this._validateIsNotEmpty(trackData.name, 'Track', 'Title');
-    this._validateIsNotEmpty(trackData.duration, 'Track', 'Duration');
+    this._validateIsBiggerThanZero(trackData.duration, 'Track', 'Duration');
     this._validateIsNotEmpty(trackData.genres, 'Track', 'genres');
 
     const album = this.getAlbumById(albumId)
@@ -57,11 +57,11 @@ class UNQfy {
   }
 
   getAlbumById(id) {
-    return this._getAllAlbums().find((album => album.id === id));
+    return this._allAlbums().find((album => album.id === id));
   }
 
   getAlbumIdByName(name){
-    return this._getAllAlbums().find((album => album.name === name)).id;
+    return this._allAlbums().find((album => album.name === name)).id;
   }
 
   getTrackById(id) {
@@ -74,28 +74,22 @@ class UNQfy {
 
   searchByName(name){
     const allArtists = this.artists;
-    const allAlbums = this._getAllAlbums();
+    const allAlbums = this._allAlbums();
     const allTracks = allAlbums.reduce((acum, current) => acum.concat(current.tracks),[]);
-    //const allPlaylist = this.getPlaylistById;
+    const allPlaylist = this.playlists;
 
     return {
         artists: allArtists.filter((artist) => artist.name.includes(name)),
         albums: allAlbums.filter((album) => album.name.includes(name)),
         tracks: allTracks.filter((track) => track.title.includes(name)),
-        //playlists: allPlaylist.filter((playlist) => playlist.name.includes(name))
+        playlists: allPlaylist.filter((playlist) => playlist.name.includes(name))
     }
   }
 
-  // genres: array de generos(strings)
-  // retorna: los tracks que contenga alguno de los generos en el parametro genres
   getTracksMatchingGenres(genresToInclude) {
-    const allTracks = this._getAllTracks();
-
-    return allTracks.filter(track => genresToInclude.some(genreToInclude => track.genres.includes(genreToInclude)))
+    return this._allTracks().filter(track => track.belongsToGenres(genresToInclude));
   }
 
-  // artistName: nombre de artista(string)
-  // retorna: los tracks interpredatos por el artista con nombre artistName
   getTracksMatchingArtist(artistName) {
       return this.getArtistByName(artistName).albums.reduce((acum, current) => acum.concat(current.tracks), []);
   }
@@ -167,15 +161,14 @@ class UNQfy {
     }
   }
 
-  _allAlbums() {
-    return this.artists.reduce((acum, current) => acum.concat(current.albums), []);
-  }
-
-
   _validateIsBiggerThanZero(value, errorMessageClass, errorMessageParameter) {
     if (value < 1) {
       throw new Error(`Couldn't create new ${errorMessageClass}: ${errorMessageParameter} must be bigger than zero`);
     }
+  }
+
+  _allAlbums() {
+    return this.artists.reduce((acum, current) => acum.concat(current.albums), []);
   }
 
   _allTracks() {
@@ -183,9 +176,7 @@ class UNQfy {
   }
 
   _getRandomTracksMatchingGenres(genresToInclude) {
-    const allTracksForGenres = this._allTracks().filter(track => track.belongsToGenres(genresToInclude));
-
-    return allTracksForGenres.sort(() => Math.random() - 0.5);
+    return this.getTracksMatchingGenres(genresToInclude).sort(() => Math.random() - 0.5);
   }
 }
 
