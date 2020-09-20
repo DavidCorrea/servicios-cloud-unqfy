@@ -12,7 +12,7 @@ class Artist {
   addAlbum(albumId, albumName, albumYear) {
     this._validateNameIsAvailable(albumName);
 
-    const album = new Album(albumId,albumName,albumYear)
+    const album = new Album(albumId,albumName,albumYear);
     this.albums.push(album);
 
     return album;
