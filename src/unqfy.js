@@ -76,9 +76,27 @@ class UNQfy {
 
   }
 
+  searchByName(name){
+    const allArtists = this.artists;
+    const allAlbums = allArtists.reduce((acum, current) => acum.concat(current.albums),[]);
+    const allTracks = allAlbums.reduce((acum, current) => acum.concat(current.tracks),[]);
+    //const allPlaylist = this.getPlaylistById;
+
+    return {
+        artists: allArtists.filter((artist) => artist.name.includes(name)),
+        albums: allAlbums.filter((album) => album.name.includes(name)),
+        tracks: allTracks.filter((track) => track.title.includes(name)),
+        //playlists: allPlaylist.filter((playlist) => playlist.name.includes(name))
+    }
+  }
+
   // genres: array de generos(strings)
   // retorna: los tracks que contenga alguno de los generos en el parametro genres
-  getTracksMatchingGenres(genres) {
+  getTracksMatchingGenres(genres2) {
+    const allAlbums = this.artists.reduce((acum, current) => acum.concat(current.albums),[]);
+    const allTracks = allAlbums.reduce((acum, current) => acum.concat(current.tracks),[]);
+
+    return allTracks.filter((track) => track.genres.filter(x => genres2.includes(x)).length > 0)
 
   }
 

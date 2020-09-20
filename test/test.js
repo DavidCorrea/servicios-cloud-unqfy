@@ -117,6 +117,8 @@ describe('Add, remove and filter data', () => {
     assert.throws(() => createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, []), "Couldn't create new Track: genres cannot be empty");
   });
 
+// Busquedas
+
   it('should find different things by name', () => {
     const artist1 = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
     const album1 = createAndAddAlbum(unqfy, artist1.id, 'Roses Album', 1987);
@@ -179,6 +181,8 @@ describe('Add, remove and filter data', () => {
     assert.isTrue(matchingTracks.includes(t3));
   });
 });
+
+// Playlist
 
 describe('Playlist Creation and properties', () => {
   let unqfy = null;
