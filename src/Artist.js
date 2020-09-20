@@ -17,6 +17,14 @@ class Artist {
     return album;
   }
 
+  hasAlbum(album) {
+    return this.albums.includes(album);
+  }
+
+  removeAlbum(albumToRemove) {
+    this.albums = this.albums.filter(album => album.id !== albumToRemove.id);
+  }
+
   allTracks() {
     return this.albums.map(album => album.tracks).reduce((artistTracks, albumTracks) => artistTracks.concat(albumTracks), []);
   }
@@ -26,6 +34,6 @@ class Artist {
       throw new Error("Couldn't create new Album: Name was already taken");
     }
   }
-}  
+}
 
 module.exports = Artist;
