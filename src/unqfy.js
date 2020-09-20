@@ -23,45 +23,65 @@ class UNQfy {
     return artist;
   }
 
-  addAlbum(artistId, albumData) {
-    this._validateIsNotEmpty(albumData.name, 'Album', 'Name');
-    this._validateIsNotEmpty(albumData.year, 'Album', 'Year');
+  addAlbum(artistId, { name, year }) {
+    this._validateIsNotEmpty(name, 'Album', 'Name');
+    this._validateIsNotEmpty(year, 'Album', 'Year');
 
-    const artist = this.getArtistById(artistId)
-    this._validateIfExist(artist, 'Artist');
+    const artist = this.getArtistById(artistId);
 
-    return artist.addAlbum(this._nextId(Album), albumData.name, albumData.year);
+    return artist.addAlbum(this._nextId(Album), name, year);
   }
 
-  addTrack(albumId, trackData) {
-    this._validateIsNotEmpty(trackData.name, 'Track', 'Title');
-    this._validateIsNotEmpty(trackData.duration, 'Track', 'Duration');
-    this._validateIsNotEmpty(trackData.genres, 'Track', 'genres');
+  addTrack(albumId, { name, duration, genres }) {
+    this._validateIsNotEmpty(name, 'Track', 'Title');
+    this._validateIsNotEmpty(duration, 'Track', 'Duration');
+    this._validateIsNotEmpty(genres, 'Track', 'genres');
 
-    const album = this.getAlbumById(albumId)
-    this._validateIfExist(album, 'Album');
+    const album = this.getAlbumById(albumId);
 
-    return album.addTrack(this._nextId(Track),trackData.name,trackData.duration, trackData.genres)
+    return album.addTrack(this._nextId(Track), name, duration, genres);
   }
 
   getArtistById(id) {
-    return this.artists.find((artist) => artist.id === id);
+    const artist = this.artists.find((artist) => artist.id === id);
+    this._validateIfExist(artist, 'Artist');
+
+    return artist;
   }
 
   getArtistIdByName(name){
-    return this.artists.find((artist) => artist.name === name).id;
+    const artist = this.artists.find((artist) => artist.name === name);
+    this._validateIfExist(artist, 'Artist');
+
+    return artist.id;
   }
 
   getAlbumById(id) {
-    return this.artists.reduce((acum, current) => acum.concat(current.albums),[]).find((album => album.id === id));
+    const album = this._allAlbums().find((album => album.id === id));
+    this._validateIfExist(album, 'Album');
+
+    return album;
   }
 
   getAlbumIdByName(name){
-    return this.artists.reduce((acum, current) => acum.concat(current.albums),[]).find((album => album.name === name)).id;
+    const album = this._allAlbums().find((album => album.name === name));
+    this._validateIfExist(album, 'Album');
+
+    return album.id;
   }
 
   getTrackById(id) {
+    const track = this._allTracks().find((track => track.id === id));
+    this._validateIfExist(track, 'Track');
 
+    return track;
+  }
+
+  getTrackIdByTitle(title) {
+    const track = this._allTracks().find((track => track.title === title));
+    this._validateIfExist(track, 'Track');
+
+    return track.id;
   }
 
   getPlaylistById(id) {
@@ -78,6 +98,14 @@ class UNQfy {
   // retorna: los tracks interpredatos por el artista con nombre artistName
   getTracksMatchingArtist(artistName) {
 
+  }
+
+  removeTrack(albumId, trackId) {
+    const album = this.getAlbumById(albumId);
+    const track = this.getTrackById(trackId);
+
+    this.playlists.forEach((playlist) => playlist.removeTracks([track]));
+    album.removeTrack(track);
   }
 
   createPlaylist(name, genresToInclude, maxDuration) {
@@ -154,13 +182,21 @@ class UNQfy {
   }
 
   _allTracks() {
-    return this.artists.map(artist => artist.allTracks()).reduce((allTracks, artistTracks) => allTracks.concat(artistTracks), []);
+    return this._flatMap(this.artists.map(artist => artist.allTracks()));
+  }
+
+  _allAlbums() {
+    return this._flatMap(this.artists.map(artist => artist.albums));
   }
 
   _getRandomTracksMatchingGenres(genresToInclude) {
     const allTracksForGenres = this._allTracks().filter(track => track.belongsToGenres(genresToInclude));
 
     return allTracksForGenres.sort(() => Math.random() - 0.5);
+  }
+
+  _flatMap(arrayOfArrays) {
+    return arrayOfArrays.reduce((all, array) => all.concat(array), []);
   }
 }
 

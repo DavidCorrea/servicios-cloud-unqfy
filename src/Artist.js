@@ -26,6 +26,6 @@ class Artist {
       throw new Error("Couldn't create new Album: Name was already taken");
     }
   }
-}  
+}
 
 module.exports = Artist;

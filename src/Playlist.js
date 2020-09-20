@@ -12,6 +12,11 @@ class Playlist {
   hasTrack(track) {
     return this.tracks.includes(track);
   }
-}  
+
+  removeTracks(tracksToRemove) {
+    const tracksToRemoveIds = tracksToRemove.map(trackToRemove => trackToRemove.id);
+    this.tracks = this.tracks.filter((track) => !tracksToRemoveIds.includes(track.id));
+  }
+}
 
 module.exports = Playlist;

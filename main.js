@@ -9,13 +9,15 @@ const ADD_ARTIST = 'addArtist';
 const GET_ARTIST = 'getArtist';
 const ADD_ALBUM = 'addAlbum';
 const ADD_TRACK = 'addTrack';
+const REMOVE_TRACK = 'removeTrack';
 const CREATE_PLAYLIST = 'createPlaylist';
 
 const validExecutableCommands = [
-  ADD_ARTIST, 
+  ADD_ARTIST,
   GET_ARTIST, 
   ADD_ALBUM, 
   ADD_TRACK,
+  REMOVE_TRACK,
   CREATE_PLAYLIST,
 ];
 
@@ -24,6 +26,7 @@ const commandsArguments = {
   [GET_ARTIST]: ['id'],
   [ADD_ALBUM]: ['name', 'artist', 'year'],
   [ADD_TRACK]: ['title', 'album', 'duration', 'genres'],
+  [REMOVE_TRACK]: ['albumName', 'trackTitle'],
   [CREATE_PLAYLIST]: ['name', 'genres', 'maxDuration'],
 }
 
@@ -110,6 +113,15 @@ function executeCommandWithArgs(unqfy, command, args) {
       const genres = arrayFieldValueFromArgs(args, 'genres');
   
       unqfy.addTrack(unqfy.getAlbumIdByName(album), {name, duration, genres});
+      break;
+    }
+    case REMOVE_TRACK: {
+      const albumName = fieldValueFromArgs(args, 'albumName');
+      const trackTitle = fieldValueFromArgs(args, 'trackTitle');
+      const albumId = unqfy.getAlbumIdByName(albumName);
+      const trackId = unqfy.getTrackIdByTitle(trackTitle);
+
+      unqfy.removeTrack(albumId, trackId);
       break;
     }
     case CREATE_PLAYLIST: {
