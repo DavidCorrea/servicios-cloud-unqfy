@@ -56,8 +56,12 @@ class UNQfy {
     return this.artists.find((artist) => artist.id === id);
   }
 
+  getArtistByName(name){
+    return this.artists.find((artist) => artist.name === name);
+  }
+
   getArtistIdByName(name){
-    return this.artists.find((artist) => artist.name === name).id;
+    return this.getArtistByName(name).id;
   }
 
   getAlbumById(id) {
@@ -93,17 +97,15 @@ class UNQfy {
   // genres: array de generos(strings)
   // retorna: los tracks que contenga alguno de los generos en el parametro genres
   getTracksMatchingGenres(genresToInclude) {
-    const allAlbums = this._getAllAlbums();
-    const allTracks = allAlbums.reduce((acum, current) => acum.concat(current.tracks),[]);
+    const allTracks = this._getAllTracks();
 
     return allTracks.filter(track => genresToInclude.some(genreToInclude => track.genres.includes(genreToInclude)))
-    
   }
 
   // artistName: nombre de artista(string)
   // retorna: los tracks interpredatos por el artista con nombre artistName
   getTracksMatchingArtist(artistName) {
-
+      return this.getArtistByName(artistName).albums.reduce((acum, current) => acum.concat(current.tracks), []);
   }
 
   // name: nombre de la playlist
@@ -161,6 +163,10 @@ class UNQfy {
 
   _getAllAlbums() {
     return this.artists.reduce((acum, current) => acum.concat(current.albums), []);
+  }
+
+  _getAllTracks() {
+    return this._getAllAlbums().reduce((acum, current) => acum.concat(current.tracks), []);
   }
 }
 
