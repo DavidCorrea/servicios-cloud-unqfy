@@ -100,11 +100,26 @@ class UNQfy {
 
   }
 
+  removeArtist(artistId) {
+    const artistToRemove = this.getArtistById(artistId);
+
+    this._removeTracksFromAllPlaylists(artistToRemove.allTracks());
+    this.artists = this.artists.filter((artist) => artist.id !== artistToRemove.id);
+  }
+
+  removeAlbum(artistId, albumId) {
+    const artist = this.getArtistById(artistId);
+    const album = this.getAlbumById(albumId);
+
+    this._removeTracksFromAllPlaylists(album.tracks);
+    artist.removeAlbum(album);
+  }
+
   removeTrack(albumId, trackId) {
     const album = this.getAlbumById(albumId);
     const track = this.getTrackById(trackId);
 
-    this.playlists.forEach((playlist) => playlist.removeTracks([track]));
+    this._removeTracksFromAllPlaylists([track]);
     album.removeTrack(track);
   }
 
@@ -193,6 +208,10 @@ class UNQfy {
     const allTracksForGenres = this._allTracks().filter(track => track.belongsToGenres(genresToInclude));
 
     return allTracksForGenres.sort(() => Math.random() - 0.5);
+  }
+
+  _removeTracksFromAllPlaylists(tracks) {
+    this.playlists.forEach((playlist) => playlist.removeTracks(tracks));
   }
 
   _flatMap(arrayOfArrays) {

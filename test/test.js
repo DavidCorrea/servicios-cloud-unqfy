@@ -46,6 +46,36 @@ describe('Add, remove and filter data', () => {
     });
   });
 
+  describe('#removeArtist', () => {
+    it('should remove the artist from UNQfy and all of its tracks from the playlists that includes them', () => {
+      const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+      const album1 = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+      const track1 = createAndAddTrack(unqfy, album1.id, 'Roses track 1', 200, ['pop', 'movie']);
+      const track2 = createAndAddTrack(unqfy, album1.id, 'Roses track 2', 200, ['pop', 'movie']);
+      const album2 = createAndAddAlbum(unqfy, artist.id, 'Appetite for Peace', 1987);
+      const track3 = createAndAddTrack(unqfy, album2.id, 'Roses track 3', 200, ['pop', 'movie']);
+      const track4 = createAndAddTrack(unqfy, album2.id, 'Roses track 4', 200, ['pop', 'movie']);
+      const playlist = unqfy.createPlaylist('Roses playlist', ['pop'], 1400);
+      
+      assert.isTrue(playlist.hasTrack(track1));
+      assert.isTrue(playlist.hasTrack(track2));
+      assert.isTrue(playlist.hasTrack(track3));
+      assert.isTrue(playlist.hasTrack(track4));
+
+      unqfy.removeArtist(artist.id);
+
+      assert.throws(() => unqfy.getArtistById(artist.id), "Artist does not exist");
+      assert.isFalse(playlist.hasTrack(track1));
+      assert.isFalse(playlist.hasTrack(track2));
+      assert.isFalse(playlist.hasTrack(track3));
+      assert.isFalse(playlist.hasTrack(track4));
+    });
+
+    it('should raise an error when trying to remove an album and the artist does not exist', () => {
+      assert.throws(() => unqfy.removeArtist('Not existant'), "Artist does not exist");
+    });
+  });
+
   describe('#addAlbum', () => {
     it('should add an album to an artist', () => {
       const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
@@ -69,6 +99,42 @@ describe('Add, remove and filter data', () => {
     it('should raise an error if an album has an empty name', () => {
       const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
       assert.throws(() => createAndAddAlbum(unqfy, artist.id, '', 1987), "Couldn't create new Album: Name cannot be empty");
+    });
+  });
+
+  describe('#removeAlbum', () => {
+    it('should remove an album from its Artist and the album\'s songs from the playlists that includes them', () => {
+      const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+      const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+      const track1 = createAndAddTrack(unqfy, album.id, 'Roses track 1', 200, ['pop', 'movie']);
+      const track2 = createAndAddTrack(unqfy, album.id, 'Roses track 2', 200, ['pop', 'movie']);
+      const track3 = createAndAddTrack(unqfy, album.id, 'Roses track 3', 200, ['pop', 'movie']);
+      const playlist = unqfy.createPlaylist('Roses playlist', ['pop'], 1400);
+      
+      assert.isTrue(artist.hasAlbum(album));
+      assert.isTrue(playlist.hasTrack(track1));
+      assert.isTrue(playlist.hasTrack(track2));
+      assert.isTrue(playlist.hasTrack(track3));
+
+      unqfy.removeAlbum(artist.id, album.id);
+
+      assert.isFalse(artist.hasAlbum(album));
+      assert.isFalse(playlist.hasTrack(track1));
+      assert.isFalse(playlist.hasTrack(track2));
+      assert.isFalse(playlist.hasTrack(track3));
+    });
+
+    it('should raise an error when trying to remove an album and it does not exist', () => {
+      const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+
+      assert.throws(() => unqfy.removeAlbum(artist.id, 'Not existant'), "Album does not exist");
+    });
+
+    it('should raise an error when trying to remove an album and the artist does not exist', () => {
+      const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+      const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+
+      assert.throws(() => unqfy.removeAlbum('Not existant', album.id), "Artist does not exist");
     });
   });
 
