@@ -17,8 +17,16 @@ class Album {
     return track;
   }
 
+  hasTrack(track) {
+    return this.tracks.includes(track);
+  }
+
+  removeTrack(trackToRemove) {
+    this.tracks = this.tracks.filter(track => track.id !== trackToRemove.id);
+  }
+
   _validateTitleIsAvailable(title) {
-    if (this.tracks.some((track) => track.title === title)) {
+    if (this.tracks.some(track => track.title === title)) {
       throw new Error("Couldn't create new Track: Title was already taken");
     }
   }
