@@ -1,4 +1,4 @@
-const Track = require("./track");
+const Track = require("./Track");
 
 class Album {
   constructor(id, name, year){

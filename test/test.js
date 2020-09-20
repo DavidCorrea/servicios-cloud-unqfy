@@ -213,4 +213,16 @@ describe('Playlist Creation and properties', () => {
     assert.isTrue(playlist.hasTrack(t4));
     assert.lengthOf(playlist.tracks, 4);
   });
+
+  it('should raise an error when the name is empty', () => {
+    assert.throws(() => unqfy.createPlaylist('', ['pop'], 1400), "Couldn't create new Playlist: Name cannot be empty");
+  });
+
+  it('should raise an error when the genres are empty', () => {
+    assert.throws(() => unqfy.createPlaylist('My Playlist', [], 1400), "Couldn't create new Playlist: Genres cannot be empty");
+  });
+
+  it('should raise an error when the max duration is lower than 1', () => {
+    assert.throws(() => unqfy.createPlaylist('My Playlist', ['pop'], 0), "Couldn't create new Playlist: Max duration must be bigger than zero");
+  });
 });

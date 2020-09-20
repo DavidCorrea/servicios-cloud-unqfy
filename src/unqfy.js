@@ -1,13 +1,15 @@
 const picklify = require('picklify'); // para cargar/guarfar unqfy
 const fs = require('fs'); // para cargar/guarfar unqfy
-const Artist = require('./artist');
-const Album = require('./album');
-const Track = require('./track');
+const Artist = require('./Artist');
+const Album = require('./Album');
+const Track = require('./Track');
+const Playlist = require('./Playlist');
 
 class UNQfy {
   constructor() {
     this.ids = {}
     this.artists = [];
+    this.playlists = [];
   }
 
   addArtist({ name, country }) {
@@ -21,10 +23,6 @@ class UNQfy {
     return artist;
   }
 
-  // albumData: objeto JS con los datos necesarios para crear un album
-  //   albumData.name (string)
-  //   albumData.year (number)
-  // retorna: el nuevo album creado
   addAlbum(artistId, albumData) {
     this._validateIsNotEmpty(albumData.name, 'Album', 'Name');
     this._validateIsNotEmpty(albumData.year, 'Album', 'Year');
@@ -35,12 +33,6 @@ class UNQfy {
     return artist.addAlbum(this._nextId(Album), albumData.name, albumData.year);
   }
 
-
-  // trackData: objeto JS con los datos necesarios para crear un track
-  //   trackData.name (string)
-  //   trackData.duration (number)
-  //   trackData.genres (lista de strings)
-  // retorna: el nuevo track creado
   addTrack(albumId, trackData) {
     this._validateIsNotEmpty(trackData.name, 'Track', 'Title');
     this._validateIsNotEmpty(trackData.duration, 'Track', 'Duration');
@@ -108,18 +100,26 @@ class UNQfy {
       return this.getArtistByName(artistName).albums.reduce((acum, current) => acum.concat(current.tracks), []);
   }
 
-  // name: nombre de la playlist
-  // genresToInclude: array de generos
-  // maxDuration: duración en segundos
-  // retorna: la nueva playlist creada
   createPlaylist(name, genresToInclude, maxDuration) {
-  /*** Crea una playlist y la agrega a unqfy. ***
-    El objeto playlist creado debe soportar (al menos):
-      * una propiedad name (string)
-      * un metodo duration() que retorne la duración de la playlist.
-      * un metodo hasTrack(aTrack) que retorna true si aTrack se encuentra en la playlist.
-  */
+    this._validateIsNotEmpty(name, 'Playlist', 'Name');
+    this._validateIsNotEmpty(genresToInclude, 'Playlist', 'Genres');
+    this._validateIsBiggerThanZero(maxDuration, 'Playlist', 'Max duration');
+    this._validatePlaylistNameIsAvailable(name);
 
+    const tracks = [];
+    let duration = 0;
+
+    this._getRandomTracksMatchingGenres(genresToInclude).forEach((track) => {
+      if ((duration + track.duration) <= maxDuration) {
+        duration += track.duration;
+        tracks.push(track);
+      }
+    });
+
+    const playlist = new Playlist(this._nextId(Playlist), name, tracks);
+    this.playlists.push(playlist);
+
+    return playlist;
   }
 
   save(filename) {
@@ -130,7 +130,7 @@ class UNQfy {
   static load(filename) {
     const serializedData = fs.readFileSync(filename, {encoding: 'utf-8'});
     //COMPLETAR POR EL ALUMNO: Agregar a la lista todas las clases que necesitan ser instanciadas
-    const classes = [UNQfy, Artist, Album, Track];
+    const classes = [UNQfy, Artist, Album, Track, Playlist];
     return picklify.unpicklify(JSON.parse(serializedData), classes);
   }
 
@@ -154,6 +154,12 @@ class UNQfy {
       throw new Error("Couldn't create new Artist: Name was already taken");
     }
   }
+
+  _validatePlaylistNameIsAvailable(name) {
+    if (this.playlists.some((playlist) => playlist.name === name)) {
+      throw new Error("Couldn't create new Playlist: Name was already taken");
+    }
+  }
   
   _validateIfExist(value, errorMessage) {
     if (!value) {
@@ -161,12 +167,25 @@ class UNQfy {
     }
   }
 
-  _getAllAlbums() {
+  _allAlbums() {
     return this.artists.reduce((acum, current) => acum.concat(current.albums), []);
   }
 
-  _getAllTracks() {
-    return this._getAllAlbums().reduce((acum, current) => acum.concat(current.tracks), []);
+
+  _validateIsBiggerThanZero(value, errorMessageClass, errorMessageParameter) {
+    if (value < 1) {
+      throw new Error(`Couldn't create new ${errorMessageClass}: ${errorMessageParameter} must be bigger than zero`);
+    }
+  }
+
+  _allTracks() {
+    return this.artists.map(artist => artist.allTracks()).reduce((allTracks, artistTracks) => allTracks.concat(artistTracks), []);
+  }
+
+  _getRandomTracksMatchingGenres(genresToInclude) {
+    const allTracksForGenres = this._allTracks().filter(track => track.belongsToGenres(genresToInclude));
+
+    return allTracksForGenres.sort(() => Math.random() - 0.5);
   }
 }
 
