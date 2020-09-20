@@ -24,8 +24,11 @@
 ## Set de pruebas desde consola 
 - `node main.js addArtist name "Artista1" country "Countr1"`
 - `node main.js addAlbum name "Album1" artist "Artista1" year "2020"`
-- `node main.js addTrack title "Track" album "Album1" duration "200" genres "Pop,Rock"`
+- `node main.js addTrack title "Track1" album "Album1" duration "200" genres "Pop,Rock"`
 - `node main.js createPlaylist name "My Playlist" maxDuration 100 genres "Pop"`
+- `node main.js removeTrack albumName "Album1" trackTitle "Track1"`
+- `node main.js removeAlbum artistName "Artista1" albumName "Album1"`
+- `node main.js removeArtist name "Artista1"`
 
 ## Script que popula y realiza operaciones varias.
 - `./runUnqfy.sh` (Probablemente haya que darle permisos con `chmod +rx runUnqfy.sh`)
