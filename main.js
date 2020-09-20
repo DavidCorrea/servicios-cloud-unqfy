@@ -14,6 +14,7 @@ const ADD_TRACK = 'addTrack';
 const REMOVE_TRACK = 'removeTrack';
 const CREATE_PLAYLIST = 'createPlaylist';
 const REMOVE_PLAYLIST = 'removePlaylist';
+const SEARCH_BY_NAME = 'searchByName';
 
 const validExecutableCommands = [
   ADD_ARTIST,
@@ -25,6 +26,7 @@ const validExecutableCommands = [
   REMOVE_TRACK,
   CREATE_PLAYLIST,
   REMOVE_PLAYLIST,
+  SEARCH_BY_NAME,
 ];
 
 const commandsArguments = {
@@ -37,6 +39,7 @@ const commandsArguments = {
   [REMOVE_TRACK]: ['albumName', 'trackTitle'],
   [CREATE_PLAYLIST]: ['name', 'genres', 'maxDuration'],
   [REMOVE_PLAYLIST]: ['name'],
+  [SEARCH_BY_NAME]: ['name'],
 }
 
 // Retorna una instancia de UNQfy. Si existe filename, recupera la instancia desde el archivo.
@@ -163,6 +166,11 @@ function executeCommandWithArgs(unqfy, command, args) {
 
       unqfy.removePlaylist(playlistId);
       break;
+    }
+    case SEARCH_BY_NAME: {
+      const name = fieldValueFromArgs(args, 'name');
+
+      console.log( unqfy.searchByName(name));
     }
   }
 }
