@@ -92,11 +92,12 @@ class UNQfy {
 
   // genres: array de generos(strings)
   // retorna: los tracks que contenga alguno de los generos en el parametro genres
-  getTracksMatchingGenres(genres2) {
+  getTracksMatchingGenres(genresToInclude) {
     const allAlbums = this._getAllAlbums();
     const allTracks = allAlbums.reduce((acum, current) => acum.concat(current.tracks),[]);
 
-    return allTracks.filter((track) => track.genres.filter(x => genres2.includes(x)).length > 0)
+    return allTracks.filter(track => genresToInclude.some(genreToInclude => track.genres.includes(genreToInclude)))
+    
   }
 
   // artistName: nombre de artista(string)
