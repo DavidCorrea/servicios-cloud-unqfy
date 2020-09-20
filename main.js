@@ -8,6 +8,7 @@ const DATA_FILENAME = 'data.json';
 const ADD_ARTIST = 'addArtist';
 const GET_ARTIST = 'getArtist';
 const ADD_ALBUM = 'addAlbum';
+const REMOVE_ALBUM = 'removeAlbum';
 const ADD_TRACK = 'addTrack';
 const REMOVE_TRACK = 'removeTrack';
 const CREATE_PLAYLIST = 'createPlaylist';
@@ -15,7 +16,8 @@ const CREATE_PLAYLIST = 'createPlaylist';
 const validExecutableCommands = [
   ADD_ARTIST,
   GET_ARTIST, 
-  ADD_ALBUM, 
+  ADD_ALBUM,
+  REMOVE_ALBUM,
   ADD_TRACK,
   REMOVE_TRACK,
   CREATE_PLAYLIST,
@@ -25,6 +27,7 @@ const commandsArguments = {
   [ADD_ARTIST]: ['name', 'country'],
   [GET_ARTIST]: ['id'],
   [ADD_ALBUM]: ['name', 'artist', 'year'],
+  [REMOVE_ALBUM]: ['artistName', 'albumName'],
   [ADD_TRACK]: ['title', 'album', 'duration', 'genres'],
   [REMOVE_TRACK]: ['albumName', 'trackTitle'],
   [CREATE_PLAYLIST]: ['name', 'genres', 'maxDuration'],
@@ -104,6 +107,15 @@ function executeCommandWithArgs(unqfy, command, args) {
       const year = fieldValueFromArgs(args, 'year');
 
       unqfy.addAlbum(unqfy.getArtistIdByName(artist),{name, year});
+      break;
+    }
+    case REMOVE_ALBUM: {
+      const artistName = fieldValueFromArgs(args, 'artistName');
+      const albumName = fieldValueFromArgs(args, 'albumName');
+      const artistId = unqfy.getArtistIdByName(artistName);
+      const albumId = unqfy.getAlbumIdByName(albumName);
+
+      unqfy.removeAlbum(artistId, albumId);
       break;
     }
     case ADD_TRACK: {
