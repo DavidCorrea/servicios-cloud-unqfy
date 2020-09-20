@@ -9,13 +9,22 @@ const ADD_ARTIST = 'addArtist';
 const GET_ARTIST = 'getArtist';
 const ADD_ALBUM = 'addAlbum';
 const ADD_TRACK = 'addTrack';
-const validExecutableCommands = [ADD_ARTIST, GET_ARTIST,ADD_ALBUM,ADD_TRACK];
+const CREATE_PLAYLIST = 'createPlaylist';
+
+const validExecutableCommands = [
+  ADD_ARTIST, 
+  GET_ARTIST, 
+  ADD_ALBUM, 
+  ADD_TRACK,
+  CREATE_PLAYLIST,
+];
 
 const commandsArguments = {
   [ADD_ARTIST]: ['name', 'country'],
   [GET_ARTIST]: ['id'],
   [ADD_ALBUM]: ['name', 'artist', 'year'],
-  [ADD_TRACK]: ['title', 'album', 'duration', 'genres']
+  [ADD_TRACK]: ['title', 'album', 'duration', 'genres'],
+  [CREATE_PLAYLIST]: ['name', 'genres', 'maxDuration'],
 }
 
 // Retorna una instancia de UNQfy. Si existe filename, recupera la instancia desde el archivo.
@@ -59,6 +68,14 @@ function fieldValueFromArgs(args, field) {
   return args[fieldIndex + 1];
 }
 
+function numberFieldValueFromArgs(args, field) {
+  return parseInt(fieldValueFromArgs(args, field));
+}
+
+function arrayFieldValueFromArgs(args, field) {
+  return fieldValueFromArgs(args, field).split(",");
+}
+
 function executeCommandWithArgs(unqfy, command, args) {
   validateCommand(command);
   validateCommandArguments(command, args);
@@ -71,8 +88,8 @@ function executeCommandWithArgs(unqfy, command, args) {
   }
 
   if(command === GET_ARTIST){
-    const artistId = fieldValueFromArgs(args, 'id');
-    const artist = unqfy.getArtistById(parseInt(artistId));
+    const artistId = numberFieldValueFromArgs(args, 'id');
+    const artist = unqfy.getArtistById(artistId);
 
     console.log(artist);
   }
@@ -90,9 +107,17 @@ function executeCommandWithArgs(unqfy, command, args) {
     const name = fieldValueFromArgs(args, 'title');
     const album = fieldValueFromArgs(args, 'album');
     const duration = fieldValueFromArgs(args, 'duration');
-    const genres = fieldValueFromArgs(args, 'genres').split(",");
+    const genres = arrayFieldValueFromArgs(args, 'genres');
 
     unqfy.addTrack(unqfy.getAlbumIdByName(album), {name, duration, genres})
+  }
+
+  if(command === CREATE_PLAYLIST){
+    const name = fieldValueFromArgs(args, 'name');
+    const genres = arrayFieldValueFromArgs(args, 'genres');
+    const maxDuration = numberFieldValueFromArgs(args, 'maxDuration');
+    
+    unqfy.createPlaylist(name, genres, maxDuration);
   }
 }
 
