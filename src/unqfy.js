@@ -100,6 +100,13 @@ class UNQfy {
 
   }
 
+  removeArtist(artistId) {
+    const artistToRemove = this.getArtistById(artistId);
+
+    this._removeTracksFromAllPlaylists(artistToRemove.allTracks());
+    this.artists = this.artists.filter((artist) => artist.id !== artistToRemove.id);
+  }
+
   removeAlbum(artistId, albumId) {
     const artist = this.getArtistById(artistId);
     const album = this.getAlbumById(albumId);
