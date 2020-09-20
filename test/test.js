@@ -23,98 +23,129 @@ describe('Add, remove and filter data', () => {
     unqfy = new UNQfy();
   });
 
-// Artist
-
-  it('should add an artist', () => {
-    const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
-
-    assert.equal(artist.name, 'Guns n\' Roses');
-    assert.equal(artist.country, 'USA');
+  describe('#addArtist', () => {
+    it('should add an artist', () => {
+      const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+  
+      assert.equal(artist.name, 'Guns n\' Roses');
+      assert.equal(artist.country, 'USA');
+    });
+  
+    it('should raise an error if an artist with the same name already exists', () => {
+      createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+  
+      assert.throws(() => createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA'), "Couldn't create new Artist: Name was already taken");
+    });
+  
+    it('should raise an error if an artist has an empty name', () => {
+      assert.throws(() => createAndAddArtist(unqfy, '', 'USA'), "Couldn't create new Artist: Name cannot be empty");
+    });
+  
+    it('should raise an error if an artist has an empty country', () => {
+      assert.throws(() => createAndAddArtist(unqfy, 'Guns n\' Roses', ''), "Couldn't create new Artist: Country cannot be empty");
+    });
   });
 
-  it('should raise an error if an artist with the same name already exists', () => {
-    createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
-
-    assert.throws(() => createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA'), "Couldn't create new Artist: Name was already taken");
+  describe('#addAlbum', () => {
+    it('should add an album to an artist', () => {
+      const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+      const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+  
+      assert.equal(album.name, 'Appetite for Destruction');
+      assert.equal(album.year, 1987);
+    });
+  
+    it('should raise an error when adding an album if artist does not exists', () => {
+      assert.throws(() => createAndAddAlbum(unqfy, undefined, 'Album1', 1987), "Artist does not exist");
+    });
+  
+    it('should raise an error if an album with the same name already exists', () => {
+      const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+      const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+  
+      assert.throws(() => createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987), "Couldn't create new Album: Name was already taken");
+    });
+  
+    it('should raise an error if an album has an empty name', () => {
+      const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+      assert.throws(() => createAndAddAlbum(unqfy, artist.id, '', 1987), "Couldn't create new Album: Name cannot be empty");
+    });
   });
 
-  it('should raise an error if an artist has an empty name', () => {
-    assert.throws(() => createAndAddArtist(unqfy, '', 'USA'), "Couldn't create new Artist: Name cannot be empty");
-  });
+  describe('#addTrack', () => {
+    it('should add a track to an album', () => {
+      const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+      const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+      const track = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock']);
+  
+      assert.equal(track.title, 'Welcome to the jungle');
+      assert.strictEqual(track.duration, 200);
+      assert.equal(track.genres.includes('rock'), true);
+      assert.equal(track.genres.includes('hard rock'), true);
+      assert.lengthOf(track.genres, 2);
+    });
+  
+    it('should raise an error when adding a track if album does not exists', () => {
+      assert.throws(() => createAndAddTrack(unqfy, undefined, 'Welcome to the jungle', 200, ['rock', 'hard rock']));
+    });
+  
+    it('should raise an error if a track with the same title already exists', () => {
+      const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+      const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+      const track = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock']);
+  
+      assert.throws(() => createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock']), "Couldn't create new Track: Title was already taken");
+    });
+  
+    it('should raise an error if a track has an empty title', () => {
+      const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+      const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+      assert.throws(() => createAndAddTrack(unqfy, album.id, '', 200, ['rock', 'hard rock']), "Couldn't create new Track: Title cannot be empty");
+    });
+  
+    it('should raise an error if a track has an empty duration', () => {
+      const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+      const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+      assert.throws(() => createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', '', ['rock', 'hard rock']), "Couldn't create new Track: Duration cannot be empty");
+    });
+  
+    it('should raise an error if a track has an empty genres', () => {
+      const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+      const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+      assert.throws(() => createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, []), "Couldn't create new Track: genres cannot be empty");
+    });
+  })
 
-  it('should raise an error if an artist has an empty country', () => {
-    assert.throws(() => createAndAddArtist(unqfy, 'Guns n\' Roses', ''), "Couldn't create new Artist: Country cannot be empty");
-  });
+  describe('#removeTrack', () => {
+    it('should remove a track from its album and the playlist that includes it', () => {
+      const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+      const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+      const track = createAndAddTrack(unqfy, album.id, 'Roses track', 200, ['pop', 'movie']);
+      const playlist = unqfy.createPlaylist('Roses playlist', ['pop'], 1400);
+      
+      assert.isTrue(album.hasTrack(track));
+      assert.isTrue(playlist.hasTrack(track));
 
-// Album
+      unqfy.removeTrack(album.id, track.id);
 
-  it('should add an album to an artist', () => {
-    const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
-    const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+      assert.isFalse(album.hasTrack(track));
+      assert.isFalse(playlist.hasTrack(track));
+    });
 
-    assert.equal(album.name, 'Appetite for Destruction');
-    assert.equal(album.year, 1987);
-  });
+    it('should raise an error when trying to remove a track and it does not exist', () => {
+      const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+      const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
 
-  it('should raise an error when adding an albun if artist does not exists', () => {
-    assert.throws(() => createAndAddAlbum(unqfy, undefined, 'Album1', 1987), "Artist does not exist");
-  });
+      assert.throws(() => unqfy.removeTrack(album.id, 'Not existant'), "Track does not exist");
+    });
 
-  it('should raise an error if an album with the same name already exists', () => {
-    const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
-    const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+    it('should raise an error when trying to remove a track and the album does not exist', () => {
+      const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+      const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+      const track = createAndAddTrack(unqfy, album.id, 'Roses track', 200, ['pop', 'movie']);
 
-    assert.throws(() => createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987), "Couldn't create new Album: Name was already taken");
-  });
-
-  it('should raise an error if an album has an empty name', () => {
-    const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
-    assert.throws(() => createAndAddAlbum(unqfy, artist.id, '', 1987), "Couldn't create new Album: Name cannot be empty");
-  });
-
-  // Track
-
-  it('should add a track to an album', () => {
-    const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
-    const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
-    const track = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock']);
-
-    assert.equal(track.title, 'Welcome to the jungle');
-    assert.strictEqual(track.duration, 200);
-    assert.equal(track.genres.includes('rock'), true);
-    assert.equal(track.genres.includes('hard rock'), true);
-    assert.lengthOf(track.genres, 2);
-  });
-
-
-  it('should raise an error when adding a track if album does not exists', () => {
-    assert.throws(() => createAndAddTrack(unqfy, undefined, 'Welcome to the jungle', 200, ['rock', 'hard rock']));
-  });
-
-  it('should raise an error if a track with the same title already exists', () => {
-    const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
-    const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
-    const track = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock']);
-
-    assert.throws(() => createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock']), "Couldn't create new Track: Title was already taken");
-  });
-
-  it('should raise an error if a track has an empty title', () => {
-    const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
-    const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
-    assert.throws(() => createAndAddTrack(unqfy, album.id, '', 200, ['rock', 'hard rock']), "Couldn't create new Track: Title cannot be empty");
-  });
-
-  it('should raise an error if a track has an empty duration', () => {
-    const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
-    const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
-    assert.throws(() => createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', '', ['rock', 'hard rock']), "Couldn't create new Track: Duration cannot be empty");
-  });
-
-  it('should raise an error if a track has an empty genres', () => {
-    const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
-    const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
-    assert.throws(() => createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, []), "Couldn't create new Track: genres cannot be empty");
+      assert.throws(() => unqfy.removeTrack('Not existant', track.id), "Album does not exist");
+    });
   });
 
   it('should find different things by name', () => {
