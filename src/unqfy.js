@@ -88,8 +88,11 @@ class UNQfy {
     return track.id;
   }
 
-  getPlaylistById(id) {
+  getPlaylistIdByName(name){
+    const playlist = this.playlists.find((playlist => playlist.name === name));
+    this._validateIfExist(playlist, 'Playlist');
 
+    return playlist.id;
   }
 
   searchByName(name){
@@ -157,6 +160,10 @@ class UNQfy {
     this.playlists.push(playlist);
 
     return playlist;
+  }
+
+  removePlaylist(playlistIdToRemove){
+    this.playlists = this.playlists.filter(playlist => playlist.id !== playlistIdToRemove);
   }
 
   save(filename) {
