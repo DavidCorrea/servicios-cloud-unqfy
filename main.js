@@ -5,8 +5,8 @@ const { get } = require('https');
 const UNQfy = require('./src/unqfy'); // importamos el modulo unqfy
 
 const DATA_FILENAME = 'data.json';
+
 const ADD_ARTIST = 'addArtist';
-const GET_ARTIST = 'getArtist';
 const REMOVE_ARTIST = 'removeArtist';
 const ADD_ALBUM = 'addAlbum';
 const REMOVE_ALBUM = 'removeAlbum';
@@ -17,6 +17,8 @@ const REMOVE_PLAYLIST = 'removePlaylist';
 const SEARCH_BY_NAME = 'searchByName';
 const TRACKS_BY_ARTIST = 'tracksByArtist';
 const TRACKS_BY_GENRES = 'tracksByGenres';
+const ALBUMS_BY_ARTIST = 'albumsByArtist';
+const ALBUM_TRACKS = 'albumTracks';
 const ALL_ARTISTS = 'allArtists';
 const ALL_ALBUMS = 'allAlbums';
 const ALL_TRACKS = 'allTracks';
@@ -24,7 +26,6 @@ const ALL_PLAYLISTS = 'allPlaylists';
 
 const validExecutableCommands = [
   ADD_ARTIST,
-  GET_ARTIST,
   REMOVE_ARTIST,
   ADD_ALBUM,
   REMOVE_ALBUM,
@@ -35,6 +36,8 @@ const validExecutableCommands = [
   SEARCH_BY_NAME,
   TRACKS_BY_ARTIST,
   TRACKS_BY_GENRES,
+  ALBUMS_BY_ARTIST,
+  ALBUM_TRACKS,
   ALL_ARTISTS,
   ALL_ALBUMS,
   ALL_TRACKS,
@@ -43,7 +46,6 @@ const validExecutableCommands = [
 
 const commandsArguments = {
   [ADD_ARTIST]: ['name', 'country'],
-  [GET_ARTIST]: ['id'],
   [REMOVE_ARTIST]: ['name'],
   [ADD_ALBUM]: ['name', 'artist', 'year'],
   [REMOVE_ALBUM]: ['artistName', 'albumName'],
@@ -54,6 +56,8 @@ const commandsArguments = {
   [SEARCH_BY_NAME]: ['name'],
   [TRACKS_BY_ARTIST]: ['artistName'],
   [TRACKS_BY_GENRES]: ['genres'],
+  [ALBUMS_BY_ARTIST]: ['artistName'],
+  [ALBUM_TRACKS]: ['albumName'],
   [ALL_ARTISTS]: [],
   [ALL_ALBUMS]: [],
   [ALL_TRACKS]: [],
@@ -109,6 +113,38 @@ function arrayFieldValueFromArgs(args, field) {
   return fieldValueFromArgs(args, field).split(",");
 }
 
+function serializeArtist({name, country, albums}) {
+  return { 
+    name, 
+    country, 
+    albums: albums.map(album => album.name)
+  }
+}
+
+function serializeAlbum({name, year, tracks}) {
+  return { 
+    name, 
+    year, 
+    tracks: tracks.map(track => track.title) 
+  }
+}
+
+function serializeTrack({title, duration, genres}) {
+  return { 
+    title, 
+    duration, 
+    genres 
+  }
+}
+
+function serializePlaylist(playlist) {
+  return { 
+    name: playlist.name, 
+    tracks: playlist.tracks.map(track => track.title), 
+    duration: playlist.duration() 
+  }
+}
+
 function executeCommandWithArgs(unqfy, command, args) {
   validateCommand(command);
   validateCommandArguments(command, args);
@@ -119,13 +155,6 @@ function executeCommandWithArgs(unqfy, command, args) {
       const country = fieldValueFromArgs(args, 'country');
 
       unqfy.addArtist({ name, country });
-      break;
-    }
-    case GET_ARTIST: {
-      const artistId = numberFieldValueFromArgs(args, 'id');
-      const artist = unqfy.getArtistById(artistId);
-
-      console.log(artist);
       break;
     }
     case REMOVE_ARTIST: {
@@ -187,58 +216,61 @@ function executeCommandWithArgs(unqfy, command, args) {
     }
     case SEARCH_BY_NAME: {
       const name = fieldValueFromArgs(args, 'name');
+      const searchResult = unqfy.searchByName(name);
+      const serializedSearchResult = {
+        artists: searchResult.artists.map(serializeArtist),
+        albums: searchResult.albums.map(serializeAlbum),
+        tracks: searchResult.tracks.map(serializeTrack),
+        playlists: searchResult.playlists.map(serializePlaylist),
+      };
 
-      console.log(unqfy.searchByName(name));
+      console.dir(serializedSearchResult, { depth: 3 });
       break;
     }
     case TRACKS_BY_ARTIST: {
       const artistName = fieldValueFromArgs(args, 'artistName');
 
-      console.log(unqfy.getTracksMatchingArtist(artistName));
+      console.log(unqfy.getTracksMatchingArtist(artistName).map(serializeTrack));
       break;
     }
     case TRACKS_BY_GENRES: {
       const genres = arrayFieldValueFromArgs(args, 'genres');
 
-      console.log(unqfy.getTracksMatchingGenres(genres))
+      console.log(unqfy.getTracksMatchingGenres(genres).map(serializeTrack))
+      break;
+    }
+    case ALBUMS_BY_ARTIST: {
+      const artistName = fieldValueFromArgs(args, 'artistName');
+
+      console.log(unqfy.getAlbumsMatchingArtist(artistName).map(serializeAlbum));
+      break;
+    }
+    case ALBUM_TRACKS: {
+      const albumName = fieldValueFromArgs(args, 'albumName');
+
+      console.log(unqfy.getTracksMatchingAlbum(albumName).map(serializeTrack));
       break;
     }
     case ALL_ARTISTS: {
-      const artists = unqfy.allArtists().map(({name,country,albums}) =>({ 
-        name,
-        country,
-        albums: albums.map(album => album.name),
-      }));
+      const artists = unqfy.allArtists().map(serializeArtist);
 
       console.log(artists);
       break;
     }
     case ALL_ALBUMS: {
-      const albums = unqfy.allAlbums().map(({name,year,tracks}) => ({
-        name,
-        year,
-        tracks: tracks.map(track => track.title),
-      }));
+      const albums = unqfy.allAlbums().map(serializeAlbum);
 
       console.log(albums);
       break;
     }
     case ALL_TRACKS: {
-      const tracks = unqfy.allTracks().map(({title, duration, genres}) => ({
-        title,
-        duration,
-        genres,
-      }));
+      const tracks = unqfy.allTracks().map(serializeTrack);
 
       console.log(tracks);
       break;
     }
     case ALL_PLAYLISTS: {
-      const playlists = unqfy.allPlaylists().map(playlist => ({
-        name: playlist.name,
-        tracks: playlist.tracks.map(track => track.title),
-        duration: playlist.duration()
-      }));
+      const playlists = unqfy.allPlaylists().map(serializePlaylist);
 
       console.log(playlists);
       break;

@@ -6,6 +6,25 @@ function add_album() { execute "addAlbum name $1 artist $2 year $3"; }
 function add_track() { execute "addTrack title $1 album $2 duration $3 genres $4"; }
 function create_playlist() { execute "createPlaylist name $1 maxDuration $2 genres $3"; }
 
+function remove_artist() { execute "removeArtist name $1"; }
+function remove_album() { execute "removeAlbum artistName $1 albumName $2"; }
+function remove_track() { execute "removeTrack albumName $1 trackTitle $2"; }
+function remove_playlist() { execute "removePlaylist name $1"; }
+
+function all_artists() { execute "allArtists"; }
+function all_albums() { execute "allAlbums"; }
+function all_tracks() { execute "allTracks"; }
+function all_playlists() { execute "allPlaylists"; }
+
+function search_by_name() { execute "searchByName name $1"; }
+function tracks_by_artist() { execute "tracksByArtist artistName $1"; }
+function tracks_by_genres() { execute "tracksByGenres genres $1"; }
+function albums_by_artist() { execute "albumsByArtist artistName $1"; }
+function album_tracks() { execute "albumTracks albumName $1"; }
+
+echo 'Running script...'
+echo 'Creating artists, albums, tracks, and playlists...'
+
 # Artist 1
 add_artist 'Muse' "\"Reino Unido\""
 
@@ -43,3 +62,59 @@ add_track "\"Imaginary Friends (Morgan Page Remix)\"" "\"here's the drop!\"" 492
 create_playlist "\"Mix 1\"" 1000 'Electronica,Progresivo,Country'
 create_playlist "\"Mix 2\"" 1500 'Electronica,Progresivo,Pop,Alternativo'
 create_playlist "\"Mix 3\"" 2000 'Trance,Country'
+
+echo 'Creation finished.'
+
+echo 'Searching all created artists...'
+all_artists
+
+echo 'Searching all created albums...'
+all_albums
+
+echo 'Searching all created tracks...'
+all_tracks
+
+echo 'Searching all created playlists...'
+all_playlists
+
+echo 'Searching for all records that contains "a"...'
+search_by_name 'a'
+
+echo 'Searching for all Muse tracks...'
+tracks_by_artist 'Muse'
+
+echo 'Searching for all Electronica genre tracks...'
+tracks_by_genres 'Electronica'
+
+echo 'Searching for all Taylor Swift albums...'
+albums_by_artist "\"Taylor Swift\""
+
+echo 'Searching for all the tracks of the Reputation album'
+album_tracks 'Reputation'
+
+echo 'Removing Muse from UNQfy...'
+remove_artist 'Muse'
+
+echo "Removing Taylor Swift's album, Lover..."
+remove_album "\"Taylor Swift\"" 'Lover'
+
+echo "Removing 'End Game' track from Taylor Swift's album, Reputation..."
+remove_track "Reputation" "\"End Game\""
+
+echo "Removing Mix 3..."
+remove_playlist "\"Mix 3\""
+
+echo 'Searching for all objects again...'
+echo 'Artists...'
+all_artists
+
+echo 'Albums...'
+all_albums
+
+echo 'Tracks...'
+all_tracks
+
+echo 'Playlists...'
+all_playlists
+
+echo 'Script finished.'
