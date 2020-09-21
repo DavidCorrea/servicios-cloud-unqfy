@@ -263,6 +263,30 @@ describe('Add, remove and filter data', () => {
     });
   });
 
+  describe('#tracksUserListenedTo', () => {
+    it('should return tracks that a user has listened to', () => {
+      const artist = createAndAddArtist(unqfy, 'Deadmau5', 'Canada');
+      const album = createAndAddAlbum(unqfy, artist.id, "where's the drop?", 2018);
+      const track1 = createAndAddTrack(unqfy, album.id, 'Strobe', 311, ['Electronica', 'House']);
+      const track2 = createAndAddTrack(unqfy, album.id, 'Imaginary Friends', 311, ['Electronica', 'House']);
+      const track3 = createAndAddTrack(unqfy, album.id, 'Coelacanth', 311, ['Electronica', 'House']);
+
+      const user1 = unqfy.createUser('John');
+      const user2 = unqfy.createUser('Sarah');
+
+      usersListenToTrack(unqfy, [user1, user2], track1);
+      usersListenToTrack(unqfy, [user1], track2);
+      usersListenToTrack(unqfy, [user2], track3);
+  
+      assert.sameMembers(unqfy.tracksUserListenedTo(user1.name), [track1, track2]);
+      assert.sameMembers(unqfy.tracksUserListenedTo(user2.name), [track1, track3]);
+    });
+
+    it('should raise an error if an user with the name does not exist', () => {
+      assert.throws(() => unqfy.tracksUserListenedTo('Not existent'), 'User does not exist');
+    });
+  });
+
   describe('#timesUserListenedTo', () => {
     it('should return the times a user listened to a specific track', () => {
       const artist = createAndAddArtist(unqfy, 'Deadmau5', 'Canada');

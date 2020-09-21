@@ -218,6 +218,10 @@ class UNQfy {
     user.addReproduction(new Reproduction(this._nextId(Reproduction), track));
   }
 
+  tracksUserListenedTo(userName) {
+    return this._getUserByName(userName).listenedTracks();
+  }
+
   timesUserListenedTo(userName, trackTitle) {
     const user = this._getUserByName(userName);
     const track = this._getTrackByTitle(trackTitle);

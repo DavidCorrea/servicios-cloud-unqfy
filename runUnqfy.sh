@@ -23,6 +23,7 @@ function tracks_by_genres() { execute "tracksByGenres genres $1"; }
 function albums_by_artist() { execute "albumsByArtist artistName $1"; }
 function album_tracks() { execute "albumTracks albumName $1"; }
 function user_listen_to() { execute "userListenTo userName $1 trackTitle $2"; }
+function tracks_user_listened_to() { execute "tracksUserListenedTo userName $1"; }
 function times_user_listened_to() { execute "timesUserListenedTo userName $1 trackTitle $2"; }
 function create_this_is_list() { execute "createThisIsList artistName $1"; }
 
@@ -131,11 +132,14 @@ user_listen_to 'Sarah' "\"Strobe (PEEKABOO Remix)\""
 user_listen_to 'John' "\"...Ready For It?\""
 user_listen_to 'Sarah' "\"Imaginary Friends\""
 
-echo 'Checking how many times they listened to "Ready for it?"'
+echo 'Checking which tracks John has listened to...'
+tracks_user_listened_to 'John'
+
+echo 'Checking how many times they listened to "Ready for it?"...'
 times_user_listened_to 'John' "\"...Ready For It?\""
 times_user_listened_to 'Sarah' "\"...Ready For It?\""
 
-echo 'Checking Deadmau5 most listened tracks'
+echo 'Checking Deadmau5 most listened tracks...'
 create_this_is_list 'Deadmau5'
 
 echo 'Script finished.'
