@@ -133,6 +133,10 @@ class UNQfy {
     return this.getArtistByName(artistName).allTracks();
   }
 
+  getAlbumsMatchingArtist(artistName) {
+    return this.getArtistByName(artistName).albums;
+  }
+
   removeArtist(artistId) {
     const artistToRemove = this.getArtistById(artistId);
 

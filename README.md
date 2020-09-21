@@ -23,6 +23,7 @@
 - `searchByName name "NAME"`
 - `tracksByArtist artistName "ARTIST_NAME"`
 - `tracksByGenres genres "GENRE_1,GENRE_2"`
+- `albumsByArtist artistName "ARTIST_NAME"`
 - `allArtists`
 - `allAlbums`
 - `allTracks`
@@ -40,6 +41,7 @@
 - `node main.js searchByName name "a"`
 - `node main.js tracksByArtist artistName "Artista1"`
 - `node main.js tracksByGenres genres "Pop"`
+- `node main.js albumsByArtist artistName "Artista1"`
 - `node main.js allArtists`
 - `node main.js allAlbums`
 - `node main.js allTracks`
