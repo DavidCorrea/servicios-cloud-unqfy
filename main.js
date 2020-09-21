@@ -204,33 +204,41 @@ function executeCommandWithArgs(unqfy, command, args) {
       break;
     }
     case ALL_ARTISTS: {
-      const artists = unqfy.allArtists();
-      const artistLog = artists.map(artist =>({ 
-        name: artist.name,
-        country: artist.country,
-        albums: artist.albums.map(album => album.name)
+      const artists = unqfy.allArtists().map(({name,country,albums}) =>({ 
+        name,
+        country,
+        albums: albums.map(album => album.name),
       }));
 
-      console.log(artistLog);
+      console.log(artists);
       break;
     }
     case ALL_ALBUMS: {
-      const albums = unqfy.allAlbums();
-      albums.forEach(album => album.tracks = album.tracks.map(track => track.title));
+      const albums = unqfy.allAlbums().map(({name,year,tracks}) => ({
+        name,
+        year,
+        tracks: tracks.map(track => track.title),
+      }));
 
       console.log(albums);
       break;
     }
     case ALL_TRACKS: {
-      console.log(unqfy.allTracks());
+      const tracks = unqfy.allTracks().map(({title, duration, genres}) => ({
+        title,
+        duration,
+        genres,
+      }));
+
+      console.log(tracks);
       break;
     }
     case ALL_PLAYLISTS: {
-      playlists = unqfy.allPlaylists();
-      playlists.forEach(playlist => {
-        playlist.duration = playlist.duration();
-        playlist.tracks = playlist.tracks.map(track => track.title); 
-      });
+      const playlists = unqfy.allPlaylists().map(playlist => ({
+        name: playlist.name,
+        tracks: playlist.tracks.map(track => track.title),
+        duration: playlist.duration()
+      }));
 
       console.log(playlists);
       break;
