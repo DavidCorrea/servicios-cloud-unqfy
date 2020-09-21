@@ -61,53 +61,72 @@ class UNQfy {
   }
 
   getAlbumById(id) {
-    const album = this._allAlbums().find((album => album.id === id));
+    const album = this.allAlbums().find((album => album.id === id));
     this._validateIfExist(album, 'Album');
 
     return album;
   }
 
   getAlbumIdByName(name){
-    const album = this._allAlbums().find((album => album.name === name));
+    const album = this.allAlbums().find((album => album.name === name));
     this._validateIfExist(album, 'Album');
 
     return album.id;
   }
 
   getTrackById(id) {
-    const track = this._allTracks().find((track => track.id === id));
+    const track = this.allTracks().find((track => track.id === id));
     this._validateIfExist(track, 'Track');
 
     return track;
   }
 
   getTrackIdByTitle(title) {
-    const track = this._allTracks().find((track => track.title === title));
+    const track = this.allTracks().find((track => track.title === title));
     this._validateIfExist(track, 'Track');
 
     return track.id;
   }
 
-  getPlaylistById(id) {
+  getPlaylistIdByName(name){
+    const playlist = this.playlists.find((playlist => playlist.name === name));
+    this._validateIfExist(playlist, 'Playlist');
 
+    return playlist.id;
   }
 
   searchByName(name){
     const allArtists = this.artists;
-    const allAlbums = this._allAlbums();
-    const allTracks = this._allTracks();
+    const allAlbums = this.allAlbums();
+    const allTracks = this.allTracks();
     const allPlaylist = this.playlists;
 
     return {
       artists: allArtists.filter((artist) => artist.name.includes(name)),
       albums: allAlbums.filter((album) => album.name.includes(name)),
       tracks: allTracks.filter((track) => track.title.includes(name)),
-      playlists: allPlaylist.filter((playlist) => playlist.name.includes(name))
+      playlists: allPlaylist.filter((playlist) => playlist.name.includes(name)),
     }
+  }
+  
+  allArtists(){
+    return this.artists;
+  }
+  
+  allAlbums() {
+    return this._flatMap(this.artists.map(artist => artist.albums));
+  }
+
+  allTracks() {
+    return this._flatMap(this.artists.map(artist => artist.allTracks()));
+  }
+
+  allPlaylists(){
+    return this.playlists;
   }
 
   getTracksMatchingGenres(genresToInclude) {
-    return this._allTracks().filter(track => track.belongsToGenres(genresToInclude));
+    return this.allTracks().filter(track => track.belongsToGenres(genresToInclude));
   }
 
   getTracksMatchingArtist(artistName) {
@@ -159,6 +178,10 @@ class UNQfy {
     return playlist;
   }
 
+  removePlaylist(playlistIdToRemove){
+    this.playlists = this.playlists.filter(playlist => playlist.id !== playlistIdToRemove);
+  }
+
   save(filename) {
     const serializedData = picklify.picklify(this);
     fs.writeFileSync(filename, JSON.stringify(serializedData, null, 2));
@@ -208,18 +231,6 @@ class UNQfy {
     if (value < 1) {
       throw new Error(`Couldn't create new ${errorMessageClass}: ${errorMessageParameter} must be bigger than zero`);
     }
-  }
-
-  _allAlbums() {
-    return this.artists.reduce((acum, current) => acum.concat(current.albums), []);
-  }
-
-  _allTracks() {
-    return this._flatMap(this.artists.map(artist => artist.allTracks()));
-  }
-
-  _allAlbums() {
-    return this._flatMap(this.artists.map(artist => artist.albums));
   }
 
   _getRandomTracksMatchingGenres(genresToInclude) {

@@ -13,6 +13,14 @@ const REMOVE_ALBUM = 'removeAlbum';
 const ADD_TRACK = 'addTrack';
 const REMOVE_TRACK = 'removeTrack';
 const CREATE_PLAYLIST = 'createPlaylist';
+const REMOVE_PLAYLIST = 'removePlaylist';
+const SEARCH_BY_NAME = 'searchByName';
+const TRACKS_BY_ARTIST = 'tracksByArtist';
+const TRACKS_BY_GENRES = 'tracksByGenres';
+const ALL_ARTISTS = 'allArtists';
+const ALL_ALBUMS = 'allAlbums';
+const ALL_TRACKS = 'allTracks';
+const ALL_PLAYLISTS = 'allPlaylists';
 
 const validExecutableCommands = [
   ADD_ARTIST,
@@ -23,6 +31,14 @@ const validExecutableCommands = [
   ADD_TRACK,
   REMOVE_TRACK,
   CREATE_PLAYLIST,
+  REMOVE_PLAYLIST,
+  SEARCH_BY_NAME,
+  TRACKS_BY_ARTIST,
+  TRACKS_BY_GENRES,
+  ALL_ARTISTS,
+  ALL_ALBUMS,
+  ALL_TRACKS,
+  ALL_PLAYLISTS,
 ];
 
 const commandsArguments = {
@@ -34,6 +50,14 @@ const commandsArguments = {
   [ADD_TRACK]: ['title', 'album', 'duration', 'genres'],
   [REMOVE_TRACK]: ['albumName', 'trackTitle'],
   [CREATE_PLAYLIST]: ['name', 'genres', 'maxDuration'],
+  [REMOVE_PLAYLIST]: ['name'],
+  [SEARCH_BY_NAME]: ['name'],
+  [TRACKS_BY_ARTIST]: ['artistName'],
+  [TRACKS_BY_GENRES]: ['genres'],
+  [ALL_ARTISTS]: [],
+  [ALL_ALBUMS]: [],
+  [ALL_TRACKS]: [],
+  [ALL_PLAYLISTS]: [],
 }
 
 // Retorna una instancia de UNQfy. Si existe filename, recupera la instancia desde el archivo.
@@ -154,6 +178,71 @@ function executeCommandWithArgs(unqfy, command, args) {
       unqfy.createPlaylist(name, genres, maxDuration);
       break;
     }
+    case REMOVE_PLAYLIST: {
+      const playlistName = fieldValueFromArgs(args, 'name');
+      const playlistId = unqfy.getPlaylistIdByName(playlistName);
+
+      unqfy.removePlaylist(playlistId);
+      break;
+    }
+    case SEARCH_BY_NAME: {
+      const name = fieldValueFromArgs(args, 'name');
+
+      console.log(unqfy.searchByName(name));
+      break;
+    }
+    case TRACKS_BY_ARTIST: {
+      const artistName = fieldValueFromArgs(args, 'artistName');
+
+      console.log(unqfy.getTracksMatchingArtist(artistName));
+      break;
+    }
+    case TRACKS_BY_GENRES: {
+      const genres = arrayFieldValueFromArgs(args, 'genres');
+
+      console.log(unqfy.getTracksMatchingGenres(genres))
+      break;
+    }
+    case ALL_ARTISTS: {
+      const artists = unqfy.allArtists().map(({name,country,albums}) =>({ 
+        name,
+        country,
+        albums: albums.map(album => album.name),
+      }));
+
+      console.log(artists);
+      break;
+    }
+    case ALL_ALBUMS: {
+      const albums = unqfy.allAlbums().map(({name,year,tracks}) => ({
+        name,
+        year,
+        tracks: tracks.map(track => track.title),
+      }));
+
+      console.log(albums);
+      break;
+    }
+    case ALL_TRACKS: {
+      const tracks = unqfy.allTracks().map(({title, duration, genres}) => ({
+        title,
+        duration,
+        genres,
+      }));
+
+      console.log(tracks);
+      break;
+    }
+    case ALL_PLAYLISTS: {
+      const playlists = unqfy.allPlaylists().map(playlist => ({
+        name: playlist.name,
+        tracks: playlist.tracks.map(track => track.title),
+        duration: playlist.duration()
+      }));
+
+      console.log(playlists);
+      break;
+    }
   }
 }
 
@@ -190,7 +279,12 @@ function main() {
   const args = process.argv.splice(3);
   const unqfy = getUNQfy();
 
-  executeCommandWithArgs(unqfy, command, args);
+  try{
+    executeCommandWithArgs(unqfy, command, args);
+  } catch(err) {
+    console.error(`Error: ${err.message}`);
+  }
+
   saveUNQfy(unqfy);
 }
 
