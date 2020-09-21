@@ -1,15 +1,19 @@
 const picklify = require('picklify'); // para cargar/guarfar unqfy
 const fs = require('fs'); // para cargar/guarfar unqfy
+const { flatMap, firstN, sortRandomly } = require('./lib');
 const Artist = require('./Artist');
 const Album = require('./Album');
 const Track = require('./Track');
 const Playlist = require('./Playlist');
+const User = require('./User');
+const Reproduction = require('./Reproduction');
 
 class UNQfy {
   constructor() {
     this.ids = {}
     this.artists = [];
     this.playlists = [];
+    this.users = [];
   }
 
   addArtist({ name, country }) {
@@ -50,7 +54,10 @@ class UNQfy {
   }
 
   getArtistByName(name){
-    return this.artists.find((artist) => artist.name === name);
+    const artist = this.artists.find((artist) => artist.name === name);
+    this._validateIfExist(artist, 'Artist');
+
+    return artist;
   }
 
   getArtistIdByName(name){
@@ -89,10 +96,7 @@ class UNQfy {
   }
 
   getTrackIdByTitle(title) {
-    const track = this.allTracks().find((track => track.title === title));
-    this._validateIfExist(track, 'Track');
-
-    return track.id;
+    return this._getTrackByTitle(title).id;
   }
 
   getPlaylistIdByName(name){
@@ -121,11 +125,11 @@ class UNQfy {
   }
   
   allAlbums() {
-    return this._flatMap(this.artists.map(artist => artist.albums));
+    return flatMap(this.artists.map(artist => artist.albums));
   }
 
   allTracks() {
-    return this._flatMap(this.artists.map(artist => artist.allTracks()));
+    return flatMap(this.artists.map(artist => artist.allTracks()));
   }
 
   allPlaylists(){
@@ -180,7 +184,7 @@ class UNQfy {
     const tracks = [];
     let duration = 0;
 
-    this._getRandomTracksMatchingGenres(genresToInclude).forEach((track) => {
+    sortRandomly(this.getTracksMatchingGenres(genresToInclude)).forEach((track) => {
       if ((duration + track.duration) <= maxDuration) {
         duration += track.duration;
         tracks.push(track);
@@ -197,6 +201,41 @@ class UNQfy {
     this.playlists = this.playlists.filter(playlist => playlist.id !== playlistIdToRemove);
   }
 
+  createUser(name) {
+    this._validateIsNotEmpty(name, 'User', 'Name');
+    this._validateUserNameIsAvailable(name);
+    
+    const user = new User(this._nextId(User), name);
+    this.users.push(user);
+
+    return user;
+  }
+
+  userListenTo(userName, trackTitle) {
+    const user = this._getUserByName(userName);
+    const track = this._getTrackByTitle(trackTitle);
+
+    user.addReproduction(new Reproduction(this._nextId(Reproduction), track));
+  }
+
+  tracksUserListenedTo(userName) {
+    return this._getUserByName(userName).listenedTracks();
+  }
+
+  timesUserListenedTo(userName, trackTitle) {
+    const user = this._getUserByName(userName);
+    const track = this._getTrackByTitle(trackTitle);
+
+    return user.timesTrackWasListened(track);
+  }
+
+  createThisIsList(artistName) {
+    const artist = this.getArtistByName(artistName);
+    const artistTracksSortedByTimesListened = this._artistTracksSortedByTimesListened(artist);
+
+    return firstN(artistTracksSortedByTimesListened, 3);
+  }
+
   save(filename) {
     const serializedData = picklify.picklify(this);
     fs.writeFileSync(filename, JSON.stringify(serializedData, null, 2));
@@ -204,8 +243,8 @@ class UNQfy {
 
   static load(filename) {
     const serializedData = fs.readFileSync(filename, {encoding: 'utf-8'});
-    //COMPLETAR POR EL ALUMNO: Agregar a la lista todas las clases que necesitan ser instanciadas
-    const classes = [UNQfy, Artist, Album, Track, Playlist];
+    const classes = [UNQfy, Artist, Album, Track, Playlist, User, Reproduction];
+
     return picklify.unpicklify(JSON.parse(serializedData), classes);
   }
 
@@ -235,6 +274,12 @@ class UNQfy {
       throw new Error("Couldn't create new Playlist: Name was already taken");
     }
   }
+
+  _validateUserNameIsAvailable(name) {
+    if (this.users.some((user) => user.name === name)) {
+      throw new Error("Couldn't create new User: Name was already taken");
+    }
+  }
   
   _validateIfExist(value, errorMessage) {
     if (!value) {
@@ -248,16 +293,49 @@ class UNQfy {
     }
   }
 
-  _getRandomTracksMatchingGenres(genresToInclude) {
-    return this.getTracksMatchingGenres(genresToInclude).sort(() => Math.random() - 0.5);
+  _getUserByName(name) {
+    const user = this.users.find((user) => user.name === name);
+    this._validateIfExist(user, 'User');
+
+    return user;
+  }
+
+  _getTrackByTitle(title) {
+    const track = this.allTracks().find((track => track.title === title));
+    this._validateIfExist(track, 'Track');
+
+    return track;
   }
 
   _removeTracksFromAllPlaylists(tracks) {
     this.playlists.forEach((playlist) => playlist.removeTracks(tracks));
   }
 
-  _flatMap(arrayOfArrays) {
-    return arrayOfArrays.reduce((all, array) => all.concat(array), []);
+  _artistTracksSortedByTimesListened(artist) {
+    const artistTracks = artist.allTracks();
+
+    const tracksListenings = artistTracks.map((artistTrack) => {
+      const timesUsersListenedToTrack = this.users.reduce((timesUsersListened, user) => {
+        return timesUsersListened + user.timesTrackWasListened(artistTrack);        
+      }, 0);
+
+      return {
+        track: artistTrack,
+        timesListened: timesUsersListenedToTrack
+      }
+    });
+
+    tracksListenings.sort((trackListenings, anotherTrackListenings) => {
+      if (trackListenings.timesListened > anotherTrackListenings.timesListened) {
+        return -1;
+      } else if (trackListenings.timesListened < anotherTrackListenings.timesListened) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+
+    return tracksListenings.map(trackListenings => trackListenings.track);
   }
 }
 
