@@ -4,12 +4,15 @@ const Artist = require('./Artist');
 const Album = require('./Album');
 const Track = require('./Track');
 const Playlist = require('./Playlist');
+const User = require('./User');
+const Reproduction = require('./Reproduction');
 
 class UNQfy {
   constructor() {
     this.ids = {}
     this.artists = [];
     this.playlists = [];
+    this.users = [];
   }
 
   addArtist({ name, country }) {
@@ -89,10 +92,7 @@ class UNQfy {
   }
 
   getTrackIdByTitle(title) {
-    const track = this.allTracks().find((track => track.title === title));
-    this._validateIfExist(track, 'Track');
-
-    return track.id;
+    return this._getTrackByTitle(title).id;
   }
 
   getPlaylistIdByName(name){
@@ -197,6 +197,30 @@ class UNQfy {
     this.playlists = this.playlists.filter(playlist => playlist.id !== playlistIdToRemove);
   }
 
+  createUser(name) {
+    this._validateIsNotEmpty(name, 'User', 'Name');
+    this._validateUserNameIsAvailable(name);
+    
+    const user = new User(this._nextId(User), name);
+    this.users.push(user);
+
+    return user;
+  }
+
+  userListenTo(userName, trackTitle) {
+    const user = this._getUserByName(userName);
+    const track = this._getTrackByTitle(trackTitle);
+
+    user.addReproduction(new Reproduction(this._nextId(Reproduction), track));
+  }
+
+  timesUserListenedTo(userName, trackTitle) {
+    const user = this._getUserByName(userName);
+    const track = this._getTrackByTitle(trackTitle);
+
+    return user.timesTrackWasListened(track);
+  }
+
   save(filename) {
     const serializedData = picklify.picklify(this);
     fs.writeFileSync(filename, JSON.stringify(serializedData, null, 2));
@@ -204,8 +228,8 @@ class UNQfy {
 
   static load(filename) {
     const serializedData = fs.readFileSync(filename, {encoding: 'utf-8'});
-    //COMPLETAR POR EL ALUMNO: Agregar a la lista todas las clases que necesitan ser instanciadas
-    const classes = [UNQfy, Artist, Album, Track, Playlist];
+    const classes = [UNQfy, Artist, Album, Track, Playlist, User, Reproduction];
+
     return picklify.unpicklify(JSON.parse(serializedData), classes);
   }
 
@@ -235,6 +259,12 @@ class UNQfy {
       throw new Error("Couldn't create new Playlist: Name was already taken");
     }
   }
+
+  _validateUserNameIsAvailable(name) {
+    if (this.users.some((user) => user.name === name)) {
+      throw new Error("Couldn't create new User: Name was already taken");
+    }
+  }
   
   _validateIfExist(value, errorMessage) {
     if (!value) {
@@ -250,6 +280,20 @@ class UNQfy {
 
   _getRandomTracksMatchingGenres(genresToInclude) {
     return this.getTracksMatchingGenres(genresToInclude).sort(() => Math.random() - 0.5);
+  }
+
+  _getUserByName(name) {
+    const user = this.users.find((user) => user.name === name);
+    this._validateIfExist(user, 'User');
+
+    return user;
+  }
+
+  _getTrackByTitle(title) {
+    const track = this.allTracks().find((track => track.title === title));
+    this._validateIfExist(track, 'Track');
+
+    return track;
   }
 
   _removeTracksFromAllPlaylists(tracks) {

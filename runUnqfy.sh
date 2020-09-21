@@ -5,6 +5,7 @@ function add_artist() { execute "addArtist name $1 country $2"; }
 function add_album() { execute "addAlbum name $1 artist $2 year $3"; }
 function add_track() { execute "addTrack title $1 album $2 duration $3 genres $4"; }
 function create_playlist() { execute "createPlaylist name $1 maxDuration $2 genres $3"; }
+function add_user() { execute "addUser name $1"; }
 
 function remove_artist() { execute "removeArtist name $1"; }
 function remove_album() { execute "removeAlbum artistName $1 albumName $2"; }
@@ -21,9 +22,11 @@ function tracks_by_artist() { execute "tracksByArtist artistName $1"; }
 function tracks_by_genres() { execute "tracksByGenres genres $1"; }
 function albums_by_artist() { execute "albumsByArtist artistName $1"; }
 function album_tracks() { execute "albumTracks albumName $1"; }
+function user_listen_to() { execute "userListenTo userName $1 trackTitle $2"; }
+function times_user_listened_to() { execute "timesUserListenedTo userName $1 trackTitle $2"; }
 
 echo 'Running script...'
-echo 'Creating artists, albums, tracks, and playlists...'
+echo 'Creating artists, albums, tracks, users, and playlists...'
 
 # Artist 1
 add_artist 'Muse' "\"Reino Unido\""
@@ -62,6 +65,10 @@ add_track "\"Imaginary Friends (Morgan Page Remix)\"" "\"here's the drop!\"" 492
 create_playlist "\"Mix 1\"" 1000 'Electronica,Progresivo,Country'
 create_playlist "\"Mix 2\"" 1500 'Electronica,Progresivo,Pop,Alternativo'
 create_playlist "\"Mix 3\"" 2000 'Trance,Country'
+
+# Users
+add_user 'John'
+add_user 'Sarah'
 
 echo 'Creation finished.'
 
@@ -116,5 +123,15 @@ all_tracks
 
 echo 'Playlists...'
 all_playlists
+
+echo 'Making users listen to some tracks...'
+user_listen_to 'John' "\"Imaginary Friends (Morgan Page Remix)\""
+user_listen_to 'Sarah' "\"Strobe (PEEKABOO Remix)\""
+user_listen_to 'John' "\"...Ready For It?\""
+user_listen_to 'Sarah' "\"Imaginary Friends\""
+
+echo 'Checking how many times they listened to "Ready for it?"'
+times_user_listened_to 'John' "\"...Ready For It?\""
+times_user_listened_to 'Sarah' "\"...Ready For It?\""
 
 echo 'Script finished.'

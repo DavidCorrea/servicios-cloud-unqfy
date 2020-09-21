@@ -214,6 +214,78 @@ describe('Add, remove and filter data', () => {
     });
   });
 
+  describe('#createUser', () => {
+    it('should create an user', () => {
+      const user = unqfy.createUser('John');
+  
+      assert.equal(user.name, 'John');
+    });
+
+    it('should raise an error if an user with the same name already exists', () => {
+      unqfy.createUser('John');
+  
+      assert.throws(() => unqfy.createUser('John'), "Couldn't create new User: Name was already taken");
+    });
+
+    it('should raise an error if an user has an empty name', () => {
+      assert.throws(() => unqfy.createUser(''), "Couldn't create new User: Name cannot be empty");
+    });
+  });
+
+  describe('#userListenTo', () => {
+    it('should keep track of the user listenings', () => {
+      const artist = createAndAddArtist(unqfy, 'Deadmau5', 'Canada');
+      const album = createAndAddAlbum(unqfy, artist.id, "where's the drop?", 2018);
+      const track = createAndAddTrack(unqfy, album.id, 'Strobe', 311, ['Electronica', 'House']);
+      const user = unqfy.createUser('John');
+  
+      assert.isFalse(user.hasListenedTo(track));
+      unqfy.userListenTo(user.name, track.title);
+      assert.isTrue(user.hasListenedTo(track));
+    });
+
+    it('should raise an error if an user with the name does not exist', () => {
+      const artist = createAndAddArtist(unqfy, 'Deadmau5', 'Canada');
+      const album = createAndAddAlbum(unqfy, artist.id, "where's the drop?", 2018);
+      const track = createAndAddTrack(unqfy, album.id, 'Strobe', 311, ['Electronica', 'House']);
+  
+      assert.throws(() => unqfy.userListenTo('Not existent', track.title), 'User does not exist');
+    });
+
+    it('should raise an error if a track with the name does not exist', () => {
+      const user = unqfy.createUser('John');
+
+      assert.throws(() => unqfy.userListenTo(user.name, 'Not existent'), 'Track does not exist');
+    });
+  });
+
+  describe('#timesUserListenedTo', () => {
+    it('should return the times a user listened to a specific track', () => {
+      const artist = createAndAddArtist(unqfy, 'Deadmau5', 'Canada');
+      const album = createAndAddAlbum(unqfy, artist.id, "where's the drop?", 2018);
+      const track = createAndAddTrack(unqfy, album.id, 'Strobe', 311, ['Electronica', 'House']);
+      const user = unqfy.createUser('John');
+  
+      assert.equal(unqfy.timesUserListenedTo(user.name, track.title), 0);
+      unqfy.userListenTo(user.name, track.title);
+      assert.equal(unqfy.timesUserListenedTo(user.name, track.title), 1);
+    });
+
+    it('should raise an error if an user with the name does not exist', () => {
+      const artist = createAndAddArtist(unqfy, 'Deadmau5', 'Canada');
+      const album = createAndAddAlbum(unqfy, artist.id, "where's the drop?", 2018);
+      const track = createAndAddTrack(unqfy, album.id, 'Strobe', 311, ['Electronica', 'House']);
+  
+      assert.throws(() => unqfy.timesUserListenedTo('Not existent', track.title), 'User does not exist');
+    });
+
+    it('should raise an error if a track with the name does not exist', () => {
+      const user = unqfy.createUser('John');
+
+      assert.throws(() => unqfy.timesUserListenedTo(user.name, 'Not existent'), 'Track does not exist');
+    });
+  });
+
   // Busquedas
 
   describe('#filters', () => {

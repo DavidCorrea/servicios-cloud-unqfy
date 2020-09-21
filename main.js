@@ -1,5 +1,3 @@
-
-
 const fs = require('fs'); // necesitado para guardar/cargar unqfy
 const { get } = require('https');
 const UNQfy = require('./src/unqfy'); // importamos el modulo unqfy
@@ -23,6 +21,9 @@ const ALL_ARTISTS = 'allArtists';
 const ALL_ALBUMS = 'allAlbums';
 const ALL_TRACKS = 'allTracks';
 const ALL_PLAYLISTS = 'allPlaylists';
+const ADD_USER = 'addUser';
+const USER_LISTEN_TO = 'userListenTo';
+const TIMES_USER_LISTENED_TO = 'timesUserListenedTo';
 
 const validExecutableCommands = [
   ADD_ARTIST,
@@ -42,6 +43,9 @@ const validExecutableCommands = [
   ALL_ALBUMS,
   ALL_TRACKS,
   ALL_PLAYLISTS,
+  ADD_USER,
+  USER_LISTEN_TO,
+  TIMES_USER_LISTENED_TO,
 ];
 
 const commandsArguments = {
@@ -62,6 +66,9 @@ const commandsArguments = {
   [ALL_ALBUMS]: [],
   [ALL_TRACKS]: [],
   [ALL_PLAYLISTS]: [],
+  [ADD_USER]: ['name'],
+  [USER_LISTEN_TO]: ['userName', 'trackTitle'],
+  [TIMES_USER_LISTENED_TO]: ['userName', 'trackTitle'],
 }
 
 // Retorna una instancia de UNQfy. Si existe filename, recupera la instancia desde el archivo.
@@ -273,6 +280,26 @@ function executeCommandWithArgs(unqfy, command, args) {
       const playlists = unqfy.allPlaylists().map(serializePlaylist);
 
       console.log(playlists);
+      break;
+    }
+    case ADD_USER: {
+      const name = fieldValueFromArgs(args, 'name');
+
+      unqfy.createUser(name);
+      break;
+    }
+    case USER_LISTEN_TO: {
+      const userName = fieldValueFromArgs(args, 'userName');
+      const trackTitle = fieldValueFromArgs(args, 'trackTitle');
+
+      unqfy.userListenTo(userName, trackTitle);
+      break;
+    }
+    case TIMES_USER_LISTENED_TO: {
+      const userName = fieldValueFromArgs(args, 'userName');
+      const trackTitle = fieldValueFromArgs(args, 'trackTitle');
+
+      console.log(unqfy.timesUserListenedTo(userName, trackTitle));
       break;
     }
   }
