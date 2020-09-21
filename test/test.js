@@ -16,6 +16,10 @@ function createAndAddTrack(unqfy, albumId, trackName, trackDuraction, trackGenre
   return unqfy.addTrack(albumId, { name: trackName, duration: trackDuraction, genres: trackGenres });
 }
 
+function usersListenToTrack(unqfy, users, track) {
+  users.forEach(user => unqfy.userListenTo(user.name, track.title));
+}
+
 describe('Add, remove and filter data', () => {
   let unqfy = null;
 
@@ -259,6 +263,30 @@ describe('Add, remove and filter data', () => {
     });
   });
 
+  describe('#tracksUserListenedTo', () => {
+    it('should return tracks that a user has listened to', () => {
+      const artist = createAndAddArtist(unqfy, 'Deadmau5', 'Canada');
+      const album = createAndAddAlbum(unqfy, artist.id, "where's the drop?", 2018);
+      const track1 = createAndAddTrack(unqfy, album.id, 'Strobe', 311, ['Electronica', 'House']);
+      const track2 = createAndAddTrack(unqfy, album.id, 'Imaginary Friends', 311, ['Electronica', 'House']);
+      const track3 = createAndAddTrack(unqfy, album.id, 'Coelacanth', 311, ['Electronica', 'House']);
+
+      const user1 = unqfy.createUser('John');
+      const user2 = unqfy.createUser('Sarah');
+
+      usersListenToTrack(unqfy, [user1, user2], track1);
+      usersListenToTrack(unqfy, [user1], track2);
+      usersListenToTrack(unqfy, [user2], track3);
+  
+      assert.sameMembers(unqfy.tracksUserListenedTo(user1.name), [track1, track2]);
+      assert.sameMembers(unqfy.tracksUserListenedTo(user2.name), [track1, track3]);
+    });
+
+    it('should raise an error if an user with the name does not exist', () => {
+      assert.throws(() => unqfy.tracksUserListenedTo('Not existent'), 'User does not exist');
+    });
+  });
+
   describe('#timesUserListenedTo', () => {
     it('should return the times a user listened to a specific track', () => {
       const artist = createAndAddArtist(unqfy, 'Deadmau5', 'Canada');
@@ -286,6 +314,45 @@ describe('Add, remove and filter data', () => {
     });
   });
 
+  describe('#createThisIsList', () => {
+    it('should return the top three listened songs of an artist', () => {
+      const user1 = unqfy.createUser('John');
+      const user2 = unqfy.createUser('Sarah');
+      const user3 = unqfy.createUser('James');
+      const user4 = unqfy.createUser('Elizabeth');
+
+      const artist = createAndAddArtist(unqfy, 'Haywyre', 'USA');
+      const album = createAndAddAlbum(unqfy, artist.id, "Two Fold Pt. 1", 2014);
+      const firstMostListenedTrack = createAndAddTrack(unqfy, album.id, "The Schism", 200, ['Future Bass']);
+      const secondMostListenedTrack = createAndAddTrack(unqfy, album.id, "Dichotomy", 200, ['Future Bass']);
+      const thirdMostListenedTrack = createAndAddTrack(unqfy, album.id, "Doppelgänger", 200, ['Future Bass']);
+      const forthMostListenedTrack = createAndAddTrack(unqfy, album.id, "Voice of Reason", 200, ['Future Bass']);
+
+      const otherArtist = createAndAddArtist(unqfy, 'Snarky Puppy', 'USA');
+      const otherAlbum = createAndAddAlbum(unqfy, otherArtist.id, 'We Like It Here', 2014);
+      const otherMostListenedTrack = createAndAddTrack(unqfy, otherAlbum.id, "Sleeper", 200, ['Jazz Fusion']);
+
+      usersListenToTrack(unqfy, [user1], forthMostListenedTrack);
+      usersListenToTrack(unqfy, [user1, user2], thirdMostListenedTrack);
+      usersListenToTrack(unqfy, [user1, user2, user3], secondMostListenedTrack);
+      usersListenToTrack(unqfy, [user1, user2, user3, user4], firstMostListenedTrack);
+      usersListenToTrack(unqfy, [user1, user2, user3, user4], otherMostListenedTrack);
+
+      const artistMostListenedTracks = unqfy.createThisIsList(artist.name);
+      assert.lengthOf(artistMostListenedTracks, 3);
+      assert.sameOrderedMembers(artistMostListenedTracks, [firstMostListenedTrack, secondMostListenedTrack, thirdMostListenedTrack]);
+      assert.notInclude(artistMostListenedTracks, forthMostListenedTrack);
+      assert.notInclude(artistMostListenedTracks, otherMostListenedTrack);
+
+      const otherArtistMostListenedTracks = unqfy.createThisIsList(otherArtist.name);
+      assert.lengthOf(otherArtistMostListenedTracks, 1);
+      assert.sameOrderedMembers(otherArtistMostListenedTracks, [otherMostListenedTrack]);
+    });
+
+    it('should raise an error when the artist does not exist', () => {
+      assert.throws(() => unqfy.createThisIsList('Not existing artist'), 'Artist does not exist');
+    });
+  });
   // Busquedas
 
   describe('#filters', () => {

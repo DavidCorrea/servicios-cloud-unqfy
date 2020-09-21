@@ -1,4 +1,4 @@
-const Reproduction = require("./Reproduction");
+const { unique } = require('./lib');
 
 class User {
   constructor(id, name){
@@ -12,7 +12,7 @@ class User {
   }
 
   listenedTracks() {
-    return [...new Set(this.reproductions)];
+    return unique(this.reproductions.map(reproduction => reproduction.track));
   }
 
   timesTrackWasListened(track) {

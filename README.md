@@ -33,7 +33,9 @@
 | allPlaylists          |                                                                         |
 | addUser               | name (String)                                                           |
 | userListenTo          | userName (String), trackTitle (String)                                  |
+| tracksUserListenedTo  | userName (String)                                                       |
 | timesUserListenedTo   | userName (String), trackTitle (String)                                  |
+| createThisIsList      | artistName (String)                                                     |
 
 ## Set de pruebas desde consola 
 ```
@@ -70,6 +72,16 @@ node main.js allAlbums
 node main.js allTracks
 
 node main.js allPlaylists
+
+node main.js addUser name "User1"
+
+node main.js userListenTo userName "User1" trackTitle "Track1"
+
+node main.js tracksUserListenedTo userName "User1"
+
+node main.js timesUserListenedTo userName "User1" trackTitle "Track1"
+
+node main.js createThisIsList artistName "Artista1"
 ```
 
 ## Script que popula y realiza operaciones varias.

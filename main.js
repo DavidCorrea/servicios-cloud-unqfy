@@ -23,7 +23,9 @@ const ALL_TRACKS = 'allTracks';
 const ALL_PLAYLISTS = 'allPlaylists';
 const ADD_USER = 'addUser';
 const USER_LISTEN_TO = 'userListenTo';
+const TRACKS_USER_LISTENED_TO = 'tracksUserListenedTo';
 const TIMES_USER_LISTENED_TO = 'timesUserListenedTo';
+const CREATE_THIS_IS_LIST = 'createThisIsList';
 
 const validExecutableCommands = [
   ADD_ARTIST,
@@ -45,7 +47,9 @@ const validExecutableCommands = [
   ALL_PLAYLISTS,
   ADD_USER,
   USER_LISTEN_TO,
+  TRACKS_USER_LISTENED_TO,
   TIMES_USER_LISTENED_TO,
+  CREATE_THIS_IS_LIST,
 ];
 
 const commandsArguments = {
@@ -68,7 +72,9 @@ const commandsArguments = {
   [ALL_PLAYLISTS]: [],
   [ADD_USER]: ['name'],
   [USER_LISTEN_TO]: ['userName', 'trackTitle'],
+  [TRACKS_USER_LISTENED_TO]: ['userName'],
   [TIMES_USER_LISTENED_TO]: ['userName', 'trackTitle'],
+  [CREATE_THIS_IS_LIST]: ['artistName'],
 }
 
 // Retorna una instancia de UNQfy. Si existe filename, recupera la instancia desde el archivo.
@@ -295,11 +301,24 @@ function executeCommandWithArgs(unqfy, command, args) {
       unqfy.userListenTo(userName, trackTitle);
       break;
     }
+    case TRACKS_USER_LISTENED_TO: {
+      const userName = fieldValueFromArgs(args, 'userName');
+
+      console.log(unqfy.tracksUserListenedTo(userName).map(serializeTrack));
+      break;
+    }
     case TIMES_USER_LISTENED_TO: {
       const userName = fieldValueFromArgs(args, 'userName');
       const trackTitle = fieldValueFromArgs(args, 'trackTitle');
 
       console.log(unqfy.timesUserListenedTo(userName, trackTitle));
+      break;
+    }
+    case CREATE_THIS_IS_LIST: {
+      const artistName = fieldValueFromArgs(args, 'artistName');
+      const mostListenedTracksFromArtist = unqfy.createThisIsList(artistName).map(serializeTrack);
+
+      console.log(mostListenedTracksFromArtist);
       break;
     }
   }
