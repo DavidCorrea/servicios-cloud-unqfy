@@ -279,7 +279,12 @@ function main() {
   const args = process.argv.splice(3);
   const unqfy = getUNQfy();
 
-  executeCommandWithArgs(unqfy, command, args);
+  try{
+    executeCommandWithArgs(unqfy, command, args);
+  } catch(err) {
+    console.error(`Error: ${err.message}`);
+  }
+
   saveUNQfy(unqfy);
 }
 
