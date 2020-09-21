@@ -24,6 +24,7 @@ function albums_by_artist() { execute "albumsByArtist artistName $1"; }
 function album_tracks() { execute "albumTracks albumName $1"; }
 function user_listen_to() { execute "userListenTo userName $1 trackTitle $2"; }
 function times_user_listened_to() { execute "timesUserListenedTo userName $1 trackTitle $2"; }
+function create_this_is_list() { execute "createThisIsList artistName $1"; }
 
 echo 'Running script...'
 echo 'Creating artists, albums, tracks, users, and playlists...'
@@ -125,7 +126,7 @@ echo 'Playlists...'
 all_playlists
 
 echo 'Making users listen to some tracks...'
-user_listen_to 'John' "\"Imaginary Friends (Morgan Page Remix)\""
+user_listen_to 'John' "\"Imaginary Friends\""
 user_listen_to 'Sarah' "\"Strobe (PEEKABOO Remix)\""
 user_listen_to 'John' "\"...Ready For It?\""
 user_listen_to 'Sarah' "\"Imaginary Friends\""
@@ -133,5 +134,8 @@ user_listen_to 'Sarah' "\"Imaginary Friends\""
 echo 'Checking how many times they listened to "Ready for it?"'
 times_user_listened_to 'John' "\"...Ready For It?\""
 times_user_listened_to 'Sarah' "\"...Ready For It?\""
+
+echo 'Checking Deadmau5 most listened tracks'
+create_this_is_list 'Deadmau5'
 
 echo 'Script finished.'

@@ -1,3 +1,4 @@
+const { flatMap } = require('./lib');
 const Album = require('./Album');
 
 class Artist {
@@ -26,7 +27,11 @@ class Artist {
   }
 
   allTracks() {
-    return this.albums.map(album => album.tracks).reduce((artistTracks, albumTracks) => artistTracks.concat(albumTracks), []);
+    return flatMap(this.albums.map(album => album.tracks));
+  }
+
+  ownsTrack(track) {
+    return this.allTracks().includes(track);
   }
 
   _validateNameIsAvailable(name) {
