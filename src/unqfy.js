@@ -34,7 +34,7 @@ class UNQfy {
 
   addTrack(albumId, { name, duration, genres }) {
     this._validateIsNotEmpty(name, 'Track', 'Title');
-    this._validateIsNotEmpty(duration, 'Track', 'Duration');
+    this._validateIsBiggerThanZero(duration, 'Track', 'Duration');
     this._validateIsNotEmpty(genres, 'Track', 'genres');
 
     const album = this.getAlbumById(albumId);
@@ -49,8 +49,12 @@ class UNQfy {
     return artist;
   }
 
+  getArtistByName(name){
+    return this.artists.find((artist) => artist.name === name);
+  }
+
   getArtistIdByName(name){
-    const artist = this.artists.find((artist) => artist.name === name);
+    const artist = this.getArtistByName(name);
     this._validateIfExist(artist, 'Artist');
 
     return artist.id;
@@ -88,16 +92,26 @@ class UNQfy {
 
   }
 
-  // genres: array de generos(strings)
-  // retorna: los tracks que contenga alguno de los generos en el parametro genres
-  getTracksMatchingGenres(genres) {
+  searchByName(name){
+    const allArtists = this.artists;
+    const allAlbums = this._allAlbums();
+    const allTracks = this._allTracks();
+    const allPlaylist = this.playlists;
 
+    return {
+      artists: allArtists.filter((artist) => artist.name.includes(name)),
+      albums: allAlbums.filter((album) => album.name.includes(name)),
+      tracks: allTracks.filter((track) => track.title.includes(name)),
+      playlists: allPlaylist.filter((playlist) => playlist.name.includes(name))
+    }
   }
 
-  // artistName: nombre de artista(string)
-  // retorna: los tracks interpredatos por el artista con nombre artistName
-  getTracksMatchingArtist(artistName) {
+  getTracksMatchingGenres(genresToInclude) {
+    return this._allTracks().filter(track => track.belongsToGenres(genresToInclude));
+  }
 
+  getTracksMatchingArtist(artistName) {
+    return this.getArtistByName(artistName).allTracks();
   }
 
   removeArtist(artistId) {
@@ -196,6 +210,10 @@ class UNQfy {
     }
   }
 
+  _allAlbums() {
+    return this.artists.reduce((acum, current) => acum.concat(current.albums), []);
+  }
+
   _allTracks() {
     return this._flatMap(this.artists.map(artist => artist.allTracks()));
   }
@@ -205,9 +223,7 @@ class UNQfy {
   }
 
   _getRandomTracksMatchingGenres(genresToInclude) {
-    const allTracksForGenres = this._allTracks().filter(track => track.belongsToGenres(genresToInclude));
-
-    return allTracksForGenres.sort(() => Math.random() - 0.5);
+    return this.getTracksMatchingGenres(genresToInclude).sort(() => Math.random() - 0.5);
   }
 
   _removeTracksFromAllPlaylists(tracks) {
