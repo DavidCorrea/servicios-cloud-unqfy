@@ -13,7 +13,6 @@
 
 ## Comandos (UNQfy)
 - `addArtist name "NAME" country "COUNTRY"`
-- `getArtist id ID`
 - `removeArtist name "ARTIST_NAME"`
 - `addAlbum name "NAME" artist "ARTIST_NAME" year YEAR`
 - `removeAlbum artistName "ARTIST_NAME" albumName "ALBUM_NAME"`
