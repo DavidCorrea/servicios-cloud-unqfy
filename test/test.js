@@ -300,6 +300,22 @@ describe('Add, remove and filter data', () => {
       assert.isTrue(matchingAlbumsForQueriedArtist.includes(album2FromMatchingArtist));
       assert.isFalse(matchingAlbumsForQueriedArtist.includes(otherArtistAlbum));
     });
+
+    it('should get all tracks matching album', () => {
+      const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+      const matchingAlbum = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+      const matchingAlbumTrack = createAndAddTrack(unqfy, matchingAlbum.id, 'Welcome to the jungle', 200, ['rock', 'hard rock']);
+    
+      const otherAlbum = createAndAddAlbum(unqfy, artist.id, 'Use Your Illusion I', 1992);
+      const otherAlbumTrack = createAndAddTrack(unqfy, otherAlbum.id, 'Don\'t Cry', 500, ['rock', 'hard rock']);
+    
+      const matchingAlbumTracks = unqfy.getTracksMatchingAlbum(matchingAlbum.name);
+    
+      assert.isArray(matchingAlbumTracks);
+      assert.lengthOf(matchingAlbumTracks, 1);
+      assert.isTrue(matchingAlbumTracks.includes(matchingAlbumTrack));
+      assert.isFalse(matchingAlbumTracks.includes(otherAlbumTrack));
+    });
   });
 });
 

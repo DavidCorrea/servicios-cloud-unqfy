@@ -18,6 +18,7 @@ const SEARCH_BY_NAME = 'searchByName';
 const TRACKS_BY_ARTIST = 'tracksByArtist';
 const TRACKS_BY_GENRES = 'tracksByGenres';
 const ALBUMS_BY_ARTIST = 'albumsByArtist';
+const ALBUM_TRACKS = 'albumTracks';
 const ALL_ARTISTS = 'allArtists';
 const ALL_ALBUMS = 'allAlbums';
 const ALL_TRACKS = 'allTracks';
@@ -36,6 +37,7 @@ const validExecutableCommands = [
   TRACKS_BY_ARTIST,
   TRACKS_BY_GENRES,
   ALBUMS_BY_ARTIST,
+  ALBUM_TRACKS,
   ALL_ARTISTS,
   ALL_ALBUMS,
   ALL_TRACKS,
@@ -55,6 +57,7 @@ const commandsArguments = {
   [TRACKS_BY_ARTIST]: ['artistName'],
   [TRACKS_BY_GENRES]: ['genres'],
   [ALBUMS_BY_ARTIST]: ['artistName'],
+  [ALBUM_TRACKS]: ['albumName'],
   [ALL_ARTISTS]: [],
   [ALL_ALBUMS]: [],
   [ALL_TRACKS]: [],
@@ -201,6 +204,12 @@ function executeCommandWithArgs(unqfy, command, args) {
       const artistName = fieldValueFromArgs(args, 'artistName');
 
       console.log(unqfy.getAlbumsMatchingArtist(artistName));
+      break;
+    }
+    case ALBUM_TRACKS: {
+      const albumName = fieldValueFromArgs(args, 'albumName');
+
+      console.log(unqfy.getTracksMatchingAlbum(albumName));
       break;
     }
     case ALL_ARTISTS: {

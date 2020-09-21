@@ -74,6 +74,13 @@ class UNQfy {
     return album.id;
   }
 
+  getAlbumByName(name) {
+    const album = this.allAlbums().find((album => album.name === name));
+    this._validateIfExist(album, 'Album');
+
+    return album;
+  }
+
   getTrackById(id) {
     const track = this.allTracks().find((track => track.id === id));
     this._validateIfExist(track, 'Track');
@@ -135,6 +142,10 @@ class UNQfy {
 
   getAlbumsMatchingArtist(artistName) {
     return this.getArtistByName(artistName).albums;
+  }
+
+  getTracksMatchingAlbum(albumName) {
+    return this.getAlbumByName(albumName).tracks;
   }
 
   removeArtist(artistId) {
