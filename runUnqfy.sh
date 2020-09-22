@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 function execute() { eval "node main.js $1"; }
+function log_message() { printf "\n\e[100m  \u25CB  $1  \e[0m\n"; }
 
 function add_artist() { execute "addArtist name $1 country $2"; }
 function add_album() { execute "addAlbum name $1 artist $2 year $3"; }
@@ -27,8 +28,7 @@ function tracks_user_listened_to() { execute "tracksUserListenedTo userName $1";
 function times_user_listened_to() { execute "timesUserListenedTo userName $1 trackTitle $2"; }
 function create_this_is_list() { execute "createThisIsList artistName $1"; }
 
-echo 'Running script...'
-echo 'Creating artists, albums, tracks, users, and playlists...'
+log_message 'Creating artists, albums, tracks, users, and playlists...'
 
 # Artist 1
 add_artist 'Muse' "\"Reino Unido\""
@@ -72,74 +72,65 @@ create_playlist "\"Mix 3\"" 2000 'Trance,Country'
 add_user 'John'
 add_user 'Sarah'
 
-echo 'Creation finished.'
-
-echo 'Searching all created artists...'
+log_message 'Searching all created artists...'
 all_artists
 
-echo 'Searching all created albums...'
+log_message 'Searching all created albums...'
 all_albums
 
-echo 'Searching all created tracks...'
+log_message 'Searching all created tracks...'
 all_tracks
 
-echo 'Searching all created playlists...'
+log_message 'Searching all created playlists...'
 all_playlists
 
-echo 'Searching for all records that contains "a"...'
+log_message 'Searching for all records that contains "a"...'
 search_by_name 'a'
 
-echo 'Searching for all Muse tracks...'
+log_message 'Searching for all Muse tracks...'
 tracks_by_artist 'Muse'
 
-echo 'Searching for all Electronica genre tracks...'
+log_message 'Searching for all Electronica genre tracks...'
 tracks_by_genres 'Electronica'
 
-echo 'Searching for all Taylor Swift albums...'
+log_message 'Searching for all Taylor Swift albums...'
 albums_by_artist "\"Taylor Swift\""
 
-echo 'Searching for all the tracks of the Reputation album'
+log_message 'Searching for all the tracks of the Reputation album'
 album_tracks 'Reputation'
 
-echo 'Removing Muse from UNQfy...'
+log_message 'Removing Muse from UNQfy...'
 remove_artist 'Muse'
 
-echo "Removing Taylor Swift's album, Lover..."
+log_message "Removing Taylor Swift's album, Lover..."
 remove_album "\"Taylor Swift\"" 'Lover'
 
-echo "Removing 'End Game' track from Taylor Swift's album, Reputation..."
+log_message "Removing 'End Game' track from Taylor Swift's album, Reputation..."
 remove_track "Reputation" "\"End Game\""
 
-echo "Removing Mix 3..."
+log_message "Removing Mix 3..."
 remove_playlist "\"Mix 3\""
 
-echo 'Searching for all objects again...'
-echo 'Artists...'
+log_message 'Searching for all objects again...'
 all_artists
-
-echo 'Albums...'
 all_albums
-
-echo 'Tracks...'
 all_tracks
-
-echo 'Playlists...'
 all_playlists
 
-echo 'Making users listen to some tracks...'
+log_message 'Making users listen to some tracks...'
 user_listen_to 'John' "\"Imaginary Friends\""
 user_listen_to 'Sarah' "\"Strobe (PEEKABOO Remix)\""
 user_listen_to 'John' "\"...Ready For It?\""
 user_listen_to 'Sarah' "\"Imaginary Friends\""
 
-echo 'Checking which tracks John has listened to...'
+log_message 'Checking which tracks John has listened to...'
 tracks_user_listened_to 'John'
 
-echo 'Checking how many times they listened to "Ready for it?"...'
+log_message 'Checking how many times they listened to "Ready for it?"...'
 times_user_listened_to 'John' "\"...Ready For It?\""
 times_user_listened_to 'Sarah' "\"...Ready For It?\""
 
-echo 'Checking Deadmau5 most listened tracks...'
+log_message 'Checking Deadmau5 most listened tracks...'
 create_this_is_list 'Deadmau5'
 
-echo 'Script finished.'
+log_message 'Script finished.'

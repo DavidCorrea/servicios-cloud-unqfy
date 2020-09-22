@@ -158,6 +158,10 @@ function serializePlaylist(playlist) {
   }
 }
 
+function log(title, object) {
+  console.log(`${title}: ${JSON.stringify(object, undefined, 2)}`);
+}
+
 function executeCommandWithArgs(unqfy, command, args) {
   validateCommand(command);
   validateCommandArguments(command, args);
@@ -237,55 +241,59 @@ function executeCommandWithArgs(unqfy, command, args) {
         playlists: searchResult.playlists.map(serializePlaylist),
       };
 
-      console.dir(serializedSearchResult, { depth: 3 });
+      log(`All artists, albums, tracks, and playlists that include "${name}"`, serializedSearchResult);
       break;
     }
     case TRACKS_BY_ARTIST: {
       const artistName = fieldValueFromArgs(args, 'artistName');
+      const artistTracks = unqfy.getTracksMatchingArtist(artistName).map(serializeTrack);
 
-      console.log(unqfy.getTracksMatchingArtist(artistName).map(serializeTrack));
+      log(`${artistName}'s tracks`, artistTracks);
       break;
     }
     case TRACKS_BY_GENRES: {
       const genres = arrayFieldValueFromArgs(args, 'genres');
+      const tracksMatchingGenres = unqfy.getTracksMatchingGenres(genres).map(serializeTrack);
 
-      console.log(unqfy.getTracksMatchingGenres(genres).map(serializeTrack))
+      log(`Tracks that have ${genres} as genre(s)`, tracksMatchingGenres);
       break;
     }
     case ALBUMS_BY_ARTIST: {
       const artistName = fieldValueFromArgs(args, 'artistName');
+      const albumsMatchingArtist = unqfy.getAlbumsMatchingArtist(artistName).map(serializeAlbum);
 
-      console.log(unqfy.getAlbumsMatchingArtist(artistName).map(serializeAlbum));
+      log(`${artistName}'s albums`, albumsMatchingArtist);
       break;
     }
     case ALBUM_TRACKS: {
       const albumName = fieldValueFromArgs(args, 'albumName');
+      const albumTracks = unqfy.getTracksMatchingAlbum(albumName).map(serializeTrack);
 
-      console.log(unqfy.getTracksMatchingAlbum(albumName).map(serializeTrack));
+      log(`Tracks for "${albumName}" album`, albumTracks);
       break;
     }
     case ALL_ARTISTS: {
       const artists = unqfy.allArtists().map(serializeArtist);
 
-      console.log(artists);
+      log('All artists', artists);
       break;
     }
     case ALL_ALBUMS: {
       const albums = unqfy.allAlbums().map(serializeAlbum);
 
-      console.log(albums);
+      log('All albums', albums);
       break;
     }
     case ALL_TRACKS: {
       const tracks = unqfy.allTracks().map(serializeTrack);
 
-      console.log(tracks);
+      log('All tracks', tracks);
       break;
     }
     case ALL_PLAYLISTS: {
       const playlists = unqfy.allPlaylists().map(serializePlaylist);
 
-      console.log(playlists);
+      log('All playlists', playlists);
       break;
     }
     case ADD_USER: {
@@ -303,55 +311,29 @@ function executeCommandWithArgs(unqfy, command, args) {
     }
     case TRACKS_USER_LISTENED_TO: {
       const userName = fieldValueFromArgs(args, 'userName');
+      const tracksUserListenedTo = unqfy.tracksUserListenedTo(userName).map(serializeTrack);
 
-      console.log(unqfy.tracksUserListenedTo(userName).map(serializeTrack));
+      log(`Tracks ${userName} listened to`, tracksUserListenedTo);
       break;
     }
     case TIMES_USER_LISTENED_TO: {
       const userName = fieldValueFromArgs(args, 'userName');
       const trackTitle = fieldValueFromArgs(args, 'trackTitle');
+      const timesUserListenedToTrack = unqfy.timesUserListenedTo(userName, trackTitle);
 
-      console.log(unqfy.timesUserListenedTo(userName, trackTitle));
+      log(`Times ${userName} listened to "${trackTitle}"`, timesUserListenedToTrack);
       break;
     }
     case CREATE_THIS_IS_LIST: {
       const artistName = fieldValueFromArgs(args, 'artistName');
       const mostListenedTracksFromArtist = unqfy.createThisIsList(artistName).map(serializeTrack);
 
-      console.log(mostListenedTracksFromArtist);
+      log(`${artistName}'s top 3 listened tracks`, mostListenedTracksFromArtist);
       break;
     }
   }
 }
 
-/*
- En esta funcion deberán interpretar los argumentos pasado por linea de comandos
- e implementar los diferentes comandos.
-
-  Se deberán implementar los comandos:
-    - Alta y baja de Artista
-    - Alta y Baja de Albums
-    - Alta y Baja de tracks
-
-    - Listar todos los Artistas
-    - Listar todos los albumes de un artista
-    - Listar todos los tracks de un album
-
-    - Busqueda de canciones intepretadas por un determinado artista
-    - Busqueda de canciones por genero
-
-    - Dado un string, imprimmir todas las entidades (artistas, albums, tracks, playlists) que coincidan parcialmente
-    con el string pasado.
-
-    - Dada un nombre de playlist, una lista de generos y una duración máxima, crear una playlist que contenga
-    tracks que tengan canciones con esos generos y que tenga como duración máxima la pasada por parámetro.
-
-  La implementacion de los comandos deberá ser de la forma:
-   1. Obtener argumentos de linea de comando
-   2. Obtener instancia de UNQfy (getUNQFy)
-   3. Ejecutar el comando correspondiente en Unqfy
-   4. Guardar el estado de UNQfy (saveUNQfy)
-*/
 function main() {
   const command = process.argv[2];
   const args = process.argv.splice(3);
