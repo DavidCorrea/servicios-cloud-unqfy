@@ -181,17 +181,7 @@ class UNQfy {
     this._validateIsBiggerThanZero(maxDuration, 'Playlist', 'Max duration');
     this._validatePlaylistNameIsAvailable(name);
 
-    const tracks = [];
-    let duration = 0;
-
-    sortRandomly(this.getTracksMatchingGenres(genresToInclude)).forEach((track) => {
-      if ((duration + track.duration) <= maxDuration) {
-        duration += track.duration;
-        tracks.push(track);
-      }
-    });
-
-    const playlist = new Playlist(this._nextId(Playlist), name, tracks);
+    const playlist = Playlist.fromTracks(this._nextId(Playlist), name, this.getTracksMatchingGenres(genresToInclude), maxDuration);
     this.playlists.push(playlist);
 
     return playlist;

@@ -1,8 +1,24 @@
+const { sortRandomly } = require('./lib');
+
 class Playlist {
   constructor(id, name, tracks){
     this.id = id;
     this.name = name;
     this.tracks = tracks;
+  }
+
+  static fromTracks(id, name, tracksToChooseFrom, maxDuration) {
+    const tracks = [];
+    let duration = 0;
+
+    sortRandomly(tracksToChooseFrom).forEach((track) => {
+      if ((duration + track.duration) <= maxDuration) {
+        duration += track.duration;
+        tracks.push(track);
+      }
+    });
+
+    return new Playlist(id, name, tracks);
   }
 
   duration() {
