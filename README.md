@@ -89,6 +89,7 @@ node main.js createThisIsList artistName "Artista1"
 
 ## Visados
 - [Visado 1](https://docs.google.com/document/d/1Tfkl6l1_ly4FybquDjTqMHa5gdmrYgvvZpXZaneRFvA/edit?usp=sharing)
+- [Visado 2](https://docs.google.com/document/d/1LZfbFHjNxY6ypl8Xje07TlWDE9pFEvf2O0tADqhmzI4/edit?usp=sharing)
 
 ## UML
 ![UML](https://user-images.githubusercontent.com/32984697/93656451-faa0af00-fa00-11ea-801f-a3c8251ef998.PNG)
