@@ -1,3 +1,4 @@
+const UnqfyError = require('./UnqfyError');
 const Track = require("./Track");
 
 class Album {
@@ -27,7 +28,7 @@ class Album {
 
   _validateTitleIsAvailable(title) {
     if (this.tracks.some(track => track.title === title)) {
-      throw new Error("Couldn't create new Track: Title was already taken");
+      throw new UnqfyError("Couldn't create new Track: Title was already taken");
     }
   }
 }  
