@@ -1,4 +1,5 @@
 const { flatMap } = require('./lib');
+const UnqfyError = require('./UnqfyError');
 const Album = require('./Album');
 
 class Artist {
@@ -36,7 +37,7 @@ class Artist {
 
   _validateNameIsAvailable(name) {
     if (this.albums.some((album) => album.name === name)) {
-      throw new Error("Couldn't create new Album: Name was already taken");
+      throw new UnqfyError("Couldn't create new Album: Name was already taken");
     }
   }
 }

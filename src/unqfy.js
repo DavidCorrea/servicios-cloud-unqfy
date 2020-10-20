@@ -1,6 +1,7 @@
 const picklify = require('picklify'); // para cargar/guarfar unqfy
 const fs = require('fs'); // para cargar/guarfar unqfy
 const { flatMap, firstN, sortRandomly } = require('./lib');
+const UnqfyError = require('./UnqfyError');
 const Artist = require('./Artist');
 const Album = require('./Album');
 const Track = require('./Track');
@@ -259,37 +260,37 @@ class UNQfy {
 
   _validateIsNotEmpty(value, errorMessageClass, errorMessageParameter) {
     if (value.length === 0) {
-      throw new Error(`Couldn't create new ${errorMessageClass}: ${errorMessageParameter} cannot be empty`);
+      throw new UnqfyError(`Couldn't create new ${errorMessageClass}: ${errorMessageParameter} cannot be empty`);
     }
   }
 
   _validateNameIsAvailable(name) {
     if (this.artists.some((artist) => artist.name === name)) {
-      throw new Error("Couldn't create new Artist: Name was already taken");
+      throw new UnqfyError("Couldn't create new Artist: Name was already taken");
     }
   }
 
   _validatePlaylistNameIsAvailable(name) {
     if (this.playlists.some((playlist) => playlist.name === name)) {
-      throw new Error("Couldn't create new Playlist: Name was already taken");
+      throw new UnqfyError("Couldn't create new Playlist: Name was already taken");
     }
   }
 
   _validateUserNameIsAvailable(name) {
     if (this.users.some((user) => user.name === name)) {
-      throw new Error("Couldn't create new User: Name was already taken");
+      throw new UnqfyError("Couldn't create new User: Name was already taken");
     }
   }
   
   _validateIfExist(value, errorMessage) {
     if (!value) {
-      throw new Error(`${errorMessage} does not exist`);
+      throw new UnqfyError(`${errorMessage} does not exist`);
     }
   }
 
   _validateIsBiggerThanZero(value, errorMessageClass, errorMessageParameter) {
     if (value < 1) {
-      throw new Error(`Couldn't create new ${errorMessageClass}: ${errorMessageParameter} must be bigger than zero`);
+      throw new UnqfyError(`Couldn't create new ${errorMessageClass}: ${errorMessageParameter} must be bigger than zero`);
     }
   }
 
