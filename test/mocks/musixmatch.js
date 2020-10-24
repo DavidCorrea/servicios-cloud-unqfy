@@ -1,8 +1,8 @@
 const nock = require('nock');
-const { apiKey } = require('../../src/MusixMatch')
+const { baseURL, apiKey } = require('../../src/MusixMatch')
 
 const mockSuccessfulTrackSearchRequest = (trackTitle, musixMatchTrackId) => {
-  nock('http://api.musixmatch.com/ws/1.1')
+  nock(baseURL)
     .get('/track.search')
     .query({ q_track: trackTitle, f_has_lyrics: true, apikey: apiKey })
     .reply(200, {
@@ -24,7 +24,7 @@ const mockSuccessfulTrackSearchRequest = (trackTitle, musixMatchTrackId) => {
 };          
 
 const mockUnsuccessfulTrackSearchRequest = (trackTitle, httpStatus) => {
-  nock('http://api.musixmatch.com/ws/1.1')
+  nock(baseURL)
     .get('/track.search')
     .query({ q_track: trackTitle, f_has_lyrics: true, apikey: apiKey })
     .reply(200, { 
@@ -37,7 +37,7 @@ const mockUnsuccessfulTrackSearchRequest = (trackTitle, httpStatus) => {
 };
 
 const mockSuccessfulTrackLyricsRequest = (musixMatchTrackId, trackLyrics) => {
-  nock('http://api.musixmatch.com/ws/1.1')
+  nock(baseURL)
     .get('/track.lyrics.get')
     .query({ track_id: musixMatchTrackId, apikey: apiKey })
     .reply(200, { 
@@ -55,7 +55,7 @@ const mockSuccessfulTrackLyricsRequest = (musixMatchTrackId, trackLyrics) => {
 };
 
 const mockUnsuccessfulTrackLyricsRequest = (musixMatchTrackId, httpStatus) => {
-  nock('http://api.musixmatch.com/ws/1.1')
+  nock(baseURL)
     .get('/track.lyrics.get')
     .query({ track_id: musixMatchTrackId, apikey: apiKey })
     .reply(200, { 

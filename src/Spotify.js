@@ -1,9 +1,11 @@
 const axios = require('axios');
-const spotifyCreds = require('../spotifyCreds');
 const UnqfyError = require('./UnqfyError');
 
+const baseURL = 'https://api.spotify.com/v1';
+const spotifyCreds = require('../spotifyCreds');
+
 const spotify = axios.create({
-  baseURL: 'https://api.spotify.com/v1',
+  baseURL,
   headers: {
     Authorization: `Bearer ${spotifyCreds.access_token}`
   }
@@ -63,5 +65,6 @@ const getArtistAlbums = async (artistName) => {
 };
 
 module.exports = {
+  baseURL,
   getArtistAlbums
 };

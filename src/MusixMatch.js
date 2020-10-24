@@ -1,9 +1,11 @@
 const axios = require('axios');
 const UnqfyError = require('./UnqfyError');
+
+const baseURL = 'http://api.musixmatch.com/ws/1.1';
 const apiKey = '7072af37ec9d5e6c267d78197022972d'; // This should be in an .env file.
 
 const musixMatch = axios.create({
-  baseURL: 'http://api.musixmatch.com/ws/1.1'
+  baseURL
 });
 
 // https://developer.musixmatch.com/documentation/api-reference/track-search
@@ -55,6 +57,7 @@ const getTrackLyrics = async (trackTitle) => {
 };
 
 module.exports = {
+  baseURL,
+  apiKey,
   getTrackLyrics,
-  apiKey
 }
