@@ -1,7 +1,11 @@
 /* eslint-env node, mocha */
 
-const assert = require('chai').assert;
+const chai = require('chai');
+const assert = chai.assert;
+chai.use(require('chai-as-promised'));
+
 const UNQfy = require('../src/unqfy');
+const SpotifyMocks = require('./mocks/spotify');
 
 function createAndAddArtist(unqfy, artistName, country) {
   const artist = unqfy.addArtist({ name: artistName, country });
@@ -353,6 +357,49 @@ describe('Add, remove and filter data', () => {
       assert.throws(() => unqfy.createThisIsList('Not existing artist'), 'Artist does not exist');
     });
   });
+  
+  describe('#populateAlbumsForArtist', () => {
+    const artistName = 'Deadmau5';
+    const albumName = 'W:/2016ALBUM/';
+    const spotifyArtistId = 1;
+    let artist = null;
+
+    beforeEach(() => {
+      artist = createAndAddArtist(unqfy, artistName, 'Canada');
+    });
+
+    it("should populate an artist's albums with Spotify's response", async () => {     
+      SpotifyMocks.mockSuccessfulArtistSearchRequest(artistName, spotifyArtistId);
+      SpotifyMocks.mockSuccessfulArtistAlbumsRequest(spotifyArtistId, [
+        { name: albumName, release_date: '2005-01-01' } 
+      ]);
+
+      await unqfy.populateAlbumsForArtist(artistName);
+
+      const populatedAlbum = unqfy.getAlbumByName(albumName);
+      assert.isTrue(artist.hasAlbum(populatedAlbum));
+      assert.equal(populatedAlbum.name, albumName);
+      assert.equal(populatedAlbum.year, '2005');
+    });
+
+    context('When the artist search could not be performed', () => {
+      it('should raise an error', async () => {
+        SpotifyMocks.mockUnsuccessfulArtistSearchRequest(artistName, 401, 'Token expired');
+
+        await assert.isRejected(unqfy.populateAlbumsForArtist(artistName), "Couldn't fetch Artist: Token expired");
+      })
+    });
+
+    context('When the artist albums search could not be performed', () => {
+      it('should raise an error', async () => {
+        SpotifyMocks.mockSuccessfulArtistSearchRequest(artistName, spotifyArtistId);
+        SpotifyMocks.mockUnsuccessfulArtistAlbumsRequest(spotifyArtistId, 401, 'Token expired');
+
+        await assert.isRejected(unqfy.populateAlbumsForArtist(artistName), "Couldn't fetch Artist's albums: Token expired");
+      })
+    });
+  });
+
   // Busquedas
 
   describe('#filters', () => {

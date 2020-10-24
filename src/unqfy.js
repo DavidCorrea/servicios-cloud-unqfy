@@ -1,6 +1,6 @@
 const picklify = require('picklify'); // para cargar/guarfar unqfy
 const fs = require('fs'); // para cargar/guarfar unqfy
-const { flatMap, firstN, sortRandomly } = require('./lib');
+const { flatMap, firstN } = require('./lib');
 const UnqfyError = require('./UnqfyError');
 const Artist = require('./Artist');
 const Album = require('./Album');
@@ -8,6 +8,7 @@ const Track = require('./Track');
 const Playlist = require('./Playlist');
 const User = require('./User');
 const Reproduction = require('./Reproduction');
+const Spotify = require('./Spotify');
 
 class UNQfy {
   constructor() {
@@ -225,6 +226,13 @@ class UNQfy {
     const artistTracksSortedByTimesListened = this._artistTracksSortedByTimesListened(artist);
 
     return firstN(artistTracksSortedByTimesListened, 3);
+  }
+
+  async populateAlbumsForArtist(artistName) {
+    const artist = this.getArtistByName(artistName);
+    const artistAlbums = await Spotify.getArtistAlbums(artistName);
+
+    artistAlbums.forEach((artistAlbum) => this.addAlbum(artist.id, { name: artistAlbum.name, year: artistAlbum.releaseYear }));
   }
 
   save(filename) {
