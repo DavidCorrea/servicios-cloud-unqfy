@@ -25,7 +25,6 @@ const getArtistByName = (artistName) => {
     });
 };
 
-
 // https://developer.spotify.com/documentation/web-api/reference-beta/#category-albums
 const getAlbumsByArtistId = (artistId) => {
   return spotify.get(`/artists/${artistId}/albums`)
@@ -43,8 +42,12 @@ const getAlbumsByArtistId = (artistId) => {
       }, []);
 
       // Simplify release data by only keeping the year.
-      uniqueArtistAlbums.forEach((artistAlbum) => artistAlbum.releaseYear = artistAlbum.release_date.match(/(?<year>.*?)-/).groups.year);
-  
+      uniqueArtistAlbums.forEach((artistAlbum) => {
+        const releaseYearGroup = artistAlbum.release_date.match(/(.*?)-/);
+
+        artistAlbum.releaseYear = releaseYearGroup ? releaseYearGroup[1] : artistAlbum.release_date;
+      });
+
       return uniqueArtistAlbums;
     })
     .catch((error) => {
