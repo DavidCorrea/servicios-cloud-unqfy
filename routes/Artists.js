@@ -6,17 +6,24 @@ const unqfy = new UNQfy();
 router.get("/", async (req, res) => {
     if(req.query.name) {
         console.log(`El artista solicitado es: ${req.query.name}`);
+        try{
+            let artist =  unqfy.getArtistByName(req.query.name)
+            res.status(200).json(artist);
+          } catch(err) {
+            console.error(`Unqfy Error: ${err.message}`);
+            res.status(400).json({Error: err.message});
+          }
     }
     else {
-        console.log("No se recibió ningún nombre de artista");
+        //se van a devovler todos los artistas ya que no se filtro por nombre
+        try{
+            let artists =  unqfy.allArtists()
+            res.status(200).json(artists);
+          } catch(err) {
+            console.error(`Unqfy Error: ${err.message}`);
+            res.status(400).json({Error: err.message});
+          }
     }
-    try{
-        let artist =  unqfy.getArtistByName(req.query.name)
-        res.status(200).json(artist);
-      } catch(err) {
-        console.error(`Unqfy Error: ${err.message}`);
-        res.send(`Unqfy Error: ${err.message}`);
-      }
 });
 
 router.post("/", async (req, res) => {
