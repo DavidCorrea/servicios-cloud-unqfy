@@ -12,30 +12,32 @@
 - Para correr el linter: `npm run lint`
 
 ## Comandos (UNQfy)
-| Command               | Arguments                                                               |
-| ----------------------|:-----------------------------------------------------------------------:|
-| addArtist             | name (String), country (String)                                         |
-| removeArtist          | name (String)                                                           |
-| addAlbum              | name (String), artist (String), year (Number)                           |
-| removeAlbum           | artistName (String), albumName (String)                                 |
-| addTrack              | title (String), album (String), duration (Number), genres (List String) |
-| removeTrack           | albumName (String), trackTitle (String)                                 |
-| createPlaylist        | name (String), genres (List String), maxDuration (Number)               |
-| removePlaylist        | name (String)                                                           |
-| searchByName          | name (String)                                                           |
-| tracksByArtist        | artistName (String)                                                     |
-| tracksByGenres        | genres (List String)                                                    |
-| albumsByArtist        | artistName (String)                                                     |
-| albumTracks           | albumName (String)                                                      |
-| allArtists            |                                                                         |
-| allAlbums             |                                                                         |
-| allTracks             |                                                                         |
-| allPlaylists          |                                                                         |
-| addUser               | name (String)                                                           |
-| userListenTo          | userName (String), trackTitle (String)                                  |
-| tracksUserListenedTo  | userName (String)                                                       |
-| timesUserListenedTo   | userName (String), trackTitle (String)                                  |
-| createThisIsList      | artistName (String)                                                     |
+| Command                 | Arguments                                                               |
+| ------------------------|:-----------------------------------------------------------------------:|
+| addArtist               | name (String), country (String)                                         |
+| removeArtist            | name (String)                                                           |
+| addAlbum                | name (String), artist (String), year (Number)                           |
+| removeAlbum             | artistName (String), albumName (String)                                 |
+| addTrack                | title (String), album (String), duration (Number), genres (List String) |
+| removeTrack             | albumName (String), trackTitle (String)                                 |
+| createPlaylist          | name (String), genres (List String), maxDuration (Number)               |
+| removePlaylist          | name (String)                                                           |
+| searchByName            | name (String)                                                           |
+| tracksByArtist          | artistName (String)                                                     |
+| tracksByGenres          | genres (List String)                                                    |
+| albumsByArtist          | artistName (String)                                                     |
+| albumTracks             | albumName (String)                                                      |
+| allArtists              |                                                                         |
+| allAlbums               |                                                                         |
+| allTracks               |                                                                         |
+| allPlaylists            |                                                                         |
+| addUser                 | name (String)                                                           |
+| userListenTo            | userName (String), trackTitle (String)                                  |
+| tracksUserListenedTo    | userName (String)                                                       |
+| timesUserListenedTo     | userName (String), trackTitle (String)                                  |
+| createThisIsList        | artistName (String)                                                     |
+| populateAlbumsForArtist | artistName (String)                                                     |
+| trackLyrics             | trackTitle (String)                                                     |
 
 ## Set de pruebas desde consola 
 ```
@@ -82,6 +84,10 @@ node main.js tracksUserListenedTo userName "User1"
 node main.js timesUserListenedTo userName "User1" trackTitle "Track1"
 
 node main.js createThisIsList artistName "Artista1"
+
+node main.js populateAlbumsForArtist artistName "Artista1"
+
+node main.js trackLyrics trackTitle "Track1"
 ```
 
 ## Script que popula y realiza operaciones varias.
