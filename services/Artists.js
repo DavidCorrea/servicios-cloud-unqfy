@@ -1,9 +1,9 @@
 const UNQfy = require('../src/unqfy');
+const unqfy = new UNQfy();
 
 class ArtistsService {
 
      getArtistByName(name) {
-        const unqfy = new UNQfy();
         return unqfy.getArtistByName(name);
     }
 }
