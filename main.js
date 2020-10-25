@@ -27,6 +27,8 @@ const USER_LISTEN_TO = 'userListenTo';
 const TRACKS_USER_LISTENED_TO = 'tracksUserListenedTo';
 const TIMES_USER_LISTENED_TO = 'timesUserListenedTo';
 const CREATE_THIS_IS_LIST = 'createThisIsList';
+const POPULATE_ALBUMS_FOR_ARTIST = 'populateAlbumsForArtist';
+const TRACK_LYRICS = 'trackLyrics';
 
 const validExecutableCommands = [
   ADD_ARTIST,
@@ -51,6 +53,8 @@ const validExecutableCommands = [
   TRACKS_USER_LISTENED_TO,
   TIMES_USER_LISTENED_TO,
   CREATE_THIS_IS_LIST,
+  POPULATE_ALBUMS_FOR_ARTIST,
+  TRACK_LYRICS,
 ];
 
 const commandsArguments = {
@@ -76,6 +80,8 @@ const commandsArguments = {
   [TRACKS_USER_LISTENED_TO]: ['userName'],
   [TIMES_USER_LISTENED_TO]: ['userName', 'trackTitle'],
   [CREATE_THIS_IS_LIST]: ['artistName'],
+  [POPULATE_ALBUMS_FOR_ARTIST]: ['artistName'],
+  [TRACK_LYRICS]: ['trackTitle'],
 }
 
 // Retorna una instancia de UNQfy. Si existe filename, recupera la instancia desde el archivo.
@@ -163,7 +169,7 @@ function log(title, object) {
   console.log(`${title}: ${JSON.stringify(object, undefined, 2)}`);
 }
 
-function executeCommandWithArgs(unqfy, command, args) {
+async function executeCommandWithArgs(unqfy, command, args) {
   validateCommand(command);
   validateCommandArguments(command, args);
 
@@ -332,16 +338,29 @@ function executeCommandWithArgs(unqfy, command, args) {
       log(`${artistName}'s top 3 listened tracks`, mostListenedTracksFromArtist);
       break;
     }
+    case POPULATE_ALBUMS_FOR_ARTIST: {
+      const artistName = fieldValueFromArgs(args, 'artistName');
+      await unqfy.populateAlbumsForArtist(artistName);
+
+      break;
+    }
+    case TRACK_LYRICS: {
+      const trackTitle = fieldValueFromArgs(args, 'trackTitle');
+      const trackLyrics = await unqfy.trackLyrics(trackTitle);
+
+      log(`${trackTitle}'s lyrics`, trackLyrics);
+      break;
+    }
   }
 }
 
-function main() {
+async function main() {
   const command = process.argv[2];
   const args = process.argv.splice(3);
   const unqfy = getUNQfy();
 
   try{
-    executeCommandWithArgs(unqfy, command, args);
+    await executeCommandWithArgs(unqfy, command, args);
   } catch(err) {
     console.error(`Unqfy Error: ${err.message}`);
   }
