@@ -1,9 +1,6 @@
-const fs = require('fs'); // necesitado para guardar/cargar unqfy
-const { get } = require('https');
-const UNQfy = require('./src/unqfy'); // importamos el modulo unqfy
 const UnqfyError = require('./src/UnqfyError');
 
-const DATA_FILENAME = 'data.json';
+const UNQfyLoader = require('../src/UNQfyLoader');
 
 const ADD_ARTIST = 'addArtist';
 const REMOVE_ARTIST = 'removeArtist';
@@ -84,20 +81,7 @@ const commandsArguments = {
   [TRACK_LYRICS]: ['trackTitle'],
 }
 
-// Retorna una instancia de UNQfy. Si existe filename, recupera la instancia desde el archivo.
-function getUNQfy() {
-  let unqfy = new UNQfy();
 
-  if (fs.existsSync(DATA_FILENAME)) {
-    unqfy = UNQfy.load(DATA_FILENAME);
-  }
-
-  return unqfy;
-}
-
-function saveUNQfy(unqfy) {
-  unqfy.save(DATA_FILENAME);
-}
 
 function validateCommand(command) {
   if(!validExecutableCommands.includes(command)) {
@@ -357,7 +341,7 @@ async function executeCommandWithArgs(unqfy, command, args) {
 async function main() {
   const command = process.argv[2];
   const args = process.argv.splice(3);
-  const unqfy = getUNQfy();
+  const unqfy = UNQfyLoader.getUNQfy();
 
   try{
     await executeCommandWithArgs(unqfy, command, args);
@@ -365,7 +349,7 @@ async function main() {
     console.error(`Unqfy Error: ${err.message}`);
   }
 
-  saveUNQfy(unqfy);
+  UNQfyLoader.saveUNQfy(unqfy);
 }
 
 main();

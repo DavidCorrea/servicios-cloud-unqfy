@@ -1,22 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const UNQfy = require('../src/unqfy');
-let unqfy = new UNQfy();
-const fs = require('fs'); // necesitado para guardar/cargar unqfy
+const UNQfyLoader = require('../src/UNQfyLoader');
+const unqfy = UNQfyLoader.getUNQfy();
 
-
-////
-const DATA_FILENAME = 'data.json';
-///
 
 router.get("/:id", (req, res) => {
     let id = req.params.id;
     try{
-        if (fs.existsSync(DATA_FILENAME)) {
-            unqfy = UNQfy.load(DATA_FILENAME);
-        }
         let artist =  unqfy.getArtistById(Number(id));
-        unqfy.save(DATA_FILENAME);
+        UNQfyLoader.saveUNQfy(unqfy);
         res.status(200).send(artist);
       } catch(err) {
         console.error(`Unqfy Error get id ${id}: ${err.message}`);
@@ -54,7 +46,7 @@ router.post("/", (req, res) => {
         let artist = { name, country }
         console.log("Creando artista...");
         let created = unqfy.addArtist(artist);
-        unqfy.save(DATA_FILENAME);
+        UNQfyLoader.saveUNQfy(unqfy);
         console.log("Artista creado!", JSON.stringify(created));
         res.status(201).send(created);
     } catch(err){
