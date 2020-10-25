@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const ArtistService = require('../services/Artists')
+const ArtistsService = require('../services/Artists')
 
 router.get("/", async (req, res) => {
     if(req.name) {
@@ -11,8 +11,10 @@ router.get("/", async (req, res) => {
     }
 
     //let filters = req.query;
-    let artist = await ArtistService.getArtistByName(req.name)
-    res.json(users);
+    
+    let artistService = new ArtistsService();
+    let artist =  artistService.getArtistByName(req.name)
+    res.json(artist);
 });
 
 module.exports = router;
