@@ -28,6 +28,7 @@ const TRACKS_USER_LISTENED_TO = 'tracksUserListenedTo';
 const TIMES_USER_LISTENED_TO = 'timesUserListenedTo';
 const CREATE_THIS_IS_LIST = 'createThisIsList';
 const POPULATE_ALBUMS_FOR_ARTIST = 'populateAlbumsForArtist';
+const TRACK_LYRICS = 'trackLyrics';
 
 const validExecutableCommands = [
   ADD_ARTIST,
@@ -53,6 +54,7 @@ const validExecutableCommands = [
   TIMES_USER_LISTENED_TO,
   CREATE_THIS_IS_LIST,
   POPULATE_ALBUMS_FOR_ARTIST,
+  TRACK_LYRICS,
 ];
 
 const commandsArguments = {
@@ -79,6 +81,7 @@ const commandsArguments = {
   [TIMES_USER_LISTENED_TO]: ['userName', 'trackTitle'],
   [CREATE_THIS_IS_LIST]: ['artistName'],
   [POPULATE_ALBUMS_FOR_ARTIST]: ['artistName'],
+  [TRACK_LYRICS]: ['trackTitle'],
 }
 
 // Retorna una instancia de UNQfy. Si existe filename, recupera la instancia desde el archivo.
@@ -339,6 +342,13 @@ async function executeCommandWithArgs(unqfy, command, args) {
       const artistName = fieldValueFromArgs(args, 'artistName');
       await unqfy.populateAlbumsForArtist(artistName);
 
+      break;
+    }
+    case TRACK_LYRICS: {
+      const trackTitle = fieldValueFromArgs(args, 'trackTitle');
+      const trackLyrics = await unqfy.trackLyrics(trackTitle);
+
+      log(`${trackTitle}'s lyrics`, trackLyrics);
       break;
     }
   }

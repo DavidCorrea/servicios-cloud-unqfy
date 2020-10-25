@@ -6,6 +6,7 @@ chai.use(require('chai-as-promised'));
 
 const UNQfy = require('../src/unqfy');
 const SpotifyMocks = require('./mocks/spotify');
+const MusixMatchMocks = require('./mocks/musixmatch');
 
 function createAndAddArtist(unqfy, artistName, country) {
   const artist = unqfy.addArtist({ name: artistName, country });
@@ -396,6 +397,43 @@ describe('Add, remove and filter data', () => {
         SpotifyMocks.mockUnsuccessfulArtistAlbumsRequest(spotifyArtistId, 401, 'Token expired');
 
         await assert.isRejected(unqfy.populateAlbumsForArtist(artistName), "Couldn't fetch Artist's albums: Token expired");
+      })
+    });
+  });
+
+  describe('#trackLyrics', () => {
+    const musixMatchTrackId = 1;
+    const musixMatchTrackLyrics = "You're free to touch the sky";
+    let track = null;
+
+    beforeEach(() => {
+      const artist = createAndAddArtist(unqfy, 'Muse', 'UK');
+      const album = createAndAddAlbum(unqfy, artist.id, 'Drones', 2015);
+      track = createAndAddTrack(unqfy, album.id, 'Dead Inside', 200, 'Rock');
+    });
+
+    it("should get the track lyrics", async () => {
+      MusixMatchMocks.mockSuccessfulTrackSearchRequest(track.title, musixMatchTrackId);
+      MusixMatchMocks.mockSuccessfulTrackLyricsRequest(musixMatchTrackId, musixMatchTrackLyrics);
+
+      const trackLyrics = await unqfy.trackLyrics(track.title);
+      assert.equal(trackLyrics, musixMatchTrackLyrics);
+    });
+
+    context('When the track search could not be performed', () => {
+      it('should raise an error', async () => {
+        MusixMatchMocks.mockUnsuccessfulTrackSearchRequest(track.title, 401);
+
+        await assert.isRejected(unqfy.trackLyrics(track.title), "Couldn't fetch Track: Status 401");
+      })
+    });
+
+    context('When the track lyrics search could not be performed', () => {
+      it('should raise an error', async () => {
+        MusixMatchMocks.mockSuccessfulTrackSearchRequest(track.title, musixMatchTrackId);
+        MusixMatchMocks.mockUnsuccessfulTrackLyricsRequest(musixMatchTrackId, 401);
+
+        await assert.isRejected(unqfy.trackLyrics(track.title), "Couldn't fetch Track's lyrics: Status 401");
       })
     });
   });

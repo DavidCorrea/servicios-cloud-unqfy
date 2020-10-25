@@ -1,7 +1,8 @@
 const nock = require('nock');
+const { baseURL } = require('../../src/Spotify')
 
 const mockSuccessfulArtistSearchRequest = (artistName, spotifyArtistId) => {
-  nock('https://api.spotify.com/v1')
+  nock(baseURL)
     .get('/search')
     .query({ type: 'artist', q: artistName })
     .reply(200, { 
@@ -12,7 +13,7 @@ const mockSuccessfulArtistSearchRequest = (artistName, spotifyArtistId) => {
 };          
 
 const mockUnsuccessfulArtistSearchRequest = (artistName, httpStatus, errorMessage) => {
-  nock('https://api.spotify.com/v1')
+  nock(baseURL)
     .get('/search')
     .query({ type: 'artist', q: artistName })
     .reply(httpStatus, { 
@@ -24,7 +25,7 @@ const mockUnsuccessfulArtistSearchRequest = (artistName, httpStatus, errorMessag
 };
 
 const mockSuccessfulArtistAlbumsRequest = (spotifyArtistId, artistAlbums) => {
-  nock('https://api.spotify.com/v1')
+  nock(baseURL)
     .get(`/artists/${spotifyArtistId}/albums`)
     .reply(200, { 
         items: artistAlbums
@@ -32,7 +33,7 @@ const mockSuccessfulArtistAlbumsRequest = (spotifyArtistId, artistAlbums) => {
 };
 
 const mockUnsuccessfulArtistAlbumsRequest = (spotifyArtistId, httpStatus, errorMessage) => {
-  nock('https://api.spotify.com/v1')
+  nock(baseURL)
     .get(`/artists/${spotifyArtistId}/albums`)
     .reply(httpStatus, { 
       error: {

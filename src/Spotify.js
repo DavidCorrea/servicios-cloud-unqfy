@@ -1,9 +1,11 @@
 const axios = require('axios');
-const spotifyCreds = require('../spotifyCreds');
 const UnqfyError = require('./UnqfyError');
 
+const baseURL = 'https://api.spotify.com/v1';
+const spotifyCreds = require('../spotifyCreds');
+
 const spotify = axios.create({
-  baseURL: 'https://api.spotify.com/v1',
+  baseURL,
   headers: {
     Authorization: `Bearer ${spotifyCreds.access_token}`
   }
@@ -25,7 +27,6 @@ const getArtistByName = (artistName) => {
     });
 };
 
-
 // https://developer.spotify.com/documentation/web-api/reference-beta/#category-albums
 const getAlbumsByArtistId = (artistId) => {
   return spotify.get(`/artists/${artistId}/albums`)
@@ -43,8 +44,12 @@ const getAlbumsByArtistId = (artistId) => {
       }, []);
 
       // Simplify release data by only keeping the year.
-      uniqueArtistAlbums.forEach((artistAlbum) => artistAlbum.releaseYear = artistAlbum.release_date.match(/(?<year>.*?)-/).groups.year);
-  
+      uniqueArtistAlbums.forEach((artistAlbum) => {
+        const releaseYearGroup = artistAlbum.release_date.match(/(.*?)-/);
+
+        artistAlbum.releaseYear = releaseYearGroup ? releaseYearGroup[1] : artistAlbum.release_date;
+      });
+
       return uniqueArtistAlbums;
     })
     .catch((error) => {
@@ -60,5 +65,6 @@ const getArtistAlbums = async (artistName) => {
 };
 
 module.exports = {
+  baseURL,
   getArtistAlbums
 };

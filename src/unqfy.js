@@ -235,6 +235,12 @@ class UNQfy {
     artistAlbums.forEach((artistAlbum) => this.addAlbum(artist.id, { name: artistAlbum.name, year: artistAlbum.releaseYear }));
   }
 
+  async trackLyrics(trackTitle) {
+    const track = this._getTrackByTitle(trackTitle);
+
+    return await track.getLyrics();
+  }
+
   save(filename) {
     const serializedData = picklify.picklify(this);
     fs.writeFileSync(filename, JSON.stringify(serializedData, null, 2));
@@ -338,5 +344,4 @@ class UNQfy {
   }
 }
 
-// COMPLETAR POR EL ALUMNO: exportar todas las clases que necesiten ser utilizadas desde un modulo cliente
 module.exports = UNQfy;
