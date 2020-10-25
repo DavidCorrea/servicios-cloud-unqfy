@@ -11,7 +11,7 @@ router.get("/", async (req, res) => {
             res.status(200).json(artist);
           } catch(err) {
             console.error(`Unqfy Error: ${err.message}`);
-            res.status(400).json({Error: err.message});
+            res.status(404).json({status: 404, errorCode: 'RESOURCE_NOT_FOUND'});
           }
     }
     else {
@@ -21,7 +21,7 @@ router.get("/", async (req, res) => {
             res.status(200).json(artists);
           } catch(err) {
             console.error(`Unqfy Error: ${err.message}`);
-            res.status(400).json({Error: err.message});
+            res.status(500).json({status: 500, errorCode: 'INTERNAL_SERVER_ERROR'});
           }
     }
 });
