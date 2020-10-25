@@ -12,6 +12,7 @@ const ArtistsRoute = require('./routes/Artists');
 
 // MIDDLEWARES
 app.use(bodyParser.json()); // parse application/json
+app.use(express.json());
 
 // ROUTES
 app.use("/api/artists", ArtistsRoute);
