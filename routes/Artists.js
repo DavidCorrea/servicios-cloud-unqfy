@@ -18,7 +18,6 @@ router.get("/:id", (req, res) => {
 
 router.get("/", (req, res) => {
     if(req.query.name) {
-        console.log(`El artista solicitado es: ${req.query.name}`);
         try{
             let artist =  unqfy.searchByName(req.query.name).artists;
             res.status(200).send(artist);
@@ -44,10 +43,8 @@ router.post("/", (req, res) => {
     try{
 
         let artist = { name, country }
-        console.log("Creando artista...");
         let created = unqfy.addArtist(artist);
         UNQfyLoader.saveUNQfy(unqfy);
-        console.log("Artista creado!", JSON.stringify(created));
         res.status(201).send(created);
     } catch(err){
         console.error(`Unqfy Error: ${err.message}`);
@@ -55,5 +52,30 @@ router.post("/", (req, res) => {
     }
 });
 
+router.put("/:id", (req, res) => {
+    let id = req.params.id;
+    try{
+        let artist =  unqfy.getArtistById(Number(id));
+        artist.name = req.body.name
+        artist.country = req.body.country
+        UNQfyLoader.saveUNQfy(unqfy);
+        res.status(200).send(artist);
+      } catch(err) {
+        console.error(`Unqfy Error get id ${id}: ${err.message}`);
+        res.status(404).send({status: 404, errorCode: 'RESOURCE_NOT_FOUND'});
+      }
+});
+
+router.delete("/:id", (req,res) => {
+    let id = req.params.id;
+    try{
+        unqfy.removeArtist(Number(id));
+        UNQfyLoader.saveUNQfy(unqfy);
+        res.status(204).send();
+    } catch(err){
+        console.error(`Unqfy Error get id ${id}: ${err.message}`);
+        res.status(404).send({status: 404, errorCode: 'RESOURCE_NOT_FOUND'});
+    }
+});
 
 module.exports = router;
