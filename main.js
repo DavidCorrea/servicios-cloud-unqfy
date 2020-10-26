@@ -1,6 +1,6 @@
 const UnqfyError = require('./src/UnqfyError');
 
-const UNQfyLoader = require('../src/UNQfyLoader');
+const UNQfyLoader = require('./src/UNQfyLoader');
 
 const ADD_ARTIST = 'addArtist';
 const REMOVE_ARTIST = 'removeArtist';

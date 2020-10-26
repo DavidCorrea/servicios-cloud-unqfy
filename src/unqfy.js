@@ -115,7 +115,7 @@ class UNQfy {
     const allPlaylist = this.playlists;
 
     return {
-      artists: allArtists.filter((artist) => artist.name.toLowerCase().includes(name)),
+      artists: allArtists.filter((artist) => artist.name.toLowerCase().includes(name.toLowerCase())),
       albums: allAlbums.filter((album) => album.name.includes(name)),
       tracks: allTracks.filter((track) => track.title.includes(name)),
       playlists: allPlaylist.filter((playlist) => playlist.name.includes(name)),
