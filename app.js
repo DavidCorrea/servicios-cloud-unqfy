@@ -18,5 +18,5 @@ app.use(express.json());
 app.use("/api/artists", ArtistsRoute);
 
 app.listen(port, () => {
-    console.log("Servidor corriendo!");
+  console.log("Servidor corriendo!");
 });
