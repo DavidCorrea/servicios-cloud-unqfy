@@ -8,7 +8,7 @@ const Track = require('./Track');
 const Playlist = require('./Playlist');
 const User = require('./User');
 const Reproduction = require('./Reproduction');
-const Spotify = require('./Spotify');
+const Spotify = require('./SpotifyClient');
 
 class UNQfy {
   constructor() {

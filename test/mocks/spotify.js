@@ -1,5 +1,5 @@
 const nock = require('nock');
-const { baseURL } = require('../../src/Spotify')
+const { baseURL } = require('../../src/SpotifyClient')
 
 const mockSuccessfulArtistSearchRequest = (artistName, spotifyArtistId) => {
   nock(baseURL)
