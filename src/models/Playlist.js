@@ -1,4 +1,4 @@
-const { sortRandomly } = require('./lib');
+const { sortRandomly } = require('../lib/lib');
 
 class Playlist {
   constructor(id, name, tracks){

@@ -8,7 +8,7 @@ const port = process.env.PORT || 3000;
 const bodyParser = require('body-parser');
 
 // Routes + controllers
-const ArtistsRoute = require('./routes/Artists');
+const ArtistsRoute = require('./src/api/routes/Artists');
 
 // MIDDLEWARES
 app.use(bodyParser.json()); // parse application/json

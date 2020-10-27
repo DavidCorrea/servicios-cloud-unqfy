@@ -1,6 +1,6 @@
 const DATA_FILENAME = 'data.json';
 const fs = require('fs');
-const UNQfy = require('./unqfy');
+const UNQfy = require('../models/Unqfy');
 
 module.exports = {
   getUNQfy: () => {

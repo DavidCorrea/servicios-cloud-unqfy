@@ -1,5 +1,5 @@
 const nock = require('nock');
-const { baseURL, apiKey } = require('../../src/MusixMatchClient')
+const { baseURL, apiKey } = require('../../src/clients/MusixMatchClient')
 
 const mockSuccessfulTrackSearchRequest = (trackTitle, musixMatchTrackId) => {
   nock(baseURL)
