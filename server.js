@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 
 // Routes + controllers
 const ArtistsRoute = require('./src/api/routes/Artists');
+const TracksRoute = require('./src/api/routes/Tracks');
 
 // MIDDLEWARES
 app.use(bodyParser.json()); // parse application/json
@@ -16,6 +17,7 @@ app.use(express.json());
 
 // ROUTES
 app.use("/api/artists", ArtistsRoute);
+app.use("/api/tracks", TracksRoute);
 
 app.listen(port, () => {
   console.log("Servidor corriendo!");
