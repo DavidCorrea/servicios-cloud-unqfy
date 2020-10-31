@@ -1,4 +1,4 @@
-const UnqfyError = require('./UnqfyError');
+const { UnqfyError } = require('./UnqfyError');
 const Track = require("./Track");
 
 class Album {

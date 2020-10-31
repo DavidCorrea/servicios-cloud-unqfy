@@ -5,4 +5,14 @@ class UnqfyError extends Error {
   }
 }
 
-module.exports = UnqfyError;
+class ResourceNotFoundError extends UnqfyError {
+  constructor(resourceName) {
+    super(`${resourceName} does not exist`);
+    this.name = "UnqfyError::ResourceNotFoundError";
+  }
+}
+
+module.exports = {
+  UnqfyError,
+  ResourceNotFoundError
+};
