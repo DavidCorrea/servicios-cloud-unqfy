@@ -20,7 +20,7 @@
     "nock": "^13.0.4"
   },
   "scripts": {
-    "test": "mocha",
+    "test": "mocha test/**/*.spec.js",
     "lint": "eslint *.js"
   },
   "author": "",

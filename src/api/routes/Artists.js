@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const UNQfyLoader = require('../src/UNQfyLoader');
+const UNQfyLoader = require('../../lib/UNQfyLoader');
 const unqfy = UNQfyLoader.getUNQfy();
 
 
