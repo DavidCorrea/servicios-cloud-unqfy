@@ -1,10 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const UNQfyLoader = require('../../lib/UNQfyLoader');
 const { ResourceNotFoundError } = require('../../models/UnqfyError');
 
 router.get("/:id/lyrics", async (req, res) => {
-  const unqfy = UNQfyLoader.getUNQfy();
+  const unqfy = req.unqfy;
   const trackId = req.params.id;
 
   try {
