@@ -4,9 +4,9 @@ const chai = require('chai');
 const assert = chai.assert;
 chai.use(require('chai-as-promised'));
 
-const UNQfy = require('../src/unqfy');
-const SpotifyMocks = require('./mocks/spotify');
-const MusixMatchMocks = require('./mocks/musixmatch');
+const UNQfy = require('../../src/models/Unqfy');
+const SpotifyMocks = require('../mocks/spotify');
+const MusixMatchMocks = require('../mocks/musixmatch');
 
 function createAndAddArtist(unqfy, artistName, country) {
   const artist = unqfy.addArtist({ name: artistName, country });

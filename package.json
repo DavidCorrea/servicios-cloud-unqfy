@@ -6,6 +6,7 @@
   "dependencies": {
     "axios": "^0.21.0",
     "chai": "^4.1.2",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "picklify": "github:lwoites/picklify",
     "request": "^2.88.2"
@@ -19,7 +20,7 @@
     "nock": "^13.0.4"
   },
   "scripts": {
-    "test": "mocha",
+    "test": "mocha test/**/*.spec.js",
     "lint": "eslint *.js"
   },
   "author": "",

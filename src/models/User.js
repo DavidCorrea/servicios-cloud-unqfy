@@ -1,4 +1,4 @@
-const { unique } = require('./lib');
+const { unique } = require('../lib/lib');
 
 class User {
   constructor(id, name){

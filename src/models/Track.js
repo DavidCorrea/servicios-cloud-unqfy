@@ -1,4 +1,4 @@
-const MusixMatch = require('./MusixMatch');
+const MusixMatch = require('../clients/MusixMatchClient');
 
 class Track {
   constructor(id, title, duration, genres){

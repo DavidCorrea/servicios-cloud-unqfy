@@ -1,6 +1,6 @@
 const picklify = require('picklify'); // para cargar/guarfar unqfy
 const fs = require('fs'); // para cargar/guarfar unqfy
-const { flatMap, firstN } = require('./lib');
+const { flatMap, firstN } = require('../lib/lib');
 const UnqfyError = require('./UnqfyError');
 const Artist = require('./Artist');
 const Album = require('./Album');
@@ -8,7 +8,7 @@ const Track = require('./Track');
 const Playlist = require('./Playlist');
 const User = require('./User');
 const Reproduction = require('./Reproduction');
-const Spotify = require('./Spotify');
+const Spotify = require('../clients/SpotifyClient');
 
 class UNQfy {
   constructor() {
@@ -115,7 +115,7 @@ class UNQfy {
     const allPlaylist = this.playlists;
 
     return {
-      artists: allArtists.filter((artist) => artist.name.includes(name)),
+      artists: allArtists.filter((artist) => artist.name.toLowerCase().includes(name.toLowerCase())),
       albums: allAlbums.filter((album) => album.name.includes(name)),
       tracks: allTracks.filter((track) => track.title.includes(name)),
       playlists: allPlaylist.filter((playlist) => playlist.name.includes(name)),

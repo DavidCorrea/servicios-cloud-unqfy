@@ -1,4 +1,4 @@
-const { flatMap } = require('./lib');
+const { flatMap } = require('../lib/lib');
 const UnqfyError = require('./UnqfyError');
 const Album = require('./Album');
 
