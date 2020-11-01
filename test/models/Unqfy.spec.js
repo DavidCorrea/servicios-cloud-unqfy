@@ -560,6 +560,65 @@ describe('Add, remove and filter data', () => {
       assert.isTrue(matchingAlbumTracks.includes(matchingAlbumTrack));
       assert.isFalse(matchingAlbumTracks.includes(otherAlbumTrack));
     });
+
+    describe('#searchPlaylists', () => {
+      let artist, artist2;
+      let album, album2;
+      let track1, track2, track3, track4;
+      let playlist1, playlist2, playlist3;
+
+      beforeEach(() => {
+        artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+        album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+        track1 = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock', 'movie']);
+        track2 = createAndAddTrack(unqfy, album.id, 'Sweet Child o\' Mine', 300, ['rock', 'hard rock', 'pop', 'movie']);
+    
+        artist2 = createAndAddArtist(unqfy, 'Michael Jackson', 'USA');
+        album2 = createAndAddAlbum(unqfy, artist2.id, 'Thriller', 1987);
+        track3 = createAndAddTrack(unqfy, album2.id, 'Thriller', 400, ['pop', 'movie']);
+        track4 = createAndAddTrack(unqfy, album2.id, 'Another song', 500, ['pop']);
+    
+        playlist1 = unqfy.createPlaylistFromTracks('Random Mix', [track1.id, track2.id]); // 500
+        playlist2 = unqfy.createPlaylistFromTracks('Power Up', [track2.id, track3.id]); // 700
+        playlist3 = unqfy.createPlaylistFromTracks('WFH mix', [track3.id, track4.id]); // 900
+      });
+
+      it('returns all playlists when no filters are passed', () => {
+        const filteredPlaylists = unqfy.searchPlaylists({ filters: { name: null, durationLesserThan: null, durationGreaterThan: null }});
+
+        assert.sameMembers(filteredPlaylists, [playlist1, playlist2, playlist3]);
+      });
+
+      it('returns all playlists with matching name regardless the case', () => {
+        const filteredPlaylists = unqfy.searchPlaylists({ filters: { name: 'mix', durationLesserThan: null, durationGreaterThan: null }});
+
+        assert.sameMembers(filteredPlaylists, [playlist1, playlist3]);
+      });
+
+      it('returns all playlists with duration lesser than specified', () => {
+        const filteredPlaylists = unqfy.searchPlaylists({ filters: { name: null, durationLesserThan: 700, durationGreaterThan: null }});
+
+        assert.sameMembers(filteredPlaylists, [playlist1]);
+      });
+
+      it('returns all playlists with duration greater than specified', () => {
+        const filteredPlaylists = unqfy.searchPlaylists({ filters: { name: null, durationLesserThan: null, durationGreaterThan: 500 }});
+
+        assert.sameMembers(filteredPlaylists, [playlist2, playlist3]);
+      });
+
+      it('returns all playlists that matches all the specified criteria', () => {
+        const filteredPlaylists = unqfy.searchPlaylists({ filters: { name: 'w', durationLesserThan: 900, durationGreaterThan: 500 }});
+
+        assert.sameMembers(filteredPlaylists, [playlist2]);
+      });
+
+      it('returns an empty list when no playlist matches the specified criteria', () => {
+        const filteredPlaylists = unqfy.searchPlaylists({ filters: { name: 'whatever', durationLesserThan: 900, durationGreaterThan: 500 }});
+
+        assert.sameMembers(filteredPlaylists, []);
+      });
+    });
   });
 });
 

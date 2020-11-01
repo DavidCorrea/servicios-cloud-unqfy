@@ -2476,13 +2476,16 @@
 									"    pm.expect(jsonData).to.deep.include({",
 									"        \"id\": playlistId,",
 									"        \"name\": \"Electronica Mix from Songs\",",
-									"        \"duration\": 347",
+									"        \"duration\": 658",
 									"    });",
 									"",
 									"    pm.expect(jsonData.tracks).to.include.members([",
 									"        \"Imaginary Friends\",",
-									"        \"Strobe (PEEKABOO Remix)\"",
+									"        \"Strobe (PEEKABOO Remix)\",",
+									"        \"Strobe\"",
 									"    ]);",
+									"",
+									"    pm.environment.set(\"testPlaylistFromSongId\", playlistId);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -2509,7 +2512,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Electronica Mix from Songs\",\n  \"tracks\": [9, 10]\n}"
+							"raw": "{\n  \"name\": \"Electronica Mix from Songs\",\n  \"tracks\": [8, 9, 10]\n}"
 						},
 						"url": {
 							"raw": "http://localhost:{{port}}/api/playlists",
@@ -2642,6 +2645,75 @@
 								"api",
 								"playlists",
 								"{{testPlaylistId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get playlists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5a39450b-cea9-475e-ad3c-1c7375aec6a0",
+								"exec": [
+									"// NOTE: This tests against the objects created by the UNQfy script.",
+									"",
+									"const chai = require('chai');",
+									"chai.config.truncateThreshold = 0;",
+									"",
+									"pm.test(\"should get Playlist\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    pm.response.to.have.jsonBody();",
+									"    ",
+									"    var jsonData = pm.response.json();",
+									"",
+									"    pm.expect(jsonData).to.deep.include(",
+									"        { ",
+									"            id: Number(pm.environment.get(\"testPlaylistFromSongId\")),",
+									"            name: \"Electronica Mix from Songs\",",
+									"            tracks: [",
+									"                \"Strobe\",",
+									"                \"Imaginary Friends\",",
+									"                \"Strobe (PEEKABOO Remix)\",",
+									"            ],",
+									"            duration: 658",
+									"        }",
+									"    );",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/api/playlists?name=mix&durationLT=2000&durationGT=500",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"playlists"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "mix"
+								},
+								{
+									"key": "durationLT",
+									"value": "2000"
+								},
+								{
+									"key": "durationGT",
+									"value": "500"
+								}
 							]
 						}
 					},

@@ -139,8 +139,26 @@ class UNQfy {
       artists: allArtists.filter((artist) => artist.name.toLowerCase().includes(name.toLowerCase())),
       albums: allAlbums.filter((album) => album.name.toLowerCase().includes(name.toLowerCase())),
       tracks: allTracks.filter((track) => track.title.includes(name)),
-      playlists: allPlaylist.filter((playlist) => playlist.name.includes(name)),
+      playlists: this._searchInPlaylistsByName(name, allPlaylist),
     }
+  }
+
+  searchPlaylists({ filters: { name, durationLesserThan, durationGreaterThan }}) {
+    let filteredPlaylists = [ ...this.playlists];
+
+    if(name) {
+      filteredPlaylists = this._searchInPlaylistsByName(name, filteredPlaylists);
+    }
+
+    if(durationLesserThan) {
+      filteredPlaylists = filteredPlaylists.filter((playlist) => playlist.duration() < durationLesserThan);
+    }
+
+    if(durationGreaterThan) {
+      filteredPlaylists = filteredPlaylists.filter((playlist) => playlist.duration() > durationGreaterThan);
+    }
+
+    return filteredPlaylists;
   }
   
   allArtists(){
@@ -375,6 +393,10 @@ class UNQfy {
     });
 
     return tracksListenings.map(trackListenings => trackListenings.track);
+  }
+
+  _searchInPlaylistsByName(name, playlists) {
+    return playlists.filter((playlist) => playlist.name.toLowerCase().includes(name.toLowerCase()));
   }
 }
 

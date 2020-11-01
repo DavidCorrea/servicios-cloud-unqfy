@@ -27,6 +27,22 @@ router.get("/:id", (req, res) => {
   }
 });
 
+router.get("/", async (req, res) => {
+  const unqfy = req.unqfy;
+
+  try {
+    const name = req.query.name;
+    const durationLesserThan = Number(req.query.durationLT);
+    const durationGreaterThan = Number(req.query.durationGT);
+    const filters = { name, durationLesserThan, durationGreaterThan };
+
+    const playlists = unqfy.searchPlaylists({ filters });
+    res.status(200).send(playlists.map((playlist) => serializePlaylist(playlist)));
+  } catch(error) {
+    res.status(500).send({ status: 500, errorCode: 'INTERNAL_SERVER_ERROR' });
+  }
+});
+
 router.post("/", async (req, res) => {
   const unqfy = req.unqfy;
 
