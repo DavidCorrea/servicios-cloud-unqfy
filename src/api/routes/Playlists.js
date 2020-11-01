@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { ResourceNotFoundError, ResourceAlreadyExistsError } = require('../../models/UnqfyError');
+const { ResourceNotFoundError, ResourceAlreadyExistsError, BadRequestError } = require('../../models/UnqfyError');
 
 const serializePlaylist = (playlist) => {
   return {
@@ -8,6 +8,12 @@ const serializePlaylist = (playlist) => {
     name: playlist.name,
     tracks: playlist.tracks.map(track => track.title),
     duration: playlist.duration()
+  }
+}
+
+const validateValueFromRequestExists = (value, field) => {
+  if (!value) {
+    throw new BadRequestError(`'${field}' must be present`);
   }
 }
 
@@ -27,7 +33,7 @@ router.get("/:id", (req, res) => {
   }
 });
 
-router.get("/", async (req, res) => {
+router.get("/", (req, res) => {
   const unqfy = req.unqfy;
 
   try {
@@ -43,25 +49,30 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", (req, res) => {
   const unqfy = req.unqfy;
 
   try {
-    if(req.body.genres) {
-      const { name, genres } = req.body;
-      const maxDuration = Number(req.body.maxDuration);
+    const { name, genres, maxDuration, tracks } = req.body;
+    validateValueFromRequestExists(name, 'name');
 
-      const createdPlaylist = unqfy.createPlaylist(name, genres, maxDuration);
+    if(genres || maxDuration) {
+      validateValueFromRequestExists(genres, 'genres');
+      validateValueFromRequestExists(maxDuration, 'maxDuration');
+
+      const createdPlaylist = unqfy.createPlaylist(name, genres, Number(maxDuration));
       res.status(201).send(serializePlaylist(createdPlaylist));
     } else {
-      const { name } = req.body;
-      const tracksIds = req.body.tracks.map(track => Number(track));
-
+      validateValueFromRequestExists(tracks, 'tracks');
+      
+      const tracksIds = tracks.map(track => Number(track));
       const createdPlaylist = unqfy.createPlaylistFromTracks(name, tracksIds);
       res.status(201).send(serializePlaylist(createdPlaylist));
     }
   } catch(error) {
-    if(error instanceof ResourceAlreadyExistsError) {
+    if(error instanceof BadRequestError) {
+      res.status(400).send({ status: 400, errorCode: 'BAD_REQUEST' });
+    } else if(error instanceof ResourceAlreadyExistsError) {
       res.status(409).send({ status: 409, errorCode: 'RESOURCE_ALREADY_EXISTS' });
     } else if(error instanceof ResourceNotFoundError) {
       res.status(404).send({ status: 404, errorCode: 'RELATED_RESOURCE_NOT_FOUND' });

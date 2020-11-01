@@ -664,6 +664,195 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "add playlist from songs (missing required field)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "740ba1e6-9380-4519-8121-4cfb7b60cb2b",
+								"exec": [
+									"const chai = require('chai');",
+									"chai.config.truncateThreshold = 0;",
+									"",
+									"pm.test(\"add playlist with missing required field\", function () {",
+									"    pm.response.to.have.status(400);",
+									"    pm.response.to.have.jsonBody();",
+									"    ",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.be.deep.equal({",
+									"        status: 400,",
+									"        errorCode: \"BAD_REQUEST\"",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "78fb75ad-d042-4b28-93ef-715c9119b104",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Electronica Mix from Unknown Songs\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/api/playlists",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"playlists"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add playlist from genres (missing maxDuration field)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "229ae9f9-14c8-4860-acac-240bad415f5c",
+								"exec": [
+									"const chai = require('chai');",
+									"chai.config.truncateThreshold = 0;",
+									"",
+									"pm.test(\"add playlist with missing required field\", function () {",
+									"    pm.response.to.have.status(400);",
+									"    pm.response.to.have.jsonBody();",
+									"    ",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.be.deep.equal({",
+									"        status: 400,",
+									"        errorCode: \"BAD_REQUEST\"",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "aa5a11ca-1258-47f5-a0ea-8d940c1bff82",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Electronica Mix\",\n  \"genres\": [\"Electronica\"]\n}"
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/api/playlists",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"playlists"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add playlist from genres (missing genres field)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b0c9f287-2d61-4fc6-84e4-b7c07077ce47",
+								"exec": [
+									"const chai = require('chai');",
+									"chai.config.truncateThreshold = 0;",
+									"",
+									"pm.test(\"add playlist with missing required field\", function () {",
+									"    pm.response.to.have.status(400);",
+									"    pm.response.to.have.jsonBody();",
+									"    ",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.be.deep.equal({",
+									"        status: 400,",
+									"        errorCode: \"BAD_REQUEST\"",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "aa0f162f-60d2-4121-a36c-6449dee43be1",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Electronica Mix\",\n  \"maxDuration\": 2500\n}"
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/api/playlists",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"playlists"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"protocolProfileBehavior": {}
