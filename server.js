@@ -11,6 +11,7 @@ const bodyParser = require('body-parser');
 const ArtistsRoute = require('./src/api/routes/Artists');
 const AlbumsRoute = require('./src/api/routes/Albums');
 const TracksRoute = require('./src/api/routes/Tracks');
+const PlaylistsRoute = require('./src/api/routes/Playlists');
 
 // MIDDLEWARES
 app.use(bodyParser.json()); // parse application/json
@@ -36,6 +37,7 @@ app.use((req, res, next) => {
 app.use("/api/artists", ArtistsRoute);
 app.use("/api/albums", AlbumsRoute);
 app.use("/api/tracks", TracksRoute);
+app.use("/api/playlists", PlaylistsRoute);
 
 app.listen(port, () => {
   console.log("Servidor corriendo!");

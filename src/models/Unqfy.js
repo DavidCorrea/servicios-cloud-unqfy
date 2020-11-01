@@ -122,6 +122,13 @@ class UNQfy {
     return playlist.id;
   }
 
+  getPlaylistById(id){
+    const playlist = this.playlists.find((playlist => playlist.id === id));
+    this._validateIfExist(playlist, 'Playlist');
+
+    return playlist;
+  }
+
   searchByName(name){
     const allArtists = this.artists;
     const allAlbums = this.allAlbums();
