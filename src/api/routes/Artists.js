@@ -6,7 +6,6 @@ router.get("/:id", (req, res) => {
   let id = req.params.id;
 
   try{
-      unqfy = UNQfyLoader.getUNQfy();
       let artist =  unqfy.getArtistById(Number(id));
     	res.status(200).send(artist);
     } catch(err) {
@@ -20,7 +19,6 @@ router.get("/", (req, res) => {
 
   if(req.query.name) {
     try{
-      unqfy = UNQfyLoader.getUNQfy();
       let artist =  unqfy.searchByName(req.query.name).artists;
       res.status(200).send(artist);
     } catch(err) {
@@ -31,7 +29,6 @@ router.get("/", (req, res) => {
   else {
     //se van a devovler todos los artistas ya que no se filtro por nombre
     try{
-      unqfy = UNQfyLoader.getUNQfy();
       let artists =  unqfy.allArtists()
       res.status(200).send(artists);
     } catch(err) {
@@ -46,7 +43,6 @@ router.post("/", (req, res) => {
   let { name, country } = req.body; // destructuring
 
   try{
-    unqfy = UNQfyLoader.getUNQfy();
     let artist = { name, country }
     let created = unqfy.addArtist(artist);
     res.status(201).send(created);
@@ -61,7 +57,6 @@ router.put("/:id", (req, res) => {
   let id = req.params.id;
 
   try{
-    unqfy = UNQfyLoader.getUNQfy();
     let artist =  unqfy.getArtistById(Number(id));
     artist.name = req.body.name
     artist.country = req.body.country
@@ -77,7 +72,6 @@ router.delete("/:id", (req,res) => {
   let id = req.params.id;
 
   try{
-    unqfy = UNQfyLoader.getUNQfy();
     unqfy.removeArtist(Number(id));
     res.status(204).send();
   } catch(err){
