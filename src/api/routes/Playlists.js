@@ -27,4 +27,20 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+router.delete("/:id", async (req, res) => {
+  const unqfy = req.unqfy;
+  const playlistId = Number(req.params.id);
+
+  try {
+    unqfy.removePlaylist(playlistId);
+    res.status(204).send();
+  } catch(error) {
+    if(error instanceof ResourceNotFoundError) {
+      res.status(404).send({ status: 404, errorCode: 'RESOURCE_NOT_FOUND' });
+    } else {
+      res.status(500).send({ status: 500, errorCode: 'INTERNAL_SERVER_ERROR' });
+    }
+  }
+});
+
 module.exports = router;

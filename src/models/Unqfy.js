@@ -210,8 +210,10 @@ class UNQfy {
     return playlist;
   }
 
-  removePlaylist(playlistIdToRemove){
-    this.playlists = this.playlists.filter(playlist => playlist.id !== playlistIdToRemove);
+  removePlaylist(playlistIdToRemove) {
+    const playlistToRemove = this.getPlaylistById(playlistIdToRemove);
+
+    this.playlists = this.playlists.filter(playlist => playlist !== playlistToRemove);
   }
 
   createUser(name) {
