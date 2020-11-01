@@ -572,38 +572,69 @@ describe('Playlist Creation and properties', () => {
     unqfy = new UNQfy();
   });
 
-  it('should create a playlist as requested', () => {
-    const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
-    const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
-    const t1 = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock', 'movie']);
-    createAndAddTrack(unqfy, album.id, 'Sweet Child o\' Mine', 1500, ['rock', 'hard rock', 'pop', 'movie']);
-
-    const artist2 = createAndAddArtist(unqfy, 'Michael Jackson', 'USA');
-    const album2 = createAndAddAlbum(unqfy, artist2.id, 'Thriller', 1987);
-    const t2 = createAndAddTrack(unqfy, album2.id, 'Thriller', 200, ['pop', 'movie']);
-    const t3 = createAndAddTrack(unqfy, album2.id, 'Another song', 500, ['pop']);
-    const t4 = createAndAddTrack(unqfy, album2.id, 'Another song II', 500, ['pop']);
-
-    const playlist = unqfy.createPlaylist('my playlist', ['pop', 'rock'], 1400);
-
-    assert.equal(playlist.name, 'my playlist');
-    assert.isAtMost(playlist.duration(), 1400);
-    assert.isTrue(playlist.hasTrack(t1));
-    assert.isTrue(playlist.hasTrack(t2));
-    assert.isTrue(playlist.hasTrack(t3));
-    assert.isTrue(playlist.hasTrack(t4));
-    assert.lengthOf(playlist.tracks, 4);
+  describe('#createPlaylist', () => {
+    it('should create a playlist as requested', () => {
+      const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+      const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+      const t1 = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock', 'movie']);
+      createAndAddTrack(unqfy, album.id, 'Sweet Child o\' Mine', 1500, ['rock', 'hard rock', 'pop', 'movie']);
+  
+      const artist2 = createAndAddArtist(unqfy, 'Michael Jackson', 'USA');
+      const album2 = createAndAddAlbum(unqfy, artist2.id, 'Thriller', 1987);
+      const t2 = createAndAddTrack(unqfy, album2.id, 'Thriller', 200, ['pop', 'movie']);
+      const t3 = createAndAddTrack(unqfy, album2.id, 'Another song', 500, ['pop']);
+      const t4 = createAndAddTrack(unqfy, album2.id, 'Another song II', 500, ['pop']);
+  
+      const playlist = unqfy.createPlaylist('my playlist', ['pop', 'rock'], 1400);
+  
+      assert.equal(playlist.name, 'my playlist');
+      assert.isAtMost(playlist.duration(), 1400);
+      assert.isTrue(playlist.hasTrack(t1));
+      assert.isTrue(playlist.hasTrack(t2));
+      assert.isTrue(playlist.hasTrack(t3));
+      assert.isTrue(playlist.hasTrack(t4));
+      assert.lengthOf(playlist.tracks, 4);
+    });
+  
+    it('should raise an error when the name is empty', () => {
+      assert.throws(() => unqfy.createPlaylist('', ['pop'], 1400), "Couldn't create new Playlist: Name cannot be empty");
+    });
+  
+    it('should raise an error when the genres are empty', () => {
+      assert.throws(() => unqfy.createPlaylist('My Playlist', [], 1400), "Couldn't create new Playlist: Genres cannot be empty");
+    });
+  
+    it('should raise an error when the max duration is lower than 1', () => {
+      assert.throws(() => unqfy.createPlaylist('My Playlist', ['pop'], 0), "Couldn't create new Playlist: Max duration must be bigger than zero");
+    });
   });
 
-  it('should raise an error when the name is empty', () => {
-    assert.throws(() => unqfy.createPlaylist('', ['pop'], 1400), "Couldn't create new Playlist: Name cannot be empty");
-  });
-
-  it('should raise an error when the genres are empty', () => {
-    assert.throws(() => unqfy.createPlaylist('My Playlist', [], 1400), "Couldn't create new Playlist: Genres cannot be empty");
-  });
-
-  it('should raise an error when the max duration is lower than 1', () => {
-    assert.throws(() => unqfy.createPlaylist('My Playlist', ['pop'], 0), "Couldn't create new Playlist: Max duration must be bigger than zero");
+  describe('createPlaylistFromTracks', () => {
+    it('should create a playlist as requested', () => {
+      const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+      const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+      const track1 = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock', 'movie']);
+      const track2 = createAndAddTrack(unqfy, album.id, 'Sweet Child o\' Mine', 1500, ['rock', 'hard rock', 'pop', 'movie']);
+  
+      const artist2 = createAndAddArtist(unqfy, 'Michael Jackson', 'USA');
+      const album2 = createAndAddAlbum(unqfy, artist2.id, 'Thriller', 1987);
+      const track3 = createAndAddTrack(unqfy, album2.id, 'Thriller', 200, ['pop', 'movie']);
+      const track4 = createAndAddTrack(unqfy, album2.id, 'Another song', 500, ['pop']);
+      const track5 = createAndAddTrack(unqfy, album2.id, 'Another song II', 500, ['pop']);
+  
+      const playlist = unqfy.createPlaylistFromTracks('my playlist', [track1.id, track2.id, track3.id, track4.id, track5.id]);
+  
+      assert.equal(playlist.name, 'my playlist');
+      assert.equal(playlist.duration(), 2900);
+      assert.sameMembers(playlist.tracks, [track1, track2, track3, track4, track5]);
+    });
+  
+    it('should raise an error when the name is empty', () => {
+      assert.throws(() => unqfy.createPlaylistFromTracks('', []), "Couldn't create new Playlist: Name cannot be empty");
+    });
+  
+    it('should raise an error when a track does not exist', () => {
+      assert.throws(() => unqfy.createPlaylistFromTracks('My Playlist', [1]), "Track does not exist");
+    });
   });
 });

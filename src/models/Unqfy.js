@@ -210,6 +210,17 @@ class UNQfy {
     return playlist;
   }
 
+  createPlaylistFromTracks(name, tracksIds) {
+    this._validateIsNotEmpty(name, 'Playlist', 'Name');
+    this._validatePlaylistNameIsAvailable(name);
+
+    const tracks = tracksIds.map(trackId => this.getTrackById(trackId));
+    const playlist = new Playlist(this._nextId(Playlist), name, tracks);
+    this.playlists.push(playlist);
+
+    return playlist;
+  }
+
   removePlaylist(playlistIdToRemove) {
     const playlistToRemove = this.getPlaylistById(playlistIdToRemove);
 
