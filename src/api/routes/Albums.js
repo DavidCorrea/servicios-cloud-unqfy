@@ -8,7 +8,7 @@ router.get("/:id", (req, res) => {
   let id = req.params.id;
   try{
       unqfy = UNQfyLoader.getUNQfy();
-      let artist =  unqfy.getArtistById(Number(id));
+    	let artist =  unqfy.getAlbumById(Number(id));
     	UNQfyLoader.saveUNQfy(unqfy);
     	res.status(200).send(artist);
     } catch(err) {
@@ -21,8 +21,8 @@ router.get("/", (req, res) => {
   if(req.query.name) {
     try{
       unqfy = UNQfyLoader.getUNQfy();
-      let artist =  unqfy.searchByName(req.query.name).artists;
-      res.status(200).send(artist);
+      let albums =  unqfy.searchByName(req.query.name).albums;
+      res.status(200).send(albums);
     } catch(err) {
       console.error(`Unqfy Error: ${err.message}`);
       res.status(404).send({status: 404, errorCode: 'RESOURCE_NOT_FOUND'});
@@ -32,8 +32,8 @@ router.get("/", (req, res) => {
     //se van a devovler todos los artistas ya que no se filtro por nombre
     try{
       unqfy = UNQfyLoader.getUNQfy();
-      let artists =  unqfy.allArtists()
-      res.status(200).send(artists);
+      let albums =  unqfy.allAlbums()
+      res.status(200).send(albums);
     } catch(err) {
       console.error(`Unqfy Error: ${err.message}`);
       res.status(500).send({status: 500, errorCode: 'INTERNAL_SERVER_ERROR'});
@@ -42,11 +42,11 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  let { name, country } = req.body; // destructuring
+  let { name, year } = req.body;
+  let artistId = Number(req.body.artistId);
   try{
     unqfy = UNQfyLoader.getUNQfy();
-    let artist = { name, country }
-    let created = unqfy.addArtist(artist);
+    let created = unqfy.addAlbum(artistId, { name, year });
     UNQfyLoader.saveUNQfy(unqfy);
     res.status(201).send(created);
   } catch(err){
@@ -55,15 +55,14 @@ router.post("/", (req, res) => {
   }
 });
 
-router.put("/:id", (req, res) => {
+router.patch("/:id", (req, res) => {
   let id = req.params.id;
   try{
     unqfy = UNQfyLoader.getUNQfy();
-    let artist =  unqfy.getArtistById(Number(id));
-    artist.name = req.body.name
-    artist.country = req.body.country
+    let album =  unqfy.getAlbumById(Number(id));
+    album.year = req.body.year;
     UNQfyLoader.saveUNQfy(unqfy);
-    res.status(200).send(artist);
+    res.status(200).send(album);
   } catch(err) {
     console.error(`Unqfy Error get id ${id}: ${err.message}`);
     res.status(404).send({status: 404, errorCode: 'RESOURCE_NOT_FOUND'});
@@ -71,10 +70,11 @@ router.put("/:id", (req, res) => {
 });
 
 router.delete("/:id", (req,res) => {
-  let id = req.params.id;
+  let albumId = Number(req.params.id);
   try{
     unqfy = UNQfyLoader.getUNQfy();
-    unqfy.removeArtist(Number(id));
+    let artistId = unqfy.getArtistIdByAlbumId(albumId);
+    unqfy.removeAlbum(artistId, albumId);
     UNQfyLoader.saveUNQfy(unqfy);
     res.status(204).send();
   } catch(err){

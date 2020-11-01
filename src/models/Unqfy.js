@@ -62,8 +62,22 @@ class UNQfy {
     return artist;
   }
 
+  getArtistByAlbumId(id){
+    const artist = this.artists.find((artist) => artist.albums.some(album => album.id === id));
+    this._validateIfExist(artist, 'Artist');
+
+    return artist;
+  }
+
   getArtistIdByName(name){
     const artist = this.getArtistByName(name);
+    this._validateIfExist(artist, 'Artist');
+
+    return artist.id;
+  }
+
+  getArtistIdByAlbumId(id){
+    const artist = this.getArtistByAlbumId(id);
     this._validateIfExist(artist, 'Artist');
 
     return artist.id;
@@ -116,7 +130,7 @@ class UNQfy {
 
     return {
       artists: allArtists.filter((artist) => artist.name.toLowerCase().includes(name.toLowerCase())),
-      albums: allAlbums.filter((album) => album.name.includes(name)),
+      albums: allAlbums.filter((album) => album.name.toLowerCase().includes(name.toLowerCase())),
       tracks: allTracks.filter((track) => track.title.includes(name)),
       playlists: allPlaylist.filter((playlist) => playlist.name.includes(name)),
     }
