@@ -1,4 +1,4 @@
-const UnqfyError = require('./src/models/UnqfyError');
+const { UnqfyError } = require('./src/models/UnqfyError');
 const UNQfyLoader = require('./src/lib/UNQfyLoader');
 
 const ADD_ARTIST = 'addArtist';
