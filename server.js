@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 
 // Routes + controllers
 const ArtistsRoute = require('./src/api/routes/Artists');
+const AlbumsRoute = require('./src/api/routes/Albums');
 const TracksRoute = require('./src/api/routes/Tracks');
 
 // MIDDLEWARES
@@ -33,6 +34,7 @@ app.use((req, res, next) => {
 
 // ROUTES
 app.use("/api/artists", ArtistsRoute);
+app.use("/api/albums", AlbumsRoute);
 app.use("/api/tracks", TracksRoute);
 
 app.listen(port, () => {
