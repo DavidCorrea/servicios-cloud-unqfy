@@ -1,8 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { ResourceNotFoundError } = require('../../models/UnqfyError');
-const { ResourceAlreadyExistError } = require('../../models/UnqfyError');
-
+const { ResourceNotFoundError, ResourceAlreadyExistError, BadRequestError } = require('../../models/UnqfyError');
 
 router.get("/:id", (req, res) => {
   const unqfy = req.unqfy;
@@ -42,7 +40,7 @@ router.get("/", (req, res) => {
 router.post("/", (req, res) => {
   const unqfy = req.unqfy;
   let { name, year } = req.body;
-  let artistId = Number(req.body.artistId);
+  let artistId = isNaN(Number(req.body.artistId)) ? '' : Number(req.body.artistId) ;
   try{
     let created = unqfy.addAlbum(artistId, { name, year });
     res.status(201).send(created);
@@ -51,6 +49,8 @@ router.post("/", (req, res) => {
       res.status(409).send({ status: 409, errorCode: 'RESOURCE_ALREADY_EXISTS' });
     } else if(error instanceof ResourceNotFoundError) {
       res.status(404).send({ status: 404, errorCode: 'RELATED_RESOURCE_NOT_FOUND' });
+    } else if(error instanceof BadRequestError) {
+      res.status(400).send({ status: 400, errorCode: 'BAD_REQUEST' });
     } else {
       res.status(500).send({ status: 500, errorCode: 'INTERNAL_SERVER_ERROR' });
     }

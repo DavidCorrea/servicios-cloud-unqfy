@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { BadRequestError, ResourceAlreadyExistError } = require('../../models/UnqfyError');
 
 router.get("/:id", (req, res) => {
   const unqfy = req.unqfy;
@@ -40,15 +41,19 @@ router.get("/", (req, res) => {
 
 router.post("/", (req, res) => {
   const unqfy = req.unqfy;
-  let { name, country } = req.body; // destructuring
-
+  
   try{
-    let artist = { name, country }
+    let artist = detructuringArtist(req); // destructuring
     let created = unqfy.addArtist(artist);
     res.status(201).send(created);
-  } catch(err){
-    console.error(`Unqfy Error: ${err.message}`);
-    res.status(409).send({status: 409, errorCode: 'RESOURCE_ALREADY_EXISTS' });
+  } catch(error){
+    if(error instanceof ResourceAlreadyExistError) {
+      res.status(409).send({ status: 409, errorCode: 'RESOURCE_ALREADY_EXISTS' });
+    } else if(error instanceof BadRequestError) {
+      res.status(400).send({ status: 400, errorCode: 'BAD_REQUEST' });
+    } else {
+      res.status(500).send({ status: 500, errorCode: 'INTERNAL_SERVER_ERROR' });
+    }
   }
 });
 
@@ -80,4 +85,16 @@ router.delete("/:id", (req,res) => {
   }
 });
 
+function detructuringArtist(req) {
+  try{
+    let artist = {};
+    artist.name =  req.body.name ? req.body.name : '';
+    artist.country = req.body.country ? req.body.country : '';
+    return artist;
+  }catch(err){
+    throw new BadRequestError();
+  }
+}
+
 module.exports = router;
+

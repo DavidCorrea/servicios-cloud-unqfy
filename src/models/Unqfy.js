@@ -1,7 +1,7 @@
 const picklify = require('picklify'); // para cargar/guarfar unqfy
 const fs = require('fs'); // para cargar/guarfar unqfy
 const { flatMap, firstN } = require('../lib/lib');
-const { UnqfyError, ResourceNotFoundError } = require('./UnqfyError');
+const { UnqfyError, ResourceNotFoundError, BadRequestError, ResourceAlreadyExistError } = require('./UnqfyError');
 const Artist = require('./Artist');
 const Album = require('./Album');
 const Track = require('./Track');
@@ -32,6 +32,7 @@ class UNQfy {
   addAlbum(artistId, { name, year }) {
     this._validateIsNotEmpty(name, 'Album', 'Name');
     this._validateIsNotEmpty(year, 'Album', 'Year');
+    this._validateIsNotEmpty(artistId, 'Album', 'Artist');
 
     const artist = this.getArtistById(artistId);
 
@@ -278,13 +279,14 @@ class UNQfy {
 
   _validateIsNotEmpty(value, errorMessageClass, errorMessageParameter) {
     if (value.length === 0) {
-      throw new UnqfyError(`Couldn't create new ${errorMessageClass}: ${errorMessageParameter} cannot be empty`);
+      throw new BadRequestError(`Couldn't create new ${errorMessageClass}: ${errorMessageParameter} cannot be empty`);
+      //throw new UnqfyError(`Couldn't create new ${errorMessageClass}: ${errorMessageParameter} cannot be empty`);
     }
   }
 
   _validateNameIsAvailable(name) {
     if (this.artists.some((artist) => artist.name === name)) {
-      throw new UnqfyError("Couldn't create new Artist: Name was already taken");
+      throw new ResourceAlreadyExistError("Couldn't create new Artist: Name was already taken");
     }
   }
 
