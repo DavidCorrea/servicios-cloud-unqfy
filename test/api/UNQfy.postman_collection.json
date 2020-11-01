@@ -2122,7 +2122,18 @@
 							"script": {
 								"id": "c3bba92d-cfe8-4c6d-87af-409f6d4826dd",
 								"exec": [
-									""
+									"const chai = require('chai');",
+                  "chai.config.truncateThreshold = 0;",
+                  "",
+                  "pm.test(\"should be a JSON with name and lyrics\", function () {",
+                  "   pm.response.to.have.status(200);",
+                  "   pm.response.to.have.jsonBody();",
+                  "",
+                  "   var jsonData = pm.response.json();",
+                  "   pm.expect(Object.keys(jsonData)).to.be.deep.equal(['name', 'lyrics']);",
+                  "   pm.expect(jsonData.name).not.to.be.equal(null);",
+                  "   pm.expect(jsonData.lyrics).not.to.be.equal(null);",
+                  "});"
 								],
 								"type": "text/javascript"
 							}
@@ -2141,7 +2152,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:{{port}}/api/tracks/1/lyrics",
+							"raw": "http://localhost:{{port}}/api/tracks/0/lyrics",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -2150,7 +2161,7 @@
 							"path": [
 								"api",
 								"tracks",
-								"1",
+								"0",
 								"lyrics"
 							]
 						}

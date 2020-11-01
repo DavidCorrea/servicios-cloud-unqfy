@@ -1,5 +1,5 @@
 const axios = require('axios');
-const UnqfyError = require('../models/UnqfyError');
+const { UnqfyError } = require('../models/UnqfyError');
 
 const baseURL = 'https://api.spotify.com/v1';
 const spotifyCreds = require('../../spotifyCreds');

@@ -1,7 +1,7 @@
 const picklify = require('picklify'); // para cargar/guarfar unqfy
 const fs = require('fs'); // para cargar/guarfar unqfy
 const { flatMap, firstN } = require('../lib/lib');
-const UnqfyError = require('./UnqfyError');
+const { UnqfyError, ResourceNotFoundError } = require('./UnqfyError');
 const Artist = require('./Artist');
 const Album = require('./Album');
 const Track = require('./Track');
@@ -302,7 +302,7 @@ class UNQfy {
   
   _validateIfExist(value, errorMessage) {
     if (!value) {
-      throw new UnqfyError(`${errorMessage} does not exist`);
+      throw new ResourceNotFoundError(errorMessage);
     }
   }
 
