@@ -1,7 +1,7 @@
 const picklify = require('picklify'); // para cargar/guarfar unqfy
 const fs = require('fs'); // para cargar/guarfar unqfy
 const { flatMap, firstN } = require('../lib/lib');
-const { UnqfyError, ResourceNotFoundError } = require('./UnqfyError');
+const { UnqfyError, ResourceNotFoundError, ResourceAlreadyExistsError } = require('./UnqfyError');
 const Artist = require('./Artist');
 const Album = require('./Album');
 const Track = require('./Track');
@@ -293,19 +293,19 @@ class UNQfy {
 
   _validateNameIsAvailable(name) {
     if (this.artists.some((artist) => artist.name === name)) {
-      throw new UnqfyError("Couldn't create new Artist: Name was already taken");
+      throw new ResourceAlreadyExistsError('Artist', 'Name');
     }
   }
 
   _validatePlaylistNameIsAvailable(name) {
     if (this.playlists.some((playlist) => playlist.name === name)) {
-      throw new UnqfyError("Couldn't create new Playlist: Name was already taken");
+      throw new ResourceAlreadyExistsError('Playlist', 'Name');
     }
   }
 
   _validateUserNameIsAvailable(name) {
     if (this.users.some((user) => user.name === name)) {
-      throw new UnqfyError("Couldn't create new User: Name was already taken");
+      throw new ResourceAlreadyExistsError('User', 'Name');
     }
   }
   

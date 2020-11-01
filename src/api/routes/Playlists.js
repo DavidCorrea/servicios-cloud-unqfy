@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { ResourceNotFoundError } = require('../../models/UnqfyError');
+const { ResourceNotFoundError, ResourceAlreadyExistsError } = require('../../models/UnqfyError');
 
 const serializePlaylist = (playlist) => {
   return {
@@ -11,7 +11,7 @@ const serializePlaylist = (playlist) => {
   }
 }
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", (req, res) => {
   const unqfy = req.unqfy;
   const playlistId = Number(req.params.id);
 
@@ -27,7 +27,24 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.post("/", async (req, res) => {
+  const unqfy = req.unqfy;
+  const { name, genres } = req.body;
+  const maxDuration = Number(req.body.maxDuration);
+
+  try {
+    const createdPlaylist = unqfy.createPlaylist(name, genres, maxDuration);
+    res.status(201).send(serializePlaylist(createdPlaylist));
+  } catch(error) {
+    if(error instanceof ResourceAlreadyExistsError) {
+      res.status(409).send({ status: 409, errorCode: 'RESOURCE_ALREADY_EXISTS' });
+    } else {
+      res.status(500).send({ status: 500, errorCode: 'INTERNAL_SERVER_ERROR' });
+    }
+  }
+});
+
+router.delete("/:id", (req, res) => {
   const unqfy = req.unqfy;
   const playlistId = Number(req.params.id);
 

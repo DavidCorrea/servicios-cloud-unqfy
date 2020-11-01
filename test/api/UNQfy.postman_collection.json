@@ -2247,6 +2247,148 @@
 			"name": "playlists",
 			"item": [
 				{
+					"name": "add playlist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d7b16d8e-c96d-450b-9092-e589ab34ba49",
+								"exec": [
+									"// NOTE: This tests against the objects created by the UNQfy script.",
+									"",
+									"const chai = require('chai');",
+									"chai.config.truncateThreshold = 0;",
+									"",
+									"pm.test(\"should create playlist\", function () {",
+									"    pm.response.to.have.status(201);",
+									"    pm.response.to.have.jsonBody();",
+									"    ",
+									"    var jsonData = pm.response.json();",
+									"    var playlistId = jsonData.id;",
+									"",
+									"    pm.expect(jsonData).to.deep.include({",
+									"        \"id\": playlistId,",
+									"        \"name\": \"Electronica Mix\",",
+									"        \"duration\": 1150",
+									"    });",
+									"",
+									"    pm.expect(jsonData.tracks).to.include.members([",
+									"        \"Imaginary Friends\",",
+									"        \"Strobe (PEEKABOO Remix)\", ",
+									"        \"Strobe\", ",
+									"        \"Imaginary Friends (Morgan Page Remix)\"",
+									"    ]);",
+									"",
+									"    pm.environment.set(\"testPlaylistId\", playlistId);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "910a0e31-6544-4ca5-9691-adf63c146623",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Electronica Mix\",\n  \"maxDuration\": 2500,\n  \"genres\": [\"Electronica\"]\n}"
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/api/playlists",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"playlists"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add duplicate playlist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "22dc5516-a8b6-4198-a863-1f472eda6f75",
+								"exec": [
+									"// NOTE: This tests against the objects created by the UNQfy script.",
+									"",
+									"const chai = require('chai');",
+									"chai.config.truncateThreshold = 0;",
+									"",
+									"pm.test(\"add playlist with the same name\", function () {",
+									"    pm.response.to.have.status(409);",
+									"    pm.response.to.have.jsonBody();",
+									"    ",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.be.deep.equal({",
+									"        status: 409,",
+									"        errorCode: \"RESOURCE_ALREADY_EXISTS\"        ",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "09f5895b-5798-4da5-8876-f45df20d5f1c",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Electronica Mix\",\n  \"maxDuration\": 2000,\n  \"genres\": [\"Electronica\"]\n}"
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/api/playlists",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"playlists"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "get playlist",
 					"event": [
 						{
@@ -2265,12 +2407,18 @@
 									"    ",
 									"    var jsonData = pm.response.json();",
 									"",
-									"    pm.expect(jsonData).to.be.deep.equal({",
-									"       \"id\": Number(pm.environment.get(\"testPlaylistId\")),",
-									"       \"name\": \"Mix 1\",",
-									"       \"tracks\": [\"...Ready For It?\"],",
-									"       \"duration\": 208",
+									"    pm.expect(jsonData).to.deep.include({",
+									"        \"id\": Number(pm.environment.get(\"testPlaylistId\")),",
+									"       \"name\": \"Electronica Mix\",",
+									"       \"duration\": 1150",
 									"    });",
+									"",
+									"    pm.expect(jsonData.tracks).to.include.members([",
+									"        \"Imaginary Friends\",",
+									"        \"Strobe (PEEKABOO Remix)\", ",
+									"        \"Strobe\", ",
+									"        \"Imaginary Friends (Morgan Page Remix)\"",
+									"    ]);",
 									"});"
 								],
 								"type": "text/javascript"
