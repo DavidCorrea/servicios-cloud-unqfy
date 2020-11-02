@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "39712a2a-0982-45db-b5d7-00e78233e0b6",
+		"_postman_id": "d9902ded-084b-4e38-bd13-d87b062080f6",
 		"name": "UNQfy",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -14,7 +14,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "fe113975-1905-4263-8303-b52c514a6d8a",
+								"id": "9d25d821-7f44-4d6d-877d-e2e0a6eae085",
 								"type": "text/javascript",
 								"exec": [
 									"const chai = require('chai');",
@@ -66,7 +66,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "a7433e26-f454-43fd-8f8a-a0e00998f7b6",
+								"id": "3ba3e25a-fb9a-41dd-85ca-f919951e246e",
 								"type": "text/javascript",
 								"exec": [
 									"const chai = require('chai');",
@@ -119,7 +119,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "08423151-71d8-4e67-b2ca-46f2e65d2bb5",
+								"id": "2cdd2451-657a-44c7-87b3-1f05834f468c",
 								"type": "text/javascript",
 								"exec": [
 									"const chai = require('chai');",
@@ -164,7 +164,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "92246f91-b1fe-4028-8986-a55462811d96",
+								"id": "6b6cec7f-c7f8-4881-8811-d33145241825",
 								"type": "text/javascript",
 								"exec": [
 									"const chai = require('chai');",
@@ -217,7 +217,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "1045186c-32d7-40d1-a320-b6f305fb5da9",
+								"id": "8331aeb0-76a4-414d-842e-edb4aac5e14f",
 								"type": "text/javascript",
 								"exec": [
 									"const chai = require('chai');",
@@ -270,7 +270,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "f790d9de-480f-4086-985b-bf0a62d2bd16",
+								"id": "cdb28088-75f8-4f5b-97c4-e1c093b87c93",
 								"type": "text/javascript",
 								"exec": [
 									"const chai = require('chai');",
@@ -315,7 +315,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "245a76ad-3456-43ae-ac56-67a1d5bf51ff",
+								"id": "48399ab6-6282-4ba0-9daf-94857e302c5a",
 								"exec": [
 									"const chai = require('chai');",
 									"chai.config.truncateThreshold = 0;",
@@ -360,7 +360,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "72dc273d-cbfe-446b-975c-9387c29b23fe",
+								"id": "f31b6de8-01f4-491d-83db-ad7fbd45c15d",
 								"exec": [
 									"const chai = require('chai');",
 									"chai.config.truncateThreshold = 0;",
@@ -406,7 +406,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b06dc8ab-deb3-4182-ab80-0ab0341a54e0",
+								"id": "1de76b5a-5fe9-4379-9b1b-f120d44e8faa",
 								"type": "text/javascript",
 								"exec": [
 									"const chai = require('chai');",
@@ -459,7 +459,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "892b5dde-d475-41a2-bdee-8e5341aca9c3",
+								"id": "a3b15445-e07d-4307-a0e2-019174b6c1d3",
 								"type": "text/javascript",
 								"exec": [
 									"const chai = require('chai');",
@@ -508,7 +508,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "316d9493-af20-4077-b205-2d59a0ace191",
+								"id": "808c515c-30ea-4415-b0ec-5e1ce92d52a4",
 								"type": "text/javascript",
 								"exec": [
 									"const chai = require('chai');",
@@ -557,7 +557,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "1e126480-837a-4b61-8c67-4b9031307096",
+								"id": "329b42e4-9226-4dbf-b18d-6fac4efd7bd6",
 								"exec": [
 									"const chai = require('chai');",
 									"chai.config.truncateThreshold = 0;",
@@ -606,7 +606,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "603443ff-67c3-42b3-8b73-2cfa3b336ec9",
+								"id": "494b4b92-9d3e-4ccd-95d2-3a405c9c0d66",
 								"exec": [
 									"// NOTE: This tests against the objects created by the UNQfy script.",
 									"",
@@ -630,7 +630,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "5c71d2b4-9d32-42bb-9775-243bcb2a9e81",
+								"id": "1c8b8324-3551-4301-bb9c-b981e71d4584",
 								"exec": [
 									""
 								],
@@ -671,7 +671,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "740ba1e6-9380-4519-8121-4cfb7b60cb2b",
+								"id": "4e382608-cd2b-4bcc-b9ea-9053dceebd1e",
 								"exec": [
 									"const chai = require('chai');",
 									"chai.config.truncateThreshold = 0;",
@@ -693,7 +693,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "78fb75ad-d042-4b28-93ef-715c9119b104",
+								"id": "5772d0ff-08c5-443c-93cc-affe28dfa032",
 								"exec": [
 									""
 								],
@@ -734,7 +734,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "229ae9f9-14c8-4860-acac-240bad415f5c",
+								"id": "f5908f88-f1d5-441e-99ca-289eec335fe4",
 								"exec": [
 									"const chai = require('chai');",
 									"chai.config.truncateThreshold = 0;",
@@ -756,7 +756,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "aa5a11ca-1258-47f5-a0ea-8d940c1bff82",
+								"id": "b37dfcbf-fd8b-4af5-86c0-1f2d4ac34f74",
 								"exec": [
 									""
 								],
@@ -797,7 +797,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b0c9f287-2d61-4fc6-84e4-b7c07077ce47",
+								"id": "f8a2f3d1-64e8-4aa0-8598-55ae98eb9f35",
 								"exec": [
 									"const chai = require('chai');",
 									"chai.config.truncateThreshold = 0;",
@@ -819,7 +819,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "aa0f162f-60d2-4121-a36c-6449dee43be1",
+								"id": "f2a3c658-0f4e-41d8-bc8a-0e17d57b4c95",
 								"exec": [
 									""
 								],
@@ -866,7 +866,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "abf56ab8-ec81-4cbe-ba13-82c8188dee81",
+								"id": "e08ff26d-6d54-4581-816d-92d634e9e1c3",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -876,7 +876,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "1aa9acce-b71a-40c0-b3a6-620ed7c9b78b",
+								"id": "ba637672-1dcb-4485-86aa-1480abc537a3",
 								"type": "text/javascript",
 								"exec": [
 									"const chai = require('chai');",
@@ -924,7 +924,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "1fb70cab-70f0-41d0-9f1c-278b16a08b34",
+								"id": "47ed9ab4-551e-446f-b29d-a548a575c97f",
 								"type": "text/javascript",
 								"exec": [
 									"const chai = require('chai');",
@@ -966,7 +966,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "469aea17-5ad8-4a7b-be0d-1283293ab0cd",
+								"id": "9a2f8fa0-0ed5-44c7-af47-660bed69f216",
 								"exec": [
 									"const chai = require('chai');",
 									"chai.config.truncateThreshold = 0;",
@@ -994,7 +994,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "b8eef88d-269e-42d1-8e93-bd1dedb85bfb",
+								"id": "c38a353c-c2fa-41b5-a9a9-fbca8ad80ecf",
 								"exec": [
 									""
 								],
@@ -1035,7 +1035,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "3742cf56-016a-4042-ae15-0dc65333a0b4",
+								"id": "1551f505-653a-4a6d-ade9-e66e985b3967",
 								"exec": [
 									"const chai = require('chai');",
 									"chai.config.truncateThreshold = 0;",
@@ -1057,7 +1057,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "7686d1a9-9325-4e31-a9e9-fb4e84f7fa55",
+								"id": "65fb9509-b89c-4396-8f1d-3c82d371ddcc",
 								"exec": [
 									""
 								],
@@ -1098,7 +1098,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "27d52045-0269-4459-9e2e-5c50f0678d23",
+								"id": "b94c3e30-7340-4033-9fad-d4d86a2c17e4",
 								"exec": [
 									"const chai = require('chai');",
 									"chai.config.truncateThreshold = 0;",
@@ -1150,7 +1150,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b8983014-95b2-428c-8c58-e125b430646c",
+								"id": "3497bd08-d613-456d-9492-6b2d78269a66",
 								"exec": [
 									"const chai = require('chai');",
 									"chai.config.truncateThreshold = 0;",
@@ -1178,7 +1178,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "8646333e-bf2b-465b-b294-bb93fc430a77",
+								"id": "bcc30654-5ea0-43ab-a3c5-0f9fe0ec4ef2",
 								"exec": [
 									""
 								],
@@ -1220,7 +1220,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "8256f68c-882f-439d-abfe-58075e7f0763",
+								"id": "ccfe7f7b-3f32-431d-8151-0db3779e171c",
 								"exec": [
 									"const chai = require('chai');",
 									"chai.config.truncateThreshold = 0;",
@@ -1248,7 +1248,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "d7d3b1b1-db09-48b6-8b31-d5a1fa1c7ae4",
+								"id": "a04d7298-2c96-4593-a093-0f9fe9a99212",
 								"exec": [
 									""
 								],
@@ -1289,7 +1289,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "55e4d4c0-7ae5-414b-ad39-244e21fb4dd4",
+								"id": "fa8e7ed9-cb51-4aae-9f04-b8db11ecfe19",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -1299,7 +1299,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "d9b06042-3724-48ee-a900-97db56ed5658",
+								"id": "b70bfc4d-3d54-4df9-8c16-1734366550b6",
 								"type": "text/javascript",
 								"exec": [
 									"const chai = require('chai');",
@@ -1353,7 +1353,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "152fc732-a995-4391-8106-58f56e3e9ea7",
+								"id": "e23e2f79-cd1d-4610-8ef1-07c9ab7d4e26",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -1363,7 +1363,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "e1c01ae6-8a82-4b00-81c5-1af440bca483",
+								"id": "0359caae-8906-479b-a764-d63662e07663",
 								"type": "text/javascript",
 								"exec": [
 									"const chai = require('chai');",
@@ -1423,7 +1423,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "d6459b0f-3f2b-41d0-aca3-d8cf8b111218",
+								"id": "17fc5fd5-a81f-4252-9620-e8c9f63e368c",
 								"type": "text/javascript",
 								"exec": [
 									"const chai = require('chai');",
@@ -1478,7 +1478,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "aa4904b8-bf0a-42f7-bfbb-41baf32c7591",
+								"id": "73ce1a81-fb25-45fd-91a1-0c3f96197f1b",
 								"exec": [
 									"const chai = require('chai');",
 									"chai.config.truncateThreshold = 0;",
@@ -1522,7 +1522,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "07c9f771-b533-4ffa-8c9a-67a6cbb6f786",
+								"id": "d20e4fc9-db37-4c7a-9648-2bc5a0e0248d",
 								"type": "text/javascript",
 								"exec": [
 									"const chai = require('chai');",
@@ -1576,25 +1576,18 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "dcbee5d0-308a-43c3-9faa-62b034e878fa",
+								"id": "5959f488-e917-40bf-b035-9a92a9e48a9b",
 								"type": "text/javascript",
 								"exec": [
 									"const chai = require('chai');",
 									"chai.config.truncateThreshold = 0;",
 									"",
-									"pm.test(\"should be one album\", function () {",
+									"pm.test(\"empty albums\", function () {",
 									"    pm.response.to.have.status(200);",
 									"    pm.response.to.have.jsonBody();",
 									"    ",
 									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData).to.be.deep.equal([",
-									"        {",
-									"            \"id\": pm.environment.get(\"testAlbumId2\"),",
-									"            \"name\": \"Use Your Illusion 1\",",
-									"            \"year\": 1992,",
-									"            \"tracks\": [],",
-									"        }",
-									"    ]);",
+									"    pm.expect(jsonData).to.be.deep.equal([]);",
 									"});"
 								]
 							}
@@ -1624,7 +1617,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "8632f2c3-26a7-4e50-8966-614c8c111f43",
+								"id": "b8378f1c-0daa-404a-a2e8-d0e6320d2c18",
 								"type": "text/javascript",
 								"exec": [
 									"const chai = require('chai');",
@@ -1666,396 +1659,12 @@
 					"response": []
 				},
 				{
-					"name": "artist",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "96bd05d5-2331-4049-8779-a968930d1bd1",
-								"type": "text/javascript",
-								"exec": [
-									"const chai = require('chai');",
-									"chai.config.truncateThreshold = 0;",
-									"",
-									"pm.test(\"artist should have 2 albums\", function () {",
-									"    pm.response.to.have.status(200);",
-									"    pm.response.to.have.jsonBody();",
-									"    ",
-									"    var jsonData = pm.response.json();",
-									"    ",
-									"",
-									"    pm.expect(jsonData).to.be.deep.equal({",
-									"        \"id\": pm.environment.get(\"testArtistId\"),",
-									"        \"name\": \"Guns n' Roses\",",
-									"        \"albums\": [",
-									"             {",
-									"                \"id\": pm.environment.get(\"testAlbumId\"),",
-									"                \"name\": \"Appetite For Destruction\",",
-									"                \"year\": 1987,",
-									"                \"tracks\":[]",
-									"            },",
-									"            {",
-									"                \"id\": pm.environment.get(\"testAlbumId2\"),",
-									"                \"name\": \"Use Your Illusion 1\",",
-									"                \"year\": 1992,",
-									"                \"tracks\": [],",
-									"            }",
-									"        ],",
-									"        \"country\": \"USA\",",
-									"    });",
-									"    ",
-									"});",
-									"",
-									""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:{{port}}/api/artists/{{testArtistId}}",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "{{port}}",
-							"path": [
-								"api",
-								"artists",
-								"{{testArtistId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "get album",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "59c9c8b7-7c3e-4350-9325-4c217caa4c07",
-								"exec": [
-									"const chai = require('chai');",
-									"chai.config.truncateThreshold = 0;",
-									"",
-									"pm.test(\"get album\", function () {",
-									"    pm.response.to.have.status(200);",
-									"    pm.response.to.have.jsonBody();",
-									"    ",
-									"    var jsonData = pm.response.json();",
-									"    ",
-									"",
-									"    pm.expect(jsonData).to.be.deep.equal({",
-									"        \"id\": pm.environment.get(\"testAlbumId\"),",
-									"        \"name\": \"Appetite For Destruction\",",
-									"        \"tracks\": [],",
-									"        \"year\": 2000,",
-									"    });",
-									"    ",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:{{port}}/api/albums/{{testAlbumId}}",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "{{port}}",
-							"path": [
-								"api",
-								"albums",
-								"{{testAlbumId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "artist",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "6817133e-dac7-4a05-8c74-955270126695",
-								"type": "text/javascript",
-								"exec": [
-									"const chai = require('chai');",
-									"chai.config.truncateThreshold = 0;",
-									"",
-									"pm.test(\"artist should have one album\", function () {",
-									"    pm.response.to.have.status(200);",
-									"    pm.response.to.have.jsonBody();",
-									"    ",
-									"    var jsonData = pm.response.json();",
-									"    ",
-									"",
-									"    pm.expect(jsonData).to.be.deep.equal({",
-									"        \"id\": pm.environment.get(\"testArtistId\"),",
-									"        \"name\": \"Guns n' Roses\",",
-									"        \"albums\": [",
-									"            {",
-									"                \"id\": pm.environment.get(\"testAlbumId2\"),",
-									"                \"name\": \"Use Your Illusion 1\",",
-									"                \"year\": 1992,",
-									"                \"tracks\": [],",
-									"            }",
-									"        ],",
-									"        \"country\": \"USA\",",
-									"    });",
-									"    ",
-									"});",
-									"",
-									""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:{{port}}/api/artists/{{testArtistId}}",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "{{port}}",
-							"path": [
-								"api",
-								"artists",
-								"{{testArtistId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "all albums",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "9bd2b5b8-a4c1-4329-8ffa-91c595586664",
-								"type": "text/javascript",
-								"exec": [
-									"const chai = require('chai');",
-									"chai.config.truncateThreshold = 0;",
-									"",
-									"pm.test(\"should be two album\", function () {",
-									"    pm.response.to.have.status(200);",
-									"    pm.response.to.have.jsonBody();",
-									"    ",
-									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData).to.be.deep.equal([",
-									"       {",
-									"            \"id\": pm.environment.get(\"testAlbumId\"),",
-									"            \"name\": \"Appetite For Destruction\",",
-									"            \"year\": 1987,",
-									"            \"tracks\":[]",
-									"        },",
-									"        {",
-									"            \"id\": pm.environment.get(\"testAlbumId2\"),",
-									"            \"name\": \"Use Your Illusion 1\",",
-									"            \"year\": 1992,",
-									"            \"tracks\": [],",
-									"        }",
-									"    ]);",
-									"});"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:{{port}}/api/albums",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "{{port}}",
-							"path": [
-								"api",
-								"albums"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "filter albums illusion",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "a5172523-9687-420e-a633-90010693bd87",
-								"type": "text/javascript",
-								"exec": [
-									"const chai = require('chai');",
-									"chai.config.truncateThreshold = 0;",
-									"",
-									"pm.test(\"should be one album\", function () {",
-									"    pm.response.to.have.status(200);",
-									"    pm.response.to.have.jsonBody();",
-									"    ",
-									"    var jsonData = pm.response.json();",
-									"    ",
-									"",
-									"    pm.expect(jsonData).to.be.deep.equal([",
-									"        {",
-									"        \"id\": pm.environment.get(\"testAlbumId2\"),",
-									"        \"name\": \"Use Your Illusion 1\",",
-									"        \"year\": 1992,",
-									"        \"tracks\": [],",
-									"    }]);",
-									"    ",
-									"});"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:{{port}}/api/albums?name=illusion",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "{{port}}",
-							"path": [
-								"api",
-								"albums"
-							],
-							"query": [
-								{
-									"key": "name",
-									"value": "illusion"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "artist",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "f386d4d2-2db8-4b90-8e97-a0619b71cdde",
-								"type": "text/javascript",
-								"exec": [
-									"const chai = require('chai');",
-									"chai.config.truncateThreshold = 0;",
-									"",
-									"pm.test(\"artist should have 1 album\", function () {",
-									"    pm.response.to.have.status(200);",
-									"    pm.response.to.have.jsonBody();",
-									"    ",
-									"    var jsonData = pm.response.json();",
-									"    ",
-									"",
-									"    pm.expect(jsonData).to.be.deep.equal({",
-									"        \"id\": pm.environment.get(\"testArtistId\"),",
-									"        \"name\": \"Guns n' Roses\",",
-									"        \"albums\": [",
-									"             {",
-									"                \"id\": pm.environment.get(\"testAlbumId\"),",
-									"                \"name\": \"Appetite For Destruction\",",
-									"                \"year\": 1987,",
-									"                \"tracks\":[]",
-									"            }",
-									"        ],",
-									"        \"country\": \"USA\",",
-									"    });",
-									"    ",
-									"});",
-									"",
-									""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:{{port}}/api/artists/{{testArtistId}}",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "{{port}}",
-							"path": [
-								"api",
-								"artists",
-								"{{testArtistId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "all albums",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "2cdd7d8a-2ca0-4bcb-9f76-9b5a2eaae45d",
-								"type": "text/javascript",
-								"exec": [
-									"const chai = require('chai');",
-									"chai.config.truncateThreshold = 0;",
-									"",
-									"pm.test(\"empty albums\", function () {",
-									"    pm.response.to.have.status(200);",
-									"    pm.response.to.have.jsonBody();",
-									"    ",
-									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData).to.be.deep.equal([]);",
-									"});"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:{{port}}/api/albums",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "{{port}}",
-							"path": [
-								"api",
-								"albums"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "add album",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "2f7f3ebf-0fe9-4aa7-ac20-c352655369c2",
+								"id": "768b3d7f-8e60-4891-ae84-ddaf84a189dd",
 								"exec": [
 									"const chai = require('chai');",
 									"chai.config.truncateThreshold = 0;",
@@ -2084,7 +1693,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "77605ecf-41bd-4abc-8f63-06d6dc598a6c",
+								"id": "4229507d-7013-4e33-84da-7c6a7815526f",
 								"exec": [
 									"/*",
 									"pm.test(\"response is ok\", function () {",
@@ -2146,18 +1755,119 @@
 					"response": []
 				},
 				{
-					"name": "delete album",
+					"name": "add duplicated album",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "bc0c792e-a428-4a7d-acd5-c9a4668beb74",
+								"id": "4e589c2a-f4db-46d2-84a6-5e75c2c76eab",
 								"exec": [
 									"const chai = require('chai');",
 									"chai.config.truncateThreshold = 0;",
 									"",
-									"pm.test(\"delete album\", function () {",
-									"    pm.response.to.have.status(204);",
+									"pm.test(\"add album with the same name\", function () {",
+									"    pm.response.to.have.status(409);",
+									"    pm.response.to.have.jsonBody();",
+									"    ",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.be.deep.equal({",
+									"        status: 409,",
+									"        errorCode: \"RESOURCE_ALREADY_EXISTS\"        ",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "030c69cd-bc18-47d1-b58c-645960f583f2",
+								"exec": [
+									"/*",
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(200);",
+									"   ",
+									"    var jsonData = pm.response.json();",
+									"    var artistId = jsonData.artistId;",
+									"    ",
+									"    pm.response.to.have.jsonBody({",
+									"        \"name\": \"Appetite For Destruction\",",
+									"        \"year\": 1987,",
+									"        \"artistId\": artistId",
+									"    });",
+									"});",
+									"",
+									"const echoPostRequest = {",
+									"  url: `http://localhost:${port}`,",
+									"  method: 'DELETE',",
+									"  header: '',",
+									"  body: {",
+									"    mode: 'raw',",
+									"    raw: JSON.stringify({ key: 'this is json' })",
+									"  }",
+									"};",
+									"pm.sendRequest(, function (err, response) {",
+									"    console.log(response.json());",
+									"});",
+									"*/"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Appetite For Destruction\",\n  \"year\": 2000,\n  \"artistId\": {{testArtistId}}\n}"
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/api/albums",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"albums"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get album",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "222d36f0-1ebd-4ffd-837d-ee59a884cc21",
+								"exec": [
+									"const chai = require('chai');",
+									"chai.config.truncateThreshold = 0;",
+									"",
+									"pm.test(\"get album\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    pm.response.to.have.jsonBody();",
+									"    ",
+									"    var jsonData = pm.response.json();",
+									"    ",
+									"",
+									"    pm.expect(jsonData).to.be.deep.equal({",
+									"        \"id\": pm.environment.get(\"testAlbumId\"),",
+									"        \"name\": \"Appetite For Destruction\",",
+									"        \"tracks\": [],",
+									"        \"year\": 2000,",
+									"    });",
+									"    ",
 									"});"
 								],
 								"type": "text/javascript"
@@ -2165,12 +1875,8 @@
 						}
 					],
 					"request": {
-						"method": "DELETE",
+						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://localhost:{{port}}/api/albums/{{testAlbumId}}",
 							"protocol": "http",
@@ -2193,7 +1899,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c08adf93-8447-4733-a15c-a2e32b995256",
+								"id": "70e5c6bf-bb1d-4319-94da-b31917ea0ee7",
 								"exec": [
 									"const chai = require('chai');",
 									"chai.config.truncateThreshold = 0;",
@@ -2249,81 +1955,50 @@
 					"response": []
 				},
 				{
-					"name": "add duplicated album",
+					"name": "artist",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "afadd804-da49-4998-9cca-efbaee3687cd",
+								"id": "6c012005-32c9-401c-9894-10e056566e51",
+								"type": "text/javascript",
 								"exec": [
 									"const chai = require('chai');",
 									"chai.config.truncateThreshold = 0;",
 									"",
-									"pm.test(\"add album with the same name\", function () {",
-									"    pm.response.to.have.status(409);",
+									"pm.test(\"artist should have 1 album\", function () {",
+									"    pm.response.to.have.status(200);",
 									"    pm.response.to.have.jsonBody();",
 									"    ",
 									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData).to.be.deep.equal({",
-									"        status: 409,",
-									"        errorCode: \"RESOURCE_ALREADY_EXISTS\"        ",
-									"    });",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "3357282c-45a1-4c87-b8eb-2078538b8913",
-								"exec": [
-									"/*",
-									"pm.test(\"response is ok\", function () {",
-									"    pm.response.to.have.status(200);",
-									"   ",
-									"    var jsonData = pm.response.json();",
-									"    var artistId = jsonData.artistId;",
 									"    ",
-									"    pm.response.to.have.jsonBody({",
-									"        \"name\": \"Appetite For Destruction\",",
-									"        \"year\": 1987,",
-									"        \"artistId\": artistId",
+									"",
+									"    pm.expect(jsonData).to.be.deep.equal({",
+									"        \"id\": pm.environment.get(\"testArtistId\"),",
+									"        \"name\": \"Guns n' Roses\",",
+									"        \"albums\": [",
+									"             {",
+									"                \"id\": pm.environment.get(\"testAlbumId\"),",
+									"                \"name\": \"Appetite For Destruction\",",
+									"                \"year\": 1987,",
+									"                \"tracks\":[]",
+									"            }",
+									"        ],",
+									"        \"country\": \"USA\",",
 									"    });",
+									"    ",
 									"});",
 									"",
-									"const echoPostRequest = {",
-									"  url: `http://localhost:${port}`,",
-									"  method: 'DELETE',",
-									"  header: '',",
-									"  body: {",
-									"    mode: 'raw',",
-									"    raw: JSON.stringify({ key: 'this is json' })",
-									"  }",
-									"};",
-									"pm.sendRequest(, function (err, response) {",
-									"    console.log(response.json());",
-									"});",
-									"*/"
-								],
-								"type": "text/javascript"
+									""
+								]
 							}
 						}
 					],
 					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"name\": \"Appetite For Destruction\",\n  \"year\": 2000,\n  \"artistId\": {{testArtistId}}\n}"
-						},
+						"method": "GET",
+						"header": [],
 						"url": {
-							"raw": "http://localhost:{{port}}/api/albums",
+							"raw": "http://localhost:{{port}}/api/artists/{{testArtistId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -2331,7 +2006,8 @@
 							"port": "{{port}}",
 							"path": [
 								"api",
-								"albums"
+								"artists",
+								"{{testArtistId}}"
 							]
 						}
 					},
@@ -2343,7 +2019,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "9e4d0e62-98ed-480b-9fb6-7845c39a3c79",
+								"id": "5c971596-ecd9-4a72-a5f7-ccfd02f99c6e",
 								"exec": [
 									"const chai = require('chai');",
 									"chai.config.truncateThreshold = 0;",
@@ -2372,7 +2048,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "66fa42cb-6e65-4981-bba8-d95aad68825f",
+								"id": "4054f7bb-b57b-4b42-bf44-dc71aa9ef19b",
 								"exec": [
 									"/*",
 									"pm.test(\"response is ok\", function () {",
@@ -2432,6 +2108,330 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "filter albums illusion",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8592f186-7828-4158-bc13-0e23f1cf5cd7",
+								"type": "text/javascript",
+								"exec": [
+									"const chai = require('chai');",
+									"chai.config.truncateThreshold = 0;",
+									"",
+									"pm.test(\"should be one album\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    pm.response.to.have.jsonBody();",
+									"    ",
+									"    var jsonData = pm.response.json();",
+									"    ",
+									"",
+									"    pm.expect(jsonData).to.be.deep.equal([",
+									"        {",
+									"        \"id\": pm.environment.get(\"testAlbumId2\"),",
+									"        \"name\": \"Use Your Illusion 1\",",
+									"        \"year\": 1992,",
+									"        \"tracks\": [],",
+									"    }]);",
+									"    ",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/api/albums?name=illusion",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"albums"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "illusion"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "all albums",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "69d4699e-186b-4ab4-8714-597f05e7c108",
+								"type": "text/javascript",
+								"exec": [
+									"const chai = require('chai');",
+									"chai.config.truncateThreshold = 0;",
+									"",
+									"pm.test(\"should be two album\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    pm.response.to.have.jsonBody();",
+									"    ",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.be.deep.equal([",
+									"       {",
+									"            \"id\": pm.environment.get(\"testAlbumId\"),",
+									"            \"name\": \"Appetite For Destruction\",",
+									"            \"year\": 1987,",
+									"            \"tracks\":[]",
+									"        },",
+									"        {",
+									"            \"id\": pm.environment.get(\"testAlbumId2\"),",
+									"            \"name\": \"Use Your Illusion 1\",",
+									"            \"year\": 1992,",
+									"            \"tracks\": [],",
+									"        }",
+									"    ]);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/api/albums",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"albums"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "artist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "22d7c6a6-7449-4b6d-973e-99c1d28b7e9a",
+								"type": "text/javascript",
+								"exec": [
+									"const chai = require('chai');",
+									"chai.config.truncateThreshold = 0;",
+									"",
+									"pm.test(\"artist should have 2 albums\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    pm.response.to.have.jsonBody();",
+									"    ",
+									"    var jsonData = pm.response.json();",
+									"    ",
+									"",
+									"    pm.expect(jsonData).to.be.deep.equal({",
+									"        \"id\": pm.environment.get(\"testArtistId\"),",
+									"        \"name\": \"Guns n' Roses\",",
+									"        \"albums\": [",
+									"             {",
+									"                \"id\": pm.environment.get(\"testAlbumId\"),",
+									"                \"name\": \"Appetite For Destruction\",",
+									"                \"year\": 1987,",
+									"                \"tracks\":[]",
+									"            },",
+									"            {",
+									"                \"id\": pm.environment.get(\"testAlbumId2\"),",
+									"                \"name\": \"Use Your Illusion 1\",",
+									"                \"year\": 1992,",
+									"                \"tracks\": [],",
+									"            }",
+									"        ],",
+									"        \"country\": \"USA\",",
+									"    });",
+									"    ",
+									"});",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/api/artists/{{testArtistId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"artists",
+								"{{testArtistId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete album",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9b8c0922-449e-42f7-98ec-e1c7b7bf25f5",
+								"exec": [
+									"const chai = require('chai');",
+									"chai.config.truncateThreshold = 0;",
+									"",
+									"pm.test(\"delete album\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/api/albums/{{testAlbumId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"albums",
+								"{{testAlbumId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "artist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "252506f8-6d38-44b8-b2d6-e5f5a28371af",
+								"type": "text/javascript",
+								"exec": [
+									"const chai = require('chai');",
+									"chai.config.truncateThreshold = 0;",
+									"",
+									"pm.test(\"artist should have one album\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    pm.response.to.have.jsonBody();",
+									"    ",
+									"    var jsonData = pm.response.json();",
+									"    ",
+									"",
+									"    pm.expect(jsonData).to.be.deep.equal({",
+									"        \"id\": pm.environment.get(\"testArtistId\"),",
+									"        \"name\": \"Guns n' Roses\",",
+									"        \"albums\": [",
+									"            {",
+									"                \"id\": pm.environment.get(\"testAlbumId2\"),",
+									"                \"name\": \"Use Your Illusion 1\",",
+									"                \"year\": 1992,",
+									"                \"tracks\": [],",
+									"            }",
+									"        ],",
+									"        \"country\": \"USA\",",
+									"    });",
+									"    ",
+									"});",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/api/artists/{{testArtistId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"artists",
+								"{{testArtistId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "all albums",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b290d501-c9f3-4b4f-97bb-d60242862ba5",
+								"type": "text/javascript",
+								"exec": [
+									"const chai = require('chai');",
+									"chai.config.truncateThreshold = 0;",
+									"",
+									"pm.test(\"should be one album\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    pm.response.to.have.jsonBody();",
+									"    ",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.be.deep.equal([",
+									"        {",
+									"            \"id\": pm.environment.get(\"testAlbumId2\"),",
+									"            \"name\": \"Use Your Illusion 1\",",
+									"            \"year\": 1992,",
+									"            \"tracks\": [],",
+									"        }",
+									"    ]);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/api/albums",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"albums"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"protocolProfileBehavior": {}
@@ -2445,7 +2445,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "44e7f401-b130-4543-b4e3-98a2a9a2bf1a",
+								"id": "fa581810-2723-4dfd-8bd9-2fd762b352a8",
 								"exec": [
 									"// NOTE: This tests against the objects created by the UNQfy script.",
 									"",
@@ -2506,7 +2506,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "d7b16d8e-c96d-450b-9092-e589ab34ba49",
+								"id": "609ce20f-b733-471f-bce5-96de3d47003f",
 								"exec": [
 									"// NOTE: This tests against the objects created by the UNQfy script.",
 									"",
@@ -2526,11 +2526,51 @@
 									"        \"duration\": 1150",
 									"    });",
 									"",
-									"    pm.expect(jsonData.tracks).to.include.members([",
-									"        \"Imaginary Friends\",",
-									"        \"Strobe (PEEKABOO Remix)\", ",
-									"        \"Strobe\", ",
-									"        \"Imaginary Friends (Morgan Page Remix)\"",
+									"    pm.expect(jsonData.tracks).to.deep.include.members([",
+									"        {",
+									"            \"id\": 8,",
+									"            \"title\": \"Strobe\",",
+									"            \"duration\": 311,",
+									"            \"genres\": [",
+									"                \"Electronica\",",
+									"                \"House\",",
+									"                \"Trance\"",
+									"            ],",
+									"            \"lyrics\": \"\"",
+									"        },",
+									"        {",
+									"            \"id\": 9,",
+									"            \"title\": \"Imaginary Friends\",",
+									"            \"duration\": 103,",
+									"            \"genres\": [",
+									"                \"Electronica\",",
+									"                \"House\",",
+									"                \"Trance\"",
+									"            ],",
+									"            \"lyrics\": \"\"",
+									"        }, ",
+									"        {",
+									"            \"id\": 10,",
+									"            \"title\": \"Strobe (PEEKABOO Remix)\",",
+									"            \"duration\": 244,",
+									"            \"genres\": [",
+									"                \"Electronica\",",
+									"                \"House\",",
+									"                \"Trance\"",
+									"            ],",
+									"            \"lyrics\": \"\"",
+									"        }, ",
+									"        {",
+									"            \"id\": 11,",
+									"            \"title\": \"Imaginary Friends (Morgan Page Remix)\",",
+									"            \"duration\": 492,",
+									"            \"genres\": [",
+									"                \"Electronica\",",
+									"                \"House\",",
+									"                \"Trance\"",
+									"            ],",
+									"            \"lyrics\": \"\"",
+									"        }",
 									"    ]);",
 									"",
 									"    pm.environment.set(\"testPlaylistId\", playlistId);",
@@ -2542,7 +2582,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "910a0e31-6544-4ca5-9691-adf63c146623",
+								"id": "e26d003b-8f06-4f50-9a6d-4e5041af6280",
 								"exec": [
 									""
 								],
@@ -2583,7 +2623,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "22dc5516-a8b6-4198-a863-1f472eda6f75",
+								"id": "1d533e96-9871-4db9-89f9-f938670f3046",
 								"exec": [
 									"// NOTE: This tests against the objects created by the UNQfy script.",
 									"",
@@ -2607,7 +2647,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "09f5895b-5798-4da5-8876-f45df20d5f1c",
+								"id": "5633b2b5-c45c-4324-9021-44a409f040fb",
 								"exec": [
 									""
 								],
@@ -2648,7 +2688,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "7f01a630-48ac-4082-bbb4-9743048b08c6",
+								"id": "db22d8eb-d380-417d-b005-c61726159205",
 								"exec": [
 									"// NOTE: This tests against the objects created by the UNQfy script.",
 									"",
@@ -2668,10 +2708,40 @@
 									"        \"duration\": 658",
 									"    });",
 									"",
-									"    pm.expect(jsonData.tracks).to.include.members([",
-									"        \"Imaginary Friends\",",
-									"        \"Strobe (PEEKABOO Remix)\",",
-									"        \"Strobe\"",
+									"    pm.expect(jsonData.tracks).to.deep.include.members([",
+									"        {",
+									"            \"id\": 8,",
+									"            \"title\": \"Strobe\",",
+									"            \"duration\": 311,",
+									"            \"genres\": [",
+									"                \"Electronica\",",
+									"                \"House\",",
+									"                \"Trance\"",
+									"            ],",
+									"            \"lyrics\": \"\"",
+									"        },",
+									"        {",
+									"            \"id\": 9,",
+									"            \"title\": \"Imaginary Friends\",",
+									"            \"duration\": 103,",
+									"            \"genres\": [",
+									"                \"Electronica\",",
+									"                \"House\",",
+									"                \"Trance\"",
+									"            ],",
+									"            \"lyrics\": \"\"",
+									"        },",
+									"        {",
+									"            \"id\": 10,",
+									"            \"title\": \"Strobe (PEEKABOO Remix)\",",
+									"            \"duration\": 244,",
+									"            \"genres\": [",
+									"                \"Electronica\",",
+									"                \"House\",",
+									"                \"Trance\"",
+									"            ],",
+									"            \"lyrics\": \"\"",
+									"        }",
 									"    ]);",
 									"",
 									"    pm.environment.set(\"testPlaylistFromSongId\", playlistId);",
@@ -2683,7 +2753,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "498d75cf-7304-40da-a5e1-41e71ef7ef04",
+								"id": "fdc83c43-5d1f-40b1-af8c-653f8e6762ee",
 								"exec": [
 									""
 								],
@@ -2724,7 +2794,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "be2a1356-c6e9-4341-934c-bc68d07fbfdf",
+								"id": "52d65e99-3bb3-4336-86ef-270b9c924022",
 								"exec": [
 									"// NOTE: This tests against the objects created by the UNQfy script.",
 									"",
@@ -2748,7 +2818,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "61bc511f-bf74-422e-a972-5c62fe0852de",
+								"id": "3c6ff1b1-a2ae-4e12-ae8a-faa812c3a179",
 								"exec": [
 									""
 								],
@@ -2789,7 +2859,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "da1d6728-3185-47ad-be25-89fec3428d56",
+								"id": "b7ca3d68-7fb9-4f84-af70-5d82e50596f2",
 								"exec": [
 									"// NOTE: This tests against the objects created by the UNQfy script.",
 									"",
@@ -2808,11 +2878,51 @@
 									"       \"duration\": 1150",
 									"    });",
 									"",
-									"    pm.expect(jsonData.tracks).to.include.members([",
-									"        \"Imaginary Friends\",",
-									"        \"Strobe (PEEKABOO Remix)\", ",
-									"        \"Strobe\", ",
-									"        \"Imaginary Friends (Morgan Page Remix)\"",
+									"    pm.expect(jsonData.tracks).to.deep.include.members([",
+									"        {",
+									"            \"id\": 10,",
+									"            \"title\": \"Strobe (PEEKABOO Remix)\",",
+									"            \"duration\": 244,",
+									"            \"genres\": [",
+									"                \"Electronica\",",
+									"                \"House\",",
+									"                \"Trance\"",
+									"            ],",
+									"            \"lyrics\": \"\"",
+									"        },",
+									"        {",
+									"            \"id\": 9,",
+									"            \"title\": \"Imaginary Friends\",",
+									"            \"duration\": 103,",
+									"            \"genres\": [",
+									"                \"Electronica\",",
+									"                \"House\",",
+									"                \"Trance\"",
+									"            ],",
+									"            \"lyrics\": \"\"",
+									"        },",
+									"        {",
+									"            \"id\": 8,",
+									"            \"title\": \"Strobe\",",
+									"            \"duration\": 311,",
+									"            \"genres\": [",
+									"                \"Electronica\",",
+									"                \"House\",",
+									"                \"Trance\"",
+									"            ],",
+									"            \"lyrics\": \"\"",
+									"        },",
+									"        {",
+									"            \"id\": 11,",
+									"            \"title\": \"Imaginary Friends (Morgan Page Remix)\",",
+									"            \"duration\": 492,",
+									"            \"genres\": [",
+									"                \"Electronica\",",
+									"                \"House\",",
+									"                \"Trance\"",
+									"            ],",
+									"            \"lyrics\": \"\"",
+									"        }",
 									"    ]);",
 									"});"
 								],
@@ -2845,7 +2955,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "5a39450b-cea9-475e-ad3c-1c7375aec6a0",
+								"id": "81ef8c91-9657-4ead-8232-fa71bc961b08",
 								"exec": [
 									"// NOTE: This tests against the objects created by the UNQfy script.",
 									"",
@@ -2863,9 +2973,39 @@
 									"            id: Number(pm.environment.get(\"testPlaylistFromSongId\")),",
 									"            name: \"Electronica Mix from Songs\",",
 									"            tracks: [",
-									"                \"Strobe\",",
-									"                \"Imaginary Friends\",",
-									"                \"Strobe (PEEKABOO Remix)\",",
+									"                {",
+									"                    \"id\": 8,",
+									"                    \"title\": \"Strobe\",",
+									"                    \"duration\": 311,",
+									"                    \"genres\": [",
+									"                        \"Electronica\",",
+									"                        \"House\",",
+									"                        \"Trance\"",
+									"                    ],",
+									"                    \"lyrics\": \"\"",
+									"                },",
+									"                {",
+									"                    \"id\": 9,",
+									"                    \"title\": \"Imaginary Friends\",",
+									"                    \"duration\": 103,",
+									"                    \"genres\": [",
+									"                        \"Electronica\",",
+									"                        \"House\",",
+									"                        \"Trance\"",
+									"                    ],",
+									"                    \"lyrics\": \"\"",
+									"                },",
+									"                {",
+									"                    \"id\": 10,",
+									"                    \"title\": \"Strobe (PEEKABOO Remix)\",",
+									"                    \"duration\": 244,",
+									"                    \"genres\": [",
+									"                        \"Electronica\",",
+									"                        \"House\",",
+									"                        \"Trance\"",
+									"                    ],",
+									"                    \"lyrics\": \"\"",
+									"                }",
 									"            ],",
 									"            duration: 658",
 									"        }",
@@ -2914,7 +3054,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "f4f8d595-b3ea-4102-b356-a52e1a1f39cd",
+								"id": "6d9b1e09-a03e-424f-a85d-804f2746a575",
 								"exec": [
 									"// NOTE: This tests against the objects created by the UNQfy script.",
 									"",
