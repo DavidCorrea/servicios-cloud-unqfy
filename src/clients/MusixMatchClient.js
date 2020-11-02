@@ -41,7 +41,12 @@ const getTrackLyricsByTrackId = (trackId) => {
         throw new UnqfyError(`Couldn't fetch Track's lyrics: Status ${message.header.status_code}`);
       }
 
-      return message.body.lyrics.lyrics_body;
+      const lyrics = message.body.lyrics.lyrics_body;
+      const commercialUse = '******* This Lyrics is NOT for Commercial use *******';
+      const musixMatchInsertedNumber = /\([0-9]*\)/;
+      const sanitizedLyrics = lyrics.replace(commercialUse, '').replace(musixMatchInsertedNumber, '').trim();
+
+      return sanitizedLyrics;
     })
     .catch((error) => {
       // We might want to do something else here.
