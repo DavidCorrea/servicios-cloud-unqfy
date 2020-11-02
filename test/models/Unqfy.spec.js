@@ -95,7 +95,7 @@ describe('Add, remove and filter data', () => {
     });
   
     it('should raise an error when adding an album if artist does not exists', () => {
-      assert.throws(() => createAndAddAlbum(unqfy, undefined, 'Album1', 1987), "Artist does not exist");
+      assert.throws(() => createAndAddAlbum(unqfy, 9999, 'Album1', 1987), "Artist does not exist");
     });
   
     it('should raise an error if an album with the same name already exists', () => {

@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { BadRequestError, ResourceAlreadyExistError } = require('../../models/UnqfyError');
 
 router.get("/:id", (req, res, next) => {
   const unqfy = req.unqfy;
@@ -37,10 +38,9 @@ router.get("/", (req, res, next) => {
 
 router.post("/", (req, res, next) => {
   const unqfy = req.unqfy;
-  let { name, country } = req.body; // destructuring
-
+  
   try{
-    let artist = { name, country }
+    let artist = detructuringArtist(req); // destructuring
     let created = unqfy.addArtist(artist);
     res.status(201).send(created);
   } catch(err){
@@ -74,4 +74,16 @@ router.delete("/:id", (req, res, next) => {
   }
 });
 
+function detructuringArtist(req) {
+  try{
+    let artist = {};
+    artist.name =  req.body.name ? req.body.name : '';
+    artist.country = req.body.country ? req.body.country : '';
+    return artist;
+  }catch(err){
+    throw new BadRequestError();
+  }
+}
+
 module.exports = router;
+
