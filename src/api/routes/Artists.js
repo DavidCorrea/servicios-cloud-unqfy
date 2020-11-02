@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { BadRequestError, ResourceAlreadyExistError } = require('../../models/UnqfyError');
+const { BadRequestError } = require('../../models/UnqfyError');
 
 router.get("/:id", (req, res, next) => {
   const unqfy = req.unqfy;
@@ -16,23 +16,13 @@ router.get("/:id", (req, res, next) => {
 
 router.get("/", (req, res, next) => {
   const unqfy = req.unqfy;
+  const nameToLookFor = req.query.name || '';
 
-  if(req.query.name) {
-    try{
-      let artist =  unqfy.searchByName(req.query.name).artists;
-      res.status(200).send(artist);
-    } catch(err) {
-      next(err);
-    }
-  }
-  else {
-    //se van a devovler todos los artistas ya que no se filtro por nombre
-    try{
-      let artists =  unqfy.allArtists()
-      res.status(200).send(artists);
-    } catch(err) {
-      next(err);
-    }
+  try{
+    const artist =  unqfy.searchByName(nameToLookFor).artists;
+    res.status(200).send(artist);
+  } catch(err) {
+    next(err);
   }
 });
 
