@@ -420,6 +420,16 @@ describe('Add, remove and filter data', () => {
       assert.equal(trackLyrics, musixMatchTrackLyrics);
     });
 
+    context('When the lyrics have unwanted content related not related to the lyrics', () => {
+      it('removes them all', async () => {
+        MusixMatchMocks.mockSuccessfulTrackSearchRequest(track.title, musixMatchTrackId);
+        MusixMatchMocks.mockSuccessfulTrackLyricsRequest(musixMatchTrackId, "You're free to touch the sky ******* This Lyrics is NOT for Commercial use ******* (1234567890)");
+  
+        const trackLyrics = await unqfy.trackLyrics(track.title);
+        assert.equal(trackLyrics, "You're free to touch the sky");
+      });
+    });
+
     context('When the track search could not be performed', () => {
       it('should raise an error', async () => {
         MusixMatchMocks.mockUnsuccessfulTrackSearchRequest(track.title, 401);
