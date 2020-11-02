@@ -12,6 +12,13 @@ class ResourceNotFoundError extends UnqfyError {
   }
 }
 
+class RelatedResourceNotFoundError extends UnqfyError {
+  constructor(resourceName) {
+    super(`${resourceName} does not exist`);
+    this.name = "UnqfyError::RelatedResourceNotFoundError";
+  }
+}
+
 class ResourceAlreadyExistsError extends UnqfyError {
   constructor(resourceName, resourceField) {
     super(`Couldn't create new ${resourceName}: ${resourceField} was already taken`);
@@ -29,6 +36,7 @@ class BadRequestError extends UnqfyError {
 module.exports = {
   UnqfyError,
   ResourceNotFoundError,
+  RelatedResourceNotFoundError,
   ResourceAlreadyExistsError,
   BadRequestError
 };

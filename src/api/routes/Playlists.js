@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { ResourceNotFoundError, ResourceAlreadyExistsError, BadRequestError } = require('../../models/UnqfyError');
+const { BadRequestError } = require('../../models/UnqfyError');
 
 const serializePlaylist = (playlist) => {
   return {
@@ -17,7 +17,7 @@ const validateValueFromRequestExists = (value, field) => {
   }
 }
 
-router.get("/:id", (req, res) => {
+router.get("/:id", (req, res, next) => {
   const unqfy = req.unqfy;
   const playlistId = Number(req.params.id);
 
@@ -25,15 +25,11 @@ router.get("/:id", (req, res) => {
     const playlist = unqfy.getPlaylistById(playlistId);
     res.status(200).send(serializePlaylist(playlist));
   } catch(error) {
-    if(error instanceof ResourceNotFoundError) {
-      res.status(404).send({ status: 404, errorCode: 'RESOURCE_NOT_FOUND' });
-    } else {
-      res.status(500).send({ status: 500, errorCode: 'INTERNAL_SERVER_ERROR' });
-    }
+    next(error);
   }
 });
 
-router.get("/", (req, res) => {
+router.get("/", (req, res, next) => {
   const unqfy = req.unqfy;
 
   try {
@@ -45,11 +41,11 @@ router.get("/", (req, res) => {
     const playlists = unqfy.searchPlaylists({ filters });
     res.status(200).send(playlists.map((playlist) => serializePlaylist(playlist)));
   } catch(error) {
-    res.status(500).send({ status: 500, errorCode: 'INTERNAL_SERVER_ERROR' });
+    next(error);
   }
 });
 
-router.post("/", (req, res) => {
+router.post("/", (req, res, next) => {
   const unqfy = req.unqfy;
 
   try {
@@ -70,19 +66,11 @@ router.post("/", (req, res) => {
       res.status(201).send(serializePlaylist(createdPlaylist));
     }
   } catch(error) {
-    if(error instanceof BadRequestError) {
-      res.status(400).send({ status: 400, errorCode: 'BAD_REQUEST' });
-    } else if(error instanceof ResourceAlreadyExistsError) {
-      res.status(409).send({ status: 409, errorCode: 'RESOURCE_ALREADY_EXISTS' });
-    } else if(error instanceof ResourceNotFoundError) {
-      res.status(404).send({ status: 404, errorCode: 'RELATED_RESOURCE_NOT_FOUND' });
-    } else {
-      res.status(500).send({ status: 500, errorCode: 'INTERNAL_SERVER_ERROR' });
-    }
+    next(error);
   }
 });
 
-router.delete("/:id", (req, res) => {
+router.delete("/:id", (req, res, next) => {
   const unqfy = req.unqfy;
   const playlistId = Number(req.params.id);
 
@@ -90,11 +78,7 @@ router.delete("/:id", (req, res) => {
     unqfy.removePlaylist(playlistId);
     res.status(204).send();
   } catch(error) {
-    if(error instanceof ResourceNotFoundError) {
-      res.status(404).send({ status: 404, errorCode: 'RESOURCE_NOT_FOUND' });
-    } else {
-      res.status(500).send({ status: 500, errorCode: 'INTERNAL_SERVER_ERROR' });
-    }
+    next(error);
   }
 });
 

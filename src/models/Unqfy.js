@@ -1,7 +1,7 @@
 const picklify = require('picklify'); // para cargar/guarfar unqfy
 const fs = require('fs'); // para cargar/guarfar unqfy
 const { flatMap, firstN } = require('../lib/lib');
-const { UnqfyError, ResourceNotFoundError, ResourceAlreadyExistsError } = require('./UnqfyError');
+const { UnqfyError, ResourceNotFoundError, RelatedResourceNotFoundError, ResourceAlreadyExistsError } = require('./UnqfyError');
 const Artist = require('./Artist');
 const Album = require('./Album');
 const Track = require('./Track');
@@ -232,11 +232,19 @@ class UNQfy {
     this._validateIsNotEmpty(name, 'Playlist', 'Name');
     this._validatePlaylistNameIsAvailable(name);
 
-    const tracks = tracksIds.map(trackId => this.getTrackById(trackId));
-    const playlist = new Playlist(this._nextId(Playlist), name, tracks);
-    this.playlists.push(playlist);
-
-    return playlist;
+    try {
+      const tracks = tracksIds.map(trackId => this.getTrackById(trackId));
+      const playlist = new Playlist(this._nextId(Playlist), name, tracks);
+      this.playlists.push(playlist);
+  
+      return playlist;
+    } catch(error) {
+      if(error instanceof ResourceNotFoundError) {
+        throw new RelatedResourceNotFoundError('Track');
+      } else {
+        throw error;
+      }
+    }
   }
 
   removePlaylist(playlistIdToRemove) {
