@@ -1,20 +1,19 @@
 const express = require('express');
 const router = express.Router();
 
-router.get("/:id", (req, res) => {
+router.get("/:id", (req, res, next) => {
   const unqfy = req.unqfy;
   let id = req.params.id;
 
   try{
-      let artist =  unqfy.getArtistById(Number(id));
-    	res.status(200).send(artist);
-    } catch(err) {
-    	console.error(`Unqfy Error get id ${id}: ${err.message}`);
-    	res.status(404).send({status: 404, errorCode: 'RESOURCE_NOT_FOUND'});
-    }
+    let artist =  unqfy.getArtistById(Number(id));
+    res.status(200).send(artist);
+  } catch(err) {
+    next(err);
+  }
 });
 
-router.get("/", (req, res) => {
+router.get("/", (req, res, next) => {
   const unqfy = req.unqfy;
 
   if(req.query.name) {
@@ -22,8 +21,7 @@ router.get("/", (req, res) => {
       let artist =  unqfy.searchByName(req.query.name).artists;
       res.status(200).send(artist);
     } catch(err) {
-      console.error(`Unqfy Error: ${err.message}`);
-      res.status(404).send({status: 404, errorCode: 'RESOURCE_NOT_FOUND'});
+      next(err);
     }
   }
   else {
@@ -32,13 +30,12 @@ router.get("/", (req, res) => {
       let artists =  unqfy.allArtists()
       res.status(200).send(artists);
     } catch(err) {
-      console.error(`Unqfy Error: ${err.message}`);
-      res.status(500).send({status: 500, errorCode: 'INTERNAL_SERVER_ERROR'});
+      next(err);
     }
   }
 });
 
-router.post("/", (req, res) => {
+router.post("/", (req, res, next) => {
   const unqfy = req.unqfy;
   let { name, country } = req.body; // destructuring
 
@@ -47,12 +44,11 @@ router.post("/", (req, res) => {
     let created = unqfy.addArtist(artist);
     res.status(201).send(created);
   } catch(err){
-    console.error(`Unqfy Error: ${err.message}`);
-    res.status(409).send({status: 409, errorCode: 'RESOURCE_ALREADY_EXISTS' });
+    next(err);
   }
 });
 
-router.put("/:id", (req, res) => {
+router.put("/:id", (req, res, next) => {
   const unqfy = req.unqfy;
   let id = req.params.id;
 
@@ -62,12 +58,11 @@ router.put("/:id", (req, res) => {
     artist.country = req.body.country
     res.status(200).send(artist);
   } catch(err) {
-    console.error(`Unqfy Error get id ${id}: ${err.message}`);
-    res.status(404).send({status: 404, errorCode: 'RESOURCE_NOT_FOUND'});
+    next(err);
   }
 });
 
-router.delete("/:id", (req,res) => {
+router.delete("/:id", (req, res, next) => {
   const unqfy = req.unqfy;
   let id = req.params.id;
 
@@ -75,8 +70,7 @@ router.delete("/:id", (req,res) => {
     unqfy.removeArtist(Number(id));
     res.status(204).send();
   } catch(err){
-    console.error(`Unqfy Error get id ${id}: ${err.message}`);
-    res.status(404).send({status: 404, errorCode: 'RESOURCE_NOT_FOUND'});
+    next(err);
   }
 });
 

@@ -438,6 +438,26 @@ describe('Add, remove and filter data', () => {
     });
   });
 
+  describe('#removePlaylist', () => {
+    it('removes the playlist', () => {
+      const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+      const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+      createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock', 'movie']);
+      createAndAddTrack(unqfy, album.id, 'Sweet Child o\' Mine', 1500, ['rock', 'hard rock', 'pop', 'movie']);
+
+      const artist2 = createAndAddArtist(unqfy, 'Michael Jackson', 'USA');
+      const album2 = createAndAddAlbum(unqfy, artist2.id, 'Thriller', 1987);
+      createAndAddTrack(unqfy, album2.id, 'Thriller', 200, ['pop', 'movie']);
+      createAndAddTrack(unqfy, album2.id, 'Another song', 500, ['pop']);
+      createAndAddTrack(unqfy, album2.id, 'Another song II', 500, ['pop']);
+
+      const playlist = unqfy.createPlaylist('my playlist', ['pop', 'rock'], 1400);
+      unqfy.removePlaylist(playlist.id);
+
+      assert.notInclude(unqfy.playlists, playlist);
+    });
+  });
+
   // Busquedas
 
   describe('#filters', () => {
@@ -540,6 +560,65 @@ describe('Add, remove and filter data', () => {
       assert.isTrue(matchingAlbumTracks.includes(matchingAlbumTrack));
       assert.isFalse(matchingAlbumTracks.includes(otherAlbumTrack));
     });
+
+    describe('#searchPlaylists', () => {
+      let artist, artist2;
+      let album, album2;
+      let track1, track2, track3, track4;
+      let playlist1, playlist2, playlist3;
+
+      beforeEach(() => {
+        artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+        album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+        track1 = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock', 'movie']);
+        track2 = createAndAddTrack(unqfy, album.id, 'Sweet Child o\' Mine', 300, ['rock', 'hard rock', 'pop', 'movie']);
+    
+        artist2 = createAndAddArtist(unqfy, 'Michael Jackson', 'USA');
+        album2 = createAndAddAlbum(unqfy, artist2.id, 'Thriller', 1987);
+        track3 = createAndAddTrack(unqfy, album2.id, 'Thriller', 400, ['pop', 'movie']);
+        track4 = createAndAddTrack(unqfy, album2.id, 'Another song', 500, ['pop']);
+    
+        playlist1 = unqfy.createPlaylistFromTracks('Random Mix', [track1.id, track2.id]); // 500
+        playlist2 = unqfy.createPlaylistFromTracks('Power Up', [track2.id, track3.id]); // 700
+        playlist3 = unqfy.createPlaylistFromTracks('WFH mix', [track3.id, track4.id]); // 900
+      });
+
+      it('returns all playlists when no filters are passed', () => {
+        const filteredPlaylists = unqfy.searchPlaylists({ filters: { name: null, durationLesserThan: null, durationGreaterThan: null }});
+
+        assert.sameMembers(filteredPlaylists, [playlist1, playlist2, playlist3]);
+      });
+
+      it('returns all playlists with matching name regardless the case', () => {
+        const filteredPlaylists = unqfy.searchPlaylists({ filters: { name: 'mix', durationLesserThan: null, durationGreaterThan: null }});
+
+        assert.sameMembers(filteredPlaylists, [playlist1, playlist3]);
+      });
+
+      it('returns all playlists with duration lesser than specified', () => {
+        const filteredPlaylists = unqfy.searchPlaylists({ filters: { name: null, durationLesserThan: 700, durationGreaterThan: null }});
+
+        assert.sameMembers(filteredPlaylists, [playlist1]);
+      });
+
+      it('returns all playlists with duration greater than specified', () => {
+        const filteredPlaylists = unqfy.searchPlaylists({ filters: { name: null, durationLesserThan: null, durationGreaterThan: 500 }});
+
+        assert.sameMembers(filteredPlaylists, [playlist2, playlist3]);
+      });
+
+      it('returns all playlists that matches all the specified criteria', () => {
+        const filteredPlaylists = unqfy.searchPlaylists({ filters: { name: 'w', durationLesserThan: 900, durationGreaterThan: 500 }});
+
+        assert.sameMembers(filteredPlaylists, [playlist2]);
+      });
+
+      it('returns an empty list when no playlist matches the specified criteria', () => {
+        const filteredPlaylists = unqfy.searchPlaylists({ filters: { name: 'whatever', durationLesserThan: 900, durationGreaterThan: 500 }});
+
+        assert.sameMembers(filteredPlaylists, []);
+      });
+    });
   });
 });
 
@@ -552,38 +631,69 @@ describe('Playlist Creation and properties', () => {
     unqfy = new UNQfy();
   });
 
-  it('should create a playlist as requested', () => {
-    const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
-    const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
-    const t1 = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock', 'movie']);
-    createAndAddTrack(unqfy, album.id, 'Sweet Child o\' Mine', 1500, ['rock', 'hard rock', 'pop', 'movie']);
-
-    const artist2 = createAndAddArtist(unqfy, 'Michael Jackson', 'USA');
-    const album2 = createAndAddAlbum(unqfy, artist2.id, 'Thriller', 1987);
-    const t2 = createAndAddTrack(unqfy, album2.id, 'Thriller', 200, ['pop', 'movie']);
-    const t3 = createAndAddTrack(unqfy, album2.id, 'Another song', 500, ['pop']);
-    const t4 = createAndAddTrack(unqfy, album2.id, 'Another song II', 500, ['pop']);
-
-    const playlist = unqfy.createPlaylist('my playlist', ['pop', 'rock'], 1400);
-
-    assert.equal(playlist.name, 'my playlist');
-    assert.isAtMost(playlist.duration(), 1400);
-    assert.isTrue(playlist.hasTrack(t1));
-    assert.isTrue(playlist.hasTrack(t2));
-    assert.isTrue(playlist.hasTrack(t3));
-    assert.isTrue(playlist.hasTrack(t4));
-    assert.lengthOf(playlist.tracks, 4);
+  describe('#createPlaylist', () => {
+    it('should create a playlist as requested', () => {
+      const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+      const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+      const t1 = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock', 'movie']);
+      createAndAddTrack(unqfy, album.id, 'Sweet Child o\' Mine', 1500, ['rock', 'hard rock', 'pop', 'movie']);
+  
+      const artist2 = createAndAddArtist(unqfy, 'Michael Jackson', 'USA');
+      const album2 = createAndAddAlbum(unqfy, artist2.id, 'Thriller', 1987);
+      const t2 = createAndAddTrack(unqfy, album2.id, 'Thriller', 200, ['pop', 'movie']);
+      const t3 = createAndAddTrack(unqfy, album2.id, 'Another song', 500, ['pop']);
+      const t4 = createAndAddTrack(unqfy, album2.id, 'Another song II', 500, ['pop']);
+  
+      const playlist = unqfy.createPlaylist('my playlist', ['pop', 'rock'], 1400);
+  
+      assert.equal(playlist.name, 'my playlist');
+      assert.isAtMost(playlist.duration(), 1400);
+      assert.isTrue(playlist.hasTrack(t1));
+      assert.isTrue(playlist.hasTrack(t2));
+      assert.isTrue(playlist.hasTrack(t3));
+      assert.isTrue(playlist.hasTrack(t4));
+      assert.lengthOf(playlist.tracks, 4);
+    });
+  
+    it('should raise an error when the name is empty', () => {
+      assert.throws(() => unqfy.createPlaylist('', ['pop'], 1400), "Couldn't create new Playlist: Name cannot be empty");
+    });
+  
+    it('should raise an error when the genres are empty', () => {
+      assert.throws(() => unqfy.createPlaylist('My Playlist', [], 1400), "Couldn't create new Playlist: Genres cannot be empty");
+    });
+  
+    it('should raise an error when the max duration is lower than 1', () => {
+      assert.throws(() => unqfy.createPlaylist('My Playlist', ['pop'], 0), "Couldn't create new Playlist: Max duration must be bigger than zero");
+    });
   });
 
-  it('should raise an error when the name is empty', () => {
-    assert.throws(() => unqfy.createPlaylist('', ['pop'], 1400), "Couldn't create new Playlist: Name cannot be empty");
-  });
-
-  it('should raise an error when the genres are empty', () => {
-    assert.throws(() => unqfy.createPlaylist('My Playlist', [], 1400), "Couldn't create new Playlist: Genres cannot be empty");
-  });
-
-  it('should raise an error when the max duration is lower than 1', () => {
-    assert.throws(() => unqfy.createPlaylist('My Playlist', ['pop'], 0), "Couldn't create new Playlist: Max duration must be bigger than zero");
+  describe('createPlaylistFromTracks', () => {
+    it('should create a playlist as requested', () => {
+      const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+      const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+      const track1 = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock', 'movie']);
+      const track2 = createAndAddTrack(unqfy, album.id, 'Sweet Child o\' Mine', 1500, ['rock', 'hard rock', 'pop', 'movie']);
+  
+      const artist2 = createAndAddArtist(unqfy, 'Michael Jackson', 'USA');
+      const album2 = createAndAddAlbum(unqfy, artist2.id, 'Thriller', 1987);
+      const track3 = createAndAddTrack(unqfy, album2.id, 'Thriller', 200, ['pop', 'movie']);
+      const track4 = createAndAddTrack(unqfy, album2.id, 'Another song', 500, ['pop']);
+      const track5 = createAndAddTrack(unqfy, album2.id, 'Another song II', 500, ['pop']);
+  
+      const playlist = unqfy.createPlaylistFromTracks('my playlist', [track1.id, track2.id, track3.id, track4.id, track5.id]);
+  
+      assert.equal(playlist.name, 'my playlist');
+      assert.equal(playlist.duration(), 2900);
+      assert.sameMembers(playlist.tracks, [track1, track2, track3, track4, track5]);
+    });
+  
+    it('should raise an error when the name is empty', () => {
+      assert.throws(() => unqfy.createPlaylistFromTracks('', []), "Couldn't create new Playlist: Name cannot be empty");
+    });
+  
+    it('should raise an error when a track does not exist', () => {
+      assert.throws(() => unqfy.createPlaylistFromTracks('My Playlist', [1]), "Track does not exist");
+    });
   });
 });
