@@ -853,6 +853,378 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "add user (missing required field)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4da858e6-dc05-4e67-8f8e-e25ab080b14d",
+								"exec": [
+									"const chai = require('chai');",
+									"chai.config.truncateThreshold = 0;",
+									"",
+									"pm.test(\"add user, missing required field\", function () {",
+									"    pm.response.to.have.status(400);",
+									"    pm.response.to.have.jsonBody();",
+									"    ",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.be.deep.equal({",
+									"        status: 400,",
+									"        errorCode: \"BAD_REQUEST\"",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/api/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user/9999 (doesn't exist)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bb2a458a-f2bd-420e-9d78-ce099c124c9a",
+								"exec": [
+									"const chai = require('chai');",
+									"chai.config.truncateThreshold = 0;",
+									"",
+									"pm.test(\"get inexistent user\", function () {",
+									"    pm.response.to.have.status(404);",
+									"    pm.response.to.have.jsonBody();",
+									"    ",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.be.deep.equal({",
+									"        status: 404,",
+									"        errorCode: \"RESOURCE_NOT_FOUND\"",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/api/users/9999",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"users",
+								"9999"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit user (doesn't exist)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "568d1078-79fc-474c-b694-4d0985e19808",
+								"exec": [
+									"const chai = require('chai');",
+									"chai.config.truncateThreshold = 0;",
+									"",
+									"pm.test(\"get inexistent user\", function () {",
+									"    pm.response.to.have.status(404);",
+									"    pm.response.to.have.jsonBody();",
+									"    ",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.be.deep.equal({",
+									"        status: 404,",
+									"        errorCode: \"RESOURCE_NOT_FOUND\"",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Jonny Doe\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/api/users/9999",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"users",
+								"9999"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete user (doesn't exist)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "80b99ca3-0242-48eb-96c0-432c7868c1ce",
+								"exec": [
+									"const chai = require('chai');",
+									"chai.config.truncateThreshold = 0;",
+									"",
+									"pm.test(\"get inexistent user\", function () {",
+									"    pm.response.to.have.status(404);",
+									"    pm.response.to.have.jsonBody();",
+									"    ",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.be.deep.equal({",
+									"        status: 404,",
+									"        errorCode: \"RESOURCE_NOT_FOUND\"",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/api/users/9999",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"users",
+								"9999"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user reproduction (missing required field)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e1cc4bb5-01ae-49a5-9bd0-2ae1fb381b69",
+								"exec": [
+									"const chai = require('chai');",
+									"chai.config.truncateThreshold = 0;",
+									"",
+									"pm.test(\"add playlist with missing required field\", function () {",
+									"    pm.response.to.have.status(400);",
+									"    pm.response.to.have.jsonBody();",
+									"    ",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.be.deep.equal({",
+									"        status: 400,",
+									"        errorCode: \"BAD_REQUEST\"",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/api/users/{{testUserId}}/reproductions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"users",
+								"{{testUserId}}",
+								"reproductions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user reproduction (user doesn't exist)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7b67644e-1ab7-40e1-959d-1de49208431d",
+								"exec": [
+									"const chai = require('chai');",
+									"chai.config.truncateThreshold = 0;",
+									"",
+									"pm.test(\"get inexistent user\", function () {",
+									"    pm.response.to.have.status(404);",
+									"    pm.response.to.have.jsonBody();",
+									"    ",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.be.deep.equal({",
+									"        status: 404,",
+									"        errorCode: \"RESOURCE_NOT_FOUND\"",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"track\": 8\n}"
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/api/users/9999/reproductions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"users",
+								"9999",
+								"reproductions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user reproduction (track doesn't exist)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "061730df-3a78-4c85-a89a-d507ff5e3cfb",
+								"exec": [
+									"const chai = require('chai');",
+									"chai.config.truncateThreshold = 0;",
+									"",
+									"pm.test(\"get inexistent user\", function () {",
+									"    pm.response.to.have.status(404);",
+									"    pm.response.to.have.jsonBody();",
+									"    ",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.be.deep.equal({",
+									"        status: 404,",
+									"        errorCode: \"RELATED_RESOURCE_NOT_FOUND\"",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"track\": 9999\n}"
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/api/users/{{testUserId}}/reproductions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"users",
+								"{{testUserId}}",
+								"reproductions"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"protocolProfileBehavior": {}
@@ -3088,6 +3460,534 @@
 								"api",
 								"playlists",
 								"{{testPlaylistId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "add user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "12135eec-982d-4cc9-86cb-a58c47fae0e9",
+								"exec": [
+									"const chai = require('chai');",
+									"chai.config.truncateThreshold = 0;",
+									"",
+									"pm.test(\"should add user\", function () {",
+									"    pm.response.to.have.status(201);",
+									"    pm.response.to.have.jsonBody();",
+									"    ",
+									"    var jsonData = pm.response.json();",
+									"    var userId = jsonData.id;",
+									"",
+									"    pm.expect(jsonData).to.be.deep.equal({",
+									"        \"id\": userId,",
+									"        \"name\": \"John Doe\",",
+									"        \"reproductions\": []",
+									"    });",
+									"",
+									"    pm.environment.set(\"testUserId\", userId);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"John Doe\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/api/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add user (name already taken)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d7fbcabc-ba72-43b7-8ef4-6e692840834d",
+								"exec": [
+									"const chai = require('chai');",
+									"chai.config.truncateThreshold = 0;",
+									"",
+									"pm.test(\"add artist with the same name\", function () {",
+									"    pm.response.to.have.status(409);",
+									"    pm.response.to.have.jsonBody();",
+									"    ",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.be.deep.equal({",
+									"        status: 409,",
+									"        errorCode: \"RESOURCE_ALREADY_EXISTS\"        ",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"John Doe\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/api/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2df04889-95e3-4316-bd47-2d4a9062926a",
+								"exec": [
+									"const chai = require('chai');",
+									"chai.config.truncateThreshold = 0;",
+									"",
+									"pm.test(\"should get user\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    pm.response.to.have.jsonBody();",
+									"    ",
+									"    var jsonData = pm.response.json();",
+									"",
+									"    pm.expect(jsonData).to.be.deep.equal({",
+									"        \"id\": pm.environment.get(\"testUserId\"),",
+									"        \"name\": \"John Doe\",",
+									"        \"reproductions\": []",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/api/users/{{testUserId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"users",
+								"{{testUserId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b72a9843-4b26-4937-9d5b-391d756b7962",
+								"exec": [
+									"const chai = require('chai');",
+									"chai.config.truncateThreshold = 0;",
+									"",
+									"pm.test(\"should get user\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    pm.response.to.have.jsonBody();",
+									"    ",
+									"    var jsonData = pm.response.json();",
+									"",
+									"    pm.expect(jsonData).to.be.deep.equal({",
+									"        \"id\": pm.environment.get(\"testUserId\"),",
+									"        \"name\": \"Jonny Doe\",",
+									"        \"reproductions\": []",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Jonny Doe\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/api/users/{{testUserId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"users",
+								"{{testUserId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a5544313-5428-4739-a630-3d43120e28cd",
+								"exec": [
+									"const chai = require('chai');",
+									"chai.config.truncateThreshold = 0;",
+									"",
+									"pm.test(\"should get user\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    pm.response.to.have.jsonBody();",
+									"    ",
+									"    var jsonData = pm.response.json();",
+									"",
+									"    pm.expect(jsonData).to.be.deep.equal({",
+									"        \"id\": pm.environment.get(\"testUserId\"),",
+									"        \"name\": \"Jonny Doe\",",
+									"        \"reproductions\": []",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/api/users/{{testUserId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"users",
+								"{{testUserId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add another user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "82edece1-6382-42a2-a552-7563cb62dd30",
+								"exec": [
+									"const chai = require('chai');",
+									"chai.config.truncateThreshold = 0;",
+									"",
+									"pm.test(\"should add another user\", function () {",
+									"    pm.response.to.have.status(201);",
+									"    pm.response.to.have.jsonBody();",
+									"    ",
+									"    var jsonData = pm.response.json();",
+									"    var userId = jsonData.id;",
+									"",
+									"    pm.expect(jsonData).to.be.deep.equal({",
+									"        \"id\": userId,",
+									"        \"name\": \"Sarah Smith\",",
+									"        \"reproductions\": []",
+									"    });",
+									"",
+									"    pm.environment.set(\"testUserId2\", userId);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Sarah Smith\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/api/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete another user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8f94e555-a5e5-48e4-9b3f-11d69ef8ec32",
+								"exec": [
+									"const chai = require('chai');",
+									"chai.config.truncateThreshold = 0;",
+									"",
+									"pm.test(\"delete user\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/api/users/{{testUserId2}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"users",
+								"{{testUserId2}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "another user (not found)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "588a0ce3-57f4-4349-addd-bd231ce934c2",
+								"exec": [
+									"const chai = require('chai');",
+									"chai.config.truncateThreshold = 0;",
+									"",
+									"pm.test(\"should not find another user\", function () {",
+									"    pm.response.to.have.status(404);",
+									"    pm.response.to.have.jsonBody();",
+									"    ",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.be.deep.equal({",
+									"        status: 404,",
+									"        errorCode: \"RESOURCE_NOT_FOUND\"",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/api/users/{{testUserId2}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"users",
+								"{{testUserId2}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user reproduction",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bd4a2a6d-4d85-4f4f-97f5-c1bc899d5ee3",
+								"exec": [
+									"// NOTE: This tests against the objects created by the UNQfy script.",
+									"",
+									"const chai = require('chai');",
+									"chai.config.truncateThreshold = 0;",
+									"",
+									"pm.test(\"should add user\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"track\": 8\n}"
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/api/users/{{testUserId}}/reproductions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"users",
+								"{{testUserId}}",
+								"reproductions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1806e3dc-c9d1-4403-bad0-a13d91c1a3a1",
+								"exec": [
+									"// NOTE: This tests against the objects created by the UNQfy script.",
+									"",
+									"const chai = require('chai');",
+									"chai.config.truncateThreshold = 0;",
+									"",
+									"pm.test(\"should get updated user\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    pm.response.to.have.jsonBody();",
+									"    ",
+									"    var jsonData = pm.response.json();",
+									"",
+									"    pm.expect(jsonData).to.be.deep.equal({",
+									"        \"id\": pm.environment.get(\"testUserId\"),",
+									"        \"name\": \"Jonny Doe\",",
+									"        \"reproductions\": [",
+									"            {",
+									"                \"id\": 4,",
+									"                \"track\": {",
+									"                    \"id\": 8,",
+									"                    \"title\": \"Strobe\",",
+									"                    \"duration\": 311,",
+									"                    \"genres\": [",
+									"                        \"Electronica\",",
+									"                        \"House\",",
+									"                        \"Trance\"",
+									"                    ],",
+									"                    \"lyrics\": \"\"",
+									"                },",
+									"                \"timestamp\": \"2020-11-02T06:01:39.036Z\" // Falla por el tiempo inexacto. (Capaz se podria devolver horas)",
+									"            },",
+									"        ]",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/api/users/{{testUserId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"users",
+								"{{testUserId}}"
 							]
 						}
 					},

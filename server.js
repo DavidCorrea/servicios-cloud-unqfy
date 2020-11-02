@@ -19,6 +19,8 @@ const ArtistsRoute = require('./src/api/routes/Artists');
 const AlbumsRoute = require('./src/api/routes/Albums');
 const TracksRoute = require('./src/api/routes/Tracks');
 const PlaylistsRoute = require('./src/api/routes/Playlists');
+const UsersRoute = require('./src/api/routes/Users');
+const User = require('./src/models/User');
 
 // MIDDLEWARES
 app.use(bodyParser.json()); // parse application/json
@@ -45,8 +47,11 @@ app.use("/api/artists", ArtistsRoute);
 app.use("/api/albums", AlbumsRoute);
 app.use("/api/tracks", TracksRoute);
 app.use("/api/playlists", PlaylistsRoute);
+app.use("/api/users", UsersRoute);
 
 app.use((error, req, res, next) => {
+  console.log(error.message);
+
   if(error instanceof SyntaxError) {
     res.status(400).send({ status: 400, errorCode: 'BAD_REQUEST' });
   } else if(error instanceof BadRequestError) {
