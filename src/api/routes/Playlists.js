@@ -6,7 +6,7 @@ const serializePlaylist = (playlist) => {
   return {
     id: playlist.id,
     name: playlist.name,
-    tracks: playlist.tracks.map(track => track.title),
+    tracks: playlist.tracks,
     duration: playlist.duration()
   }
 }
