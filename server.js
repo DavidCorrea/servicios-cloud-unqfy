@@ -47,7 +47,9 @@ app.use("/api/tracks", TracksRoute);
 app.use("/api/playlists", PlaylistsRoute);
 
 app.use((error, req, res, next) => {
-  if(error instanceof BadRequestError) {
+  if(error instanceof SyntaxError) {
+    res.status(400).send({ status: 400, errorCode: 'BAD_REQUEST' });
+  } else if(error instanceof BadRequestError) {
     res.status(400).send({ status: 400, errorCode: 'BAD_REQUEST' });
   } else if(error instanceof ResourceNotFoundError) {
     res.status(404).send({ status: 404, errorCode: 'RESOURCE_NOT_FOUND' });
