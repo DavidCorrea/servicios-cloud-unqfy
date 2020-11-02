@@ -4,6 +4,13 @@ const app = express();
 const UNQfyLoader = require('./src/lib/UNQfyLoader');
 const port = process.env.PORT || 3000;
 
+const { 
+  ResourceNotFoundError,
+  RelatedResourceNotFoundError,
+  ResourceAlreadyExistsError, 
+  BadRequestError 
+} = require('./src/models/UnqfyError');
+
 // Body-parser (Para acceder al body en un POST/PUT/PATCH)
 const bodyParser = require('body-parser');
 
@@ -38,6 +45,20 @@ app.use("/api/artists", ArtistsRoute);
 app.use("/api/albums", AlbumsRoute);
 app.use("/api/tracks", TracksRoute);
 app.use("/api/playlists", PlaylistsRoute);
+
+app.use((error, req, res, next) => {
+  if(error instanceof BadRequestError) {
+    res.status(400).send({ status: 400, errorCode: 'BAD_REQUEST' });
+  } else if(error instanceof ResourceNotFoundError) {
+    res.status(404).send({ status: 404, errorCode: 'RESOURCE_NOT_FOUND' });
+  } else if(error instanceof RelatedResourceNotFoundError) {
+    res.status(404).send({ status: 404, errorCode: 'RELATED_RESOURCE_NOT_FOUND' });
+  } else if(error instanceof ResourceAlreadyExistsError) {
+    res.status(409).send({ status: 409, errorCode: 'RESOURCE_ALREADY_EXISTS' });
+  } else {
+    res.status(500).send({ status: 500, errorCode: 'INTERNAL_SERVER_ERROR' });
+  }
+});
 
 app.listen(port, () => {
   console.log("Servidor corriendo!");
