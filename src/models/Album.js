@@ -1,4 +1,4 @@
-const { UnqfyError } = require('./UnqfyError');
+const { ResourceAlreadyExistsError } = require('./UnqfyError');
 const Track = require("./Track");
 
 class Album {
@@ -28,7 +28,7 @@ class Album {
 
   _validateTitleIsAvailable(title) {
     if (this.tracks.some(track => track.title === title)) {
-      throw new UnqfyError("Couldn't create new Track: Title was already taken");
+      throw new ResourceAlreadyExistsError('Track', 'Title');;
     }
   }
 }  

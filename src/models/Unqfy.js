@@ -1,7 +1,7 @@
 const picklify = require('picklify'); // para cargar/guarfar unqfy
 const fs = require('fs'); // para cargar/guarfar unqfy
 const { flatMap, firstN } = require('../lib/lib');
-const { UnqfyError, ResourceNotFoundError, BadRequestError, ResourceAlreadyExistError } = require('./UnqfyError');
+const { UnqfyError, ResourceNotFoundError, RelatedResourceNotFoundError, ResourceAlreadyExistsError } = require('./UnqfyError');
 const Artist = require('./Artist');
 const Album = require('./Album');
 const Track = require('./Track');
@@ -123,6 +123,13 @@ class UNQfy {
     return playlist.id;
   }
 
+  getPlaylistById(id){
+    const playlist = this.playlists.find((playlist => playlist.id === id));
+    this._validateIfExist(playlist, 'Playlist');
+
+    return playlist;
+  }
+
   searchByName(name){
     const allArtists = this.artists;
     const allAlbums = this.allAlbums();
@@ -133,8 +140,26 @@ class UNQfy {
       artists: allArtists.filter((artist) => artist.name.toLowerCase().includes(name.toLowerCase())),
       albums: allAlbums.filter((album) => album.name.toLowerCase().includes(name.toLowerCase())),
       tracks: allTracks.filter((track) => track.title.includes(name)),
-      playlists: allPlaylist.filter((playlist) => playlist.name.includes(name)),
+      playlists: this._searchInPlaylistsByName(name, allPlaylist),
     }
+  }
+
+  searchPlaylists({ filters: { name, durationLesserThan, durationGreaterThan }}) {
+    let filteredPlaylists = [ ...this.playlists];
+
+    if(name) {
+      filteredPlaylists = this._searchInPlaylistsByName(name, filteredPlaylists);
+    }
+
+    if(durationLesserThan) {
+      filteredPlaylists = filteredPlaylists.filter((playlist) => playlist.duration() < durationLesserThan);
+    }
+
+    if(durationGreaterThan) {
+      filteredPlaylists = filteredPlaylists.filter((playlist) => playlist.duration() > durationGreaterThan);
+    }
+
+    return filteredPlaylists;
   }
   
   allArtists(){
@@ -204,8 +229,29 @@ class UNQfy {
     return playlist;
   }
 
-  removePlaylist(playlistIdToRemove){
-    this.playlists = this.playlists.filter(playlist => playlist.id !== playlistIdToRemove);
+  createPlaylistFromTracks(name, tracksIds) {
+    this._validateIsNotEmpty(name, 'Playlist', 'Name');
+    this._validatePlaylistNameIsAvailable(name);
+
+    try {
+      const tracks = tracksIds.map(trackId => this.getTrackById(trackId));
+      const playlist = new Playlist(this._nextId(Playlist), name, tracks);
+      this.playlists.push(playlist);
+  
+      return playlist;
+    } catch(error) {
+      if(error instanceof ResourceNotFoundError) {
+        throw new RelatedResourceNotFoundError('Track');
+      } else {
+        throw error;
+      }
+    }
+  }
+
+  removePlaylist(playlistIdToRemove) {
+    const playlistToRemove = this.getPlaylistById(playlistIdToRemove);
+
+    this.playlists = this.playlists.filter(playlist => playlist !== playlistToRemove);
   }
 
   createUser(name) {
@@ -286,19 +332,19 @@ class UNQfy {
 
   _validateNameIsAvailable(name) {
     if (this.artists.some((artist) => artist.name === name)) {
-      throw new ResourceAlreadyExistError("Couldn't create new Artist: Name was already taken");
+      throw new ResourceAlreadyExistsError('Artist', 'Name');
     }
   }
 
   _validatePlaylistNameIsAvailable(name) {
     if (this.playlists.some((playlist) => playlist.name === name)) {
-      throw new UnqfyError("Couldn't create new Playlist: Name was already taken");
+      throw new ResourceAlreadyExistsError('Playlist', 'Name');
     }
   }
 
   _validateUserNameIsAvailable(name) {
     if (this.users.some((user) => user.name === name)) {
-      throw new UnqfyError("Couldn't create new User: Name was already taken");
+      throw new ResourceAlreadyExistsError('User', 'Name');
     }
   }
   
@@ -357,6 +403,10 @@ class UNQfy {
     });
 
     return tracksListenings.map(trackListenings => trackListenings.track);
+  }
+
+  _searchInPlaylistsByName(name, playlists) {
+    return playlists.filter((playlist) => playlist.name.toLowerCase().includes(name.toLowerCase()));
   }
 }
 
