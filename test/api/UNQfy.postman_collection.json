@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "d9902ded-084b-4e38-bd13-d87b062080f6",
+		"_postman_id": "64beb08a-28cb-4bd5-bea4-9069a8b711fa",
 		"name": "UNQfy",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -14,7 +14,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "9d25d821-7f44-4d6d-877d-e2e0a6eae085",
+								"id": "07181c4a-0f5a-4e50-9502-5da2a2ac60ec",
 								"type": "text/javascript",
 								"exec": [
 									"const chai = require('chai');",
@@ -66,7 +66,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "3ba3e25a-fb9a-41dd-85ca-f919951e246e",
+								"id": "06e6ef6f-1888-4ccf-8f6a-dc08ba1ebad6",
 								"type": "text/javascript",
 								"exec": [
 									"const chai = require('chai');",
@@ -119,7 +119,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "2cdd2451-657a-44c7-87b3-1f05834f468c",
+								"id": "4df8b615-9dc8-4861-926a-4cbb887278e2",
 								"type": "text/javascript",
 								"exec": [
 									"const chai = require('chai');",
@@ -164,7 +164,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6b6cec7f-c7f8-4881-8811-d33145241825",
+								"id": "b96e282c-5eb4-40d7-826f-f3c645c2f3f2",
 								"type": "text/javascript",
 								"exec": [
 									"const chai = require('chai');",
@@ -217,7 +217,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "8331aeb0-76a4-414d-842e-edb4aac5e14f",
+								"id": "05a9bdea-ca7e-4931-8951-d0441fb53eaf",
 								"type": "text/javascript",
 								"exec": [
 									"const chai = require('chai');",
@@ -270,7 +270,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "cdb28088-75f8-4f5b-97c4-e1c093b87c93",
+								"id": "a10a17d0-556d-412d-bd72-c016d208ddf8",
 								"type": "text/javascript",
 								"exec": [
 									"const chai = require('chai');",
@@ -315,7 +315,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "48399ab6-6282-4ba0-9daf-94857e302c5a",
+								"id": "97f6f3a7-8a8f-4f7c-9c6a-8eae160e76d5",
 								"exec": [
 									"const chai = require('chai');",
 									"chai.config.truncateThreshold = 0;",
@@ -360,7 +360,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "f31b6de8-01f4-491d-83db-ad7fbd45c15d",
+								"id": "2f90b384-c6aa-4a39-b275-d3fd3384e422",
 								"exec": [
 									"const chai = require('chai');",
 									"chai.config.truncateThreshold = 0;",
@@ -406,7 +406,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "1de76b5a-5fe9-4379-9b1b-f120d44e8faa",
+								"id": "5e28c9e1-931c-4a02-91e8-1df9ba73dc8f",
 								"type": "text/javascript",
 								"exec": [
 									"const chai = require('chai');",
@@ -459,7 +459,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "a3b15445-e07d-4307-a0e2-019174b6c1d3",
+								"id": "df160292-55a0-4bd7-a5d6-f55350d691bb",
 								"type": "text/javascript",
 								"exec": [
 									"const chai = require('chai');",
@@ -508,7 +508,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "808c515c-30ea-4415-b0ec-5e1ce92d52a4",
+								"id": "00d51a5d-0819-4113-aa94-bf7d95a18e3b",
 								"type": "text/javascript",
 								"exec": [
 									"const chai = require('chai');",
@@ -557,7 +557,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "329b42e4-9226-4dbf-b18d-6fac4efd7bd6",
+								"id": "1826b539-c0a4-4c55-abcb-4494e565afaa",
 								"exec": [
 									"const chai = require('chai');",
 									"chai.config.truncateThreshold = 0;",
@@ -606,7 +606,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "494b4b92-9d3e-4ccd-95d2-3a405c9c0d66",
+								"id": "8661a0a4-7e07-46f7-86c0-3ec66de4fec7",
 								"exec": [
 									"// NOTE: This tests against the objects created by the UNQfy script.",
 									"",
@@ -630,7 +630,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "1c8b8324-3551-4301-bb9c-b981e71d4584",
+								"id": "2635a7d9-577d-4a16-8e7d-97ad2a5bb278",
 								"exec": [
 									""
 								],
@@ -671,7 +671,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4e382608-cd2b-4bcc-b9ea-9053dceebd1e",
+								"id": "47bf0574-41b7-493f-b1ab-27bf3f3bbaac",
 								"exec": [
 									"const chai = require('chai');",
 									"chai.config.truncateThreshold = 0;",
@@ -693,7 +693,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "5772d0ff-08c5-443c-93cc-affe28dfa032",
+								"id": "30ffaf09-4677-4ae7-bb93-32c7d37cc8e4",
 								"exec": [
 									""
 								],
@@ -734,7 +734,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "f5908f88-f1d5-441e-99ca-289eec335fe4",
+								"id": "f067f0ba-c5f3-40ec-898d-8c02ba2e775f",
 								"exec": [
 									"const chai = require('chai');",
 									"chai.config.truncateThreshold = 0;",
@@ -756,7 +756,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "b37dfcbf-fd8b-4af5-86c0-1f2d4ac34f74",
+								"id": "2db13cef-4981-4e3f-9a73-de0d103b7212",
 								"exec": [
 									""
 								],
@@ -797,7 +797,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "f8a2f3d1-64e8-4aa0-8598-55ae98eb9f35",
+								"id": "154a3404-8b79-4763-95b9-114e812dbba7",
 								"exec": [
 									"const chai = require('chai');",
 									"chai.config.truncateThreshold = 0;",
@@ -819,7 +819,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "f2a3c658-0f4e-41d8-bc8a-0e17d57b4c95",
+								"id": "fe875189-17f8-4d05-b4fd-91e6917c5758",
 								"exec": [
 									""
 								],
@@ -866,7 +866,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "e08ff26d-6d54-4581-816d-92d634e9e1c3",
+								"id": "88741633-56b0-422b-a3eb-99721861983b",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -876,7 +876,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "ba637672-1dcb-4485-86aa-1480abc537a3",
+								"id": "f1dfff26-2d91-4d2d-84a7-6ff8b3eb1acc",
 								"type": "text/javascript",
 								"exec": [
 									"const chai = require('chai');",
@@ -924,7 +924,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "47ed9ab4-551e-446f-b29d-a548a575c97f",
+								"id": "93b77e1e-ecd9-4d51-b3d2-5794ec934504",
 								"type": "text/javascript",
 								"exec": [
 									"const chai = require('chai');",
@@ -966,7 +966,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "9a2f8fa0-0ed5-44c7-af47-660bed69f216",
+								"id": "6466d576-d251-4a77-8ffe-0af7a8f1eae7",
 								"exec": [
 									"const chai = require('chai');",
 									"chai.config.truncateThreshold = 0;",
@@ -994,7 +994,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "c38a353c-c2fa-41b5-a9a9-fbca8ad80ecf",
+								"id": "4f37d6b3-3b33-487b-b3c1-2cca35e1abab",
 								"exec": [
 									""
 								],
@@ -1035,7 +1035,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "1551f505-653a-4a6d-ade9-e66e985b3967",
+								"id": "cc8343ed-6af5-4e34-ba74-4f8c23ddef1f",
 								"exec": [
 									"const chai = require('chai');",
 									"chai.config.truncateThreshold = 0;",
@@ -1057,7 +1057,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "65fb9509-b89c-4396-8f1d-3c82d371ddcc",
+								"id": "bfc7223f-2b59-4f74-90ad-e5d9a59d6263",
 								"exec": [
 									""
 								],
@@ -1098,7 +1098,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b94c3e30-7340-4033-9fad-d4d86a2c17e4",
+								"id": "44ea36e1-92ca-4023-a38f-e5d6f4dcb4c2",
 								"exec": [
 									"const chai = require('chai');",
 									"chai.config.truncateThreshold = 0;",
@@ -1150,7 +1150,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "3497bd08-d613-456d-9492-6b2d78269a66",
+								"id": "fcd90e88-f1f5-4745-98f0-0abdbfd8dc69",
 								"exec": [
 									"const chai = require('chai');",
 									"chai.config.truncateThreshold = 0;",
@@ -1178,7 +1178,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "bcc30654-5ea0-43ab-a3c5-0f9fe0ec4ef2",
+								"id": "f5aa456f-055a-4e19-a1c0-d6e35fb1250a",
 								"exec": [
 									""
 								],
@@ -1220,7 +1220,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "ccfe7f7b-3f32-431d-8151-0db3779e171c",
+								"id": "489ab390-49d5-44ef-bc49-f6b9a6f8dab1",
 								"exec": [
 									"const chai = require('chai');",
 									"chai.config.truncateThreshold = 0;",
@@ -1248,7 +1248,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "a04d7298-2c96-4593-a093-0f9fe9a99212",
+								"id": "836fc939-81e0-4bf6-a363-007fcde23b32",
 								"exec": [
 									""
 								],
@@ -1289,7 +1289,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "fa8e7ed9-cb51-4aae-9f04-b8db11ecfe19",
+								"id": "73880977-033e-427f-8112-171d8e653c27",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -1299,7 +1299,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b70bfc4d-3d54-4df9-8c16-1734366550b6",
+								"id": "4eb6f94d-307f-417b-9649-53922ad8d849",
 								"type": "text/javascript",
 								"exec": [
 									"const chai = require('chai');",
@@ -1353,7 +1353,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "e23e2f79-cd1d-4610-8ef1-07c9ab7d4e26",
+								"id": "c71b4d2b-c7d6-4a82-b714-3941f963bd8b",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -1363,7 +1363,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "0359caae-8906-479b-a764-d63662e07663",
+								"id": "5dea6663-8cd5-4ba0-bf88-83da2ee5977a",
 								"type": "text/javascript",
 								"exec": [
 									"const chai = require('chai');",
@@ -1423,7 +1423,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "17fc5fd5-a81f-4252-9620-e8c9f63e368c",
+								"id": "41545fe9-79a3-472d-95f4-12695d87355b",
 								"type": "text/javascript",
 								"exec": [
 									"const chai = require('chai');",
@@ -1478,7 +1478,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "73ce1a81-fb25-45fd-91a1-0c3f96197f1b",
+								"id": "766104d3-c3ce-4e40-bd77-db091110a512",
 								"exec": [
 									"const chai = require('chai');",
 									"chai.config.truncateThreshold = 0;",
@@ -1522,7 +1522,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "d20e4fc9-db37-4c7a-9648-2bc5a0e0248d",
+								"id": "78e69c12-3143-4464-bc3d-3ce41290dbb0",
 								"type": "text/javascript",
 								"exec": [
 									"const chai = require('chai');",
@@ -1576,7 +1576,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "5959f488-e917-40bf-b035-9a92a9e48a9b",
+								"id": "a9b8743a-07af-484f-a821-e607896caaed",
 								"type": "text/javascript",
 								"exec": [
 									"const chai = require('chai');",
@@ -1617,7 +1617,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b8378f1c-0daa-404a-a2e8-d0e6320d2c18",
+								"id": "871a34dc-b1c1-4b77-8964-a53b685b995e",
 								"type": "text/javascript",
 								"exec": [
 									"const chai = require('chai');",
@@ -1664,7 +1664,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "768b3d7f-8e60-4891-ae84-ddaf84a189dd",
+								"id": "d90d7b3c-8384-4144-b0fb-9057a3e88e9a",
 								"exec": [
 									"const chai = require('chai');",
 									"chai.config.truncateThreshold = 0;",
@@ -1693,7 +1693,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "4229507d-7013-4e33-84da-7c6a7815526f",
+								"id": "b3911adf-b0bc-411d-a4a0-7b4ba4e77d57",
 								"exec": [
 									"/*",
 									"pm.test(\"response is ok\", function () {",
@@ -1760,7 +1760,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4e589c2a-f4db-46d2-84a6-5e75c2c76eab",
+								"id": "945d129a-fd0d-48c4-b635-ecacc2b1fd9f",
 								"exec": [
 									"const chai = require('chai');",
 									"chai.config.truncateThreshold = 0;",
@@ -1782,7 +1782,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "030c69cd-bc18-47d1-b58c-645960f583f2",
+								"id": "e51306d8-0f8d-424c-96b9-a3fc4701644e",
 								"exec": [
 									"/*",
 									"pm.test(\"response is ok\", function () {",
@@ -1849,7 +1849,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "222d36f0-1ebd-4ffd-837d-ee59a884cc21",
+								"id": "bc443425-4be1-4df2-b387-9bc9773a7aa4",
 								"exec": [
 									"const chai = require('chai');",
 									"chai.config.truncateThreshold = 0;",
@@ -1899,7 +1899,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "70e5c6bf-bb1d-4319-94da-b31917ea0ee7",
+								"id": "840951c0-d51c-4685-a62c-f821d1955f03",
 								"exec": [
 									"const chai = require('chai');",
 									"chai.config.truncateThreshold = 0;",
@@ -1960,7 +1960,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6c012005-32c9-401c-9894-10e056566e51",
+								"id": "a80dd477-fe3b-4651-8f39-26c5ebdd9aeb",
 								"type": "text/javascript",
 								"exec": [
 									"const chai = require('chai');",
@@ -2019,7 +2019,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "5c971596-ecd9-4a72-a5f7-ccfd02f99c6e",
+								"id": "e7b05eef-a3f2-4ff8-9606-a9d01197222b",
 								"exec": [
 									"const chai = require('chai');",
 									"chai.config.truncateThreshold = 0;",
@@ -2048,7 +2048,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "4054f7bb-b57b-4b42-bf44-dc71aa9ef19b",
+								"id": "76982fce-dc51-4887-b711-bde8aa391eea",
 								"exec": [
 									"/*",
 									"pm.test(\"response is ok\", function () {",
@@ -2115,7 +2115,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "8592f186-7828-4158-bc13-0e23f1cf5cd7",
+								"id": "fccf09eb-15c7-4eda-bc56-669a9211553f",
 								"type": "text/javascript",
 								"exec": [
 									"const chai = require('chai');",
@@ -2171,7 +2171,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "69d4699e-186b-4ab4-8714-597f05e7c108",
+								"id": "0a18e775-efd0-4c45-a059-c5fa6ec9abac",
 								"type": "text/javascript",
 								"exec": [
 									"const chai = require('chai');",
@@ -2225,7 +2225,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "22d7c6a6-7449-4b6d-973e-99c1d28b7e9a",
+								"id": "dcf2a931-f5c1-44d3-bc86-def23e386670",
 								"type": "text/javascript",
 								"exec": [
 									"const chai = require('chai');",
@@ -2290,7 +2290,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "9b8c0922-449e-42f7-98ec-e1c7b7bf25f5",
+								"id": "e427484e-83ee-499e-8684-124d47c5c3cd",
 								"exec": [
 									"const chai = require('chai');",
 									"chai.config.truncateThreshold = 0;",
@@ -2332,7 +2332,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "252506f8-6d38-44b8-b2d6-e5f5a28371af",
+								"id": "9ed2e8cf-7ca6-4aa1-a999-86d71f9ab3fe",
 								"type": "text/javascript",
 								"exec": [
 									"const chai = require('chai');",
@@ -2391,7 +2391,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b290d501-c9f3-4b4f-97bb-d60242862ba5",
+								"id": "fd843f6e-0279-43a0-9c06-d1e48dbfe848",
 								"type": "text/javascript",
 								"exec": [
 									"const chai = require('chai');",
@@ -2445,7 +2445,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "fa581810-2723-4dfd-8bd9-2fd762b352a8",
+								"id": "31534629-6550-490b-bd74-4a2ed0b09937",
 								"exec": [
 									"// NOTE: This tests against the objects created by the UNQfy script.",
 									"",
@@ -2506,7 +2506,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "609ce20f-b733-471f-bce5-96de3d47003f",
+								"id": "be6d5a2b-f521-47a5-b328-5a5a3b8c50b3",
 								"exec": [
 									"// NOTE: This tests against the objects created by the UNQfy script.",
 									"",
@@ -2526,11 +2526,51 @@
 									"        \"duration\": 1150",
 									"    });",
 									"",
-									"    pm.expect(jsonData.tracks).to.include.members([",
-									"        \"Imaginary Friends\",",
-									"        \"Strobe (PEEKABOO Remix)\", ",
-									"        \"Strobe\", ",
-									"        \"Imaginary Friends (Morgan Page Remix)\"",
+									"    pm.expect(jsonData.tracks).to.deep.include.members([",
+									"        {",
+									"            \"id\": 8,",
+									"            \"title\": \"Strobe\",",
+									"            \"duration\": 311,",
+									"            \"genres\": [",
+									"                \"Electronica\",",
+									"                \"House\",",
+									"                \"Trance\"",
+									"            ],",
+									"            \"lyrics\": \"\"",
+									"        },",
+									"        {",
+									"            \"id\": 9,",
+									"            \"title\": \"Imaginary Friends\",",
+									"            \"duration\": 103,",
+									"            \"genres\": [",
+									"                \"Electronica\",",
+									"                \"House\",",
+									"                \"Trance\"",
+									"            ],",
+									"            \"lyrics\": \"\"",
+									"        }, ",
+									"        {",
+									"            \"id\": 10,",
+									"            \"title\": \"Strobe (PEEKABOO Remix)\",",
+									"            \"duration\": 244,",
+									"            \"genres\": [",
+									"                \"Electronica\",",
+									"                \"House\",",
+									"                \"Trance\"",
+									"            ],",
+									"            \"lyrics\": \"\"",
+									"        }, ",
+									"        {",
+									"            \"id\": 11,",
+									"            \"title\": \"Imaginary Friends (Morgan Page Remix)\",",
+									"            \"duration\": 492,",
+									"            \"genres\": [",
+									"                \"Electronica\",",
+									"                \"House\",",
+									"                \"Trance\"",
+									"            ],",
+									"            \"lyrics\": \"\"",
+									"        }",
 									"    ]);",
 									"",
 									"    pm.environment.set(\"testPlaylistId\", playlistId);",
@@ -2542,7 +2582,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "e26d003b-8f06-4f50-9a6d-4e5041af6280",
+								"id": "b337c20d-cad4-48b9-b61f-982b90f140e6",
 								"exec": [
 									""
 								],
@@ -2583,7 +2623,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "1d533e96-9871-4db9-89f9-f938670f3046",
+								"id": "09b87cec-c1ca-400c-bad8-0727fbfafa0e",
 								"exec": [
 									"// NOTE: This tests against the objects created by the UNQfy script.",
 									"",
@@ -2607,7 +2647,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "5633b2b5-c45c-4324-9021-44a409f040fb",
+								"id": "57419ea0-8b00-4023-9962-c4a6df12e60d",
 								"exec": [
 									""
 								],
@@ -2648,7 +2688,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "db22d8eb-d380-417d-b005-c61726159205",
+								"id": "1f9fc247-e95d-46f3-8dca-93977eec76bb",
 								"exec": [
 									"// NOTE: This tests against the objects created by the UNQfy script.",
 									"",
@@ -2668,10 +2708,40 @@
 									"        \"duration\": 658",
 									"    });",
 									"",
-									"    pm.expect(jsonData.tracks).to.include.members([",
-									"        \"Imaginary Friends\",",
-									"        \"Strobe (PEEKABOO Remix)\",",
-									"        \"Strobe\"",
+									"    pm.expect(jsonData.tracks).to.deep.include.members([",
+									"        {",
+									"            \"id\": 8,",
+									"            \"title\": \"Strobe\",",
+									"            \"duration\": 311,",
+									"            \"genres\": [",
+									"                \"Electronica\",",
+									"                \"House\",",
+									"                \"Trance\"",
+									"            ],",
+									"            \"lyrics\": \"\"",
+									"        },",
+									"        {",
+									"            \"id\": 9,",
+									"            \"title\": \"Imaginary Friends\",",
+									"            \"duration\": 103,",
+									"            \"genres\": [",
+									"                \"Electronica\",",
+									"                \"House\",",
+									"                \"Trance\"",
+									"            ],",
+									"            \"lyrics\": \"\"",
+									"        },",
+									"        {",
+									"            \"id\": 10,",
+									"            \"title\": \"Strobe (PEEKABOO Remix)\",",
+									"            \"duration\": 244,",
+									"            \"genres\": [",
+									"                \"Electronica\",",
+									"                \"House\",",
+									"                \"Trance\"",
+									"            ],",
+									"            \"lyrics\": \"\"",
+									"        }",
 									"    ]);",
 									"",
 									"    pm.environment.set(\"testPlaylistFromSongId\", playlistId);",
@@ -2683,7 +2753,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "fdc83c43-5d1f-40b1-af8c-653f8e6762ee",
+								"id": "8eed8d9a-93d5-423b-9127-3dc92c8aa958",
 								"exec": [
 									""
 								],
@@ -2724,7 +2794,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "52d65e99-3bb3-4336-86ef-270b9c924022",
+								"id": "34547358-f4a5-4f89-9294-0fd928fa218c",
 								"exec": [
 									"// NOTE: This tests against the objects created by the UNQfy script.",
 									"",
@@ -2748,7 +2818,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "3c6ff1b1-a2ae-4e12-ae8a-faa812c3a179",
+								"id": "76c16668-a250-4db4-9b84-2df06d4ae37c",
 								"exec": [
 									""
 								],
@@ -2789,7 +2859,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b7ca3d68-7fb9-4f84-af70-5d82e50596f2",
+								"id": "f0d35de8-ee0a-40b3-8c58-af4a164acab2",
 								"exec": [
 									"// NOTE: This tests against the objects created by the UNQfy script.",
 									"",
@@ -2808,11 +2878,51 @@
 									"       \"duration\": 1150",
 									"    });",
 									"",
-									"    pm.expect(jsonData.tracks).to.include.members([",
-									"        \"Imaginary Friends\",",
-									"        \"Strobe (PEEKABOO Remix)\", ",
-									"        \"Strobe\", ",
-									"        \"Imaginary Friends (Morgan Page Remix)\"",
+									"    pm.expect(jsonData.tracks).to.deep.include.members([",
+									"        {",
+									"            \"id\": 10,",
+									"            \"title\": \"Strobe (PEEKABOO Remix)\",",
+									"            \"duration\": 244,",
+									"            \"genres\": [",
+									"                \"Electronica\",",
+									"                \"House\",",
+									"                \"Trance\"",
+									"            ],",
+									"            \"lyrics\": \"\"",
+									"        },",
+									"        {",
+									"            \"id\": 9,",
+									"            \"title\": \"Imaginary Friends\",",
+									"            \"duration\": 103,",
+									"            \"genres\": [",
+									"                \"Electronica\",",
+									"                \"House\",",
+									"                \"Trance\"",
+									"            ],",
+									"            \"lyrics\": \"\"",
+									"        },",
+									"        {",
+									"            \"id\": 8,",
+									"            \"title\": \"Strobe\",",
+									"            \"duration\": 311,",
+									"            \"genres\": [",
+									"                \"Electronica\",",
+									"                \"House\",",
+									"                \"Trance\"",
+									"            ],",
+									"            \"lyrics\": \"\"",
+									"        },",
+									"        {",
+									"            \"id\": 11,",
+									"            \"title\": \"Imaginary Friends (Morgan Page Remix)\",",
+									"            \"duration\": 492,",
+									"            \"genres\": [",
+									"                \"Electronica\",",
+									"                \"House\",",
+									"                \"Trance\"",
+									"            ],",
+									"            \"lyrics\": \"\"",
+									"        }",
 									"    ]);",
 									"});"
 								],
@@ -2845,7 +2955,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "81ef8c91-9657-4ead-8232-fa71bc961b08",
+								"id": "0ebc7a2f-8419-4e9b-9c2b-04d0ba2d6853",
 								"exec": [
 									"// NOTE: This tests against the objects created by the UNQfy script.",
 									"",
@@ -2863,9 +2973,39 @@
 									"            id: Number(pm.environment.get(\"testPlaylistFromSongId\")),",
 									"            name: \"Electronica Mix from Songs\",",
 									"            tracks: [",
-									"                \"Strobe\",",
-									"                \"Imaginary Friends\",",
-									"                \"Strobe (PEEKABOO Remix)\",",
+									"                {",
+									"                    \"id\": 8,",
+									"                    \"title\": \"Strobe\",",
+									"                    \"duration\": 311,",
+									"                    \"genres\": [",
+									"                        \"Electronica\",",
+									"                        \"House\",",
+									"                        \"Trance\"",
+									"                    ],",
+									"                    \"lyrics\": \"\"",
+									"                },",
+									"                {",
+									"                    \"id\": 9,",
+									"                    \"title\": \"Imaginary Friends\",",
+									"                    \"duration\": 103,",
+									"                    \"genres\": [",
+									"                        \"Electronica\",",
+									"                        \"House\",",
+									"                        \"Trance\"",
+									"                    ],",
+									"                    \"lyrics\": \"\"",
+									"                },",
+									"                {",
+									"                    \"id\": 10,",
+									"                    \"title\": \"Strobe (PEEKABOO Remix)\",",
+									"                    \"duration\": 244,",
+									"                    \"genres\": [",
+									"                        \"Electronica\",",
+									"                        \"House\",",
+									"                        \"Trance\"",
+									"                    ],",
+									"                    \"lyrics\": \"\"",
+									"                }",
 									"            ],",
 									"            duration: 658",
 									"        }",
@@ -2914,7 +3054,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6d9b1e09-a03e-424f-a85d-804f2746a575",
+								"id": "e86ececa-d950-46a4-93ef-415e2e0ef58a",
 								"exec": [
 									"// NOTE: This tests against the objects created by the UNQfy script.",
 									"",
