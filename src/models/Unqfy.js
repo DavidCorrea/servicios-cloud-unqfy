@@ -275,7 +275,7 @@ class UNQfy {
     const user = this._getUserByName(userName);
     const track = this._getTrackByTitle(trackTitle);
 
-    user.addReproduction(new Reproduction(this._nextId(Reproduction), track));
+    this._userListenTo(user, track);
   }
 
   tracksUserListenedTo(userName) {
@@ -307,6 +307,42 @@ class UNQfy {
     const track = this._getTrackByTitle(trackTitle);
 
     return await track.getLyrics();
+  }
+
+  getUserById(userId) {
+    const user = this.users.find((user) => user.id === userId);
+    this._validateIfExist(user, 'User');
+
+    return user;
+  }
+
+  updateUserName(userId, newName) {
+    const user = this.getUserById(userId);
+    this._validateUserNameIsAvailable(newName);
+    user.name = newName;
+
+    return user;
+  }
+
+  removeUser(userId) {
+    const userToRemove = this.getUserById(userId);
+
+    this.users = this.users.filter((user) => user !== userToRemove);
+  }
+
+  userListenToByIds(userId, trackId) {
+    const user = this.getUserById(userId);
+
+    try {
+      const track = this.getTrackById(trackId);
+      this._userListenTo(user, track);
+    } catch(error){
+      if(error instanceof ResourceNotFoundError) {
+        throw new RelatedResourceNotFoundError('Track');
+      } else {
+        throw error;
+      }
+    }
   }
 
   save(filename) {
@@ -413,6 +449,10 @@ class UNQfy {
 
   _searchInPlaylistsByName(name, playlists) {
     return playlists.filter((playlist) => playlist.name.toLowerCase().includes(name.toLowerCase()));
+  }
+
+  _userListenTo(user, track) {
+    user.addReproduction(new Reproduction(this._nextId(Reproduction), track));
   }
 }
 
