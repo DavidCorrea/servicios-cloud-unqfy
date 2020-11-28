@@ -8,14 +8,14 @@ const port = process.env.PORT || 3000;
 const bodyParser = require('body-parser');
 
 // Routes + controllers
-const SuscriptionRoute = require('./src/api/routes/subscription');
+const NewsletterRoute = require('./src/api/routes/newsletter');
 
 // MIDDLEWARES
 app.use(bodyParser.json()); // parse application/json
 app.use(express.json());
 
 // ROUTES
-app.use("/api/subscribe", SuscriptionRoute);
+app.use("/api", NewsletterRoute);
 
 
 app.listen(port, () => {
