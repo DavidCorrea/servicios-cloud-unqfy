@@ -7,27 +7,25 @@ class Newsletter {
     this.subscriptions = [];
   }
 
-
-
   subscribe(artistID, email) {
-    throw new exception("Not implemented");
+    throw new Error("Not implemented");
   }
 
   unsubscrive(artistID, email) {
-    throw new exception("Not implemented");
+    throw new Error("Not implemented");
   }
 
 
   notify(artistID) {
-    throw new exception("Not implemented");
+    throw new Error("Not implemented");
   }
 
   getSubscriptions(artistID) {
-    throw new exception("Not implemented");
+    throw new Error("Not implemented");
   }
 
   deleteSubscriptions(artistID) {
-    throw new exception("Not implemented");
+    throw new Error("Not implemented");
   }
 
 }
