@@ -1,30 +1,39 @@
-const Artist = require('./Subscription');
+const Subscription = require('./Subscription');
 //const Spotify = require('../clients/UNQfyClient');
-const { exception } = require('console');
 
 class Newsletter {
   constructor() {
     this.subscriptions = [];
   }
 
-  subscribe(artistID, email) {
+  subscribe(artistId, email) {
+    let subscription = this.getSubscription(artistId);
+    subscription.addSubscriptor(email);
+  }
+
+  unsubscrive(artistId, email) {
     throw new Error("Not implemented");
   }
 
-  unsubscrive(artistID, email) {
+
+  notify(artistId) {
     throw new Error("Not implemented");
   }
 
-
-  notify(artistID) {
+  getSubscription(artistId){
+    let subscription = this.subscriptions.filter(subcription => subcription.artistId == artistId);
+    if(!subscription.length){
+	    subscription = new Subscription(artistId);
+      this.subscriptions.push(subscription);
+    }
+    return subscription;
+	}
+	
+  getSubscriptions(artistId) {
     throw new Error("Not implemented");
   }
 
-  getSubscriptions(artistID) {
-    throw new Error("Not implemented");
-  }
-
-  deleteSubscriptions(artistID) {
+  deleteSubscriptions(artistId) {
     throw new Error("Not implemented");
   }
 

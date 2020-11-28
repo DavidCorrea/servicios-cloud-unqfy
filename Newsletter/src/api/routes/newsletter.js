@@ -1,13 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const Newsletter = require('../../models/Newsletter');
-
+let newsletter = new Newsletter();
 
 router.post('/subscribe', async (req, res, next) => {
-	let newsletter = new Newsletter();
 	try{
-		let { artistID, email } = req.body;
-		newsletter.subscribe(artistID, email);
+		let { artistId, email } = req.body;
+		newsletter.subscribe(artistId, email);
 		res.status(200).send();
 	} catch(err){
 		console.log(err)

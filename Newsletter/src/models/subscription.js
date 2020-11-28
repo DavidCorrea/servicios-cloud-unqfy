@@ -1,12 +1,14 @@
 const { exception } = require("console");
 
 class Subscription {
-  constructor(id, artisId){
-    this.id = id;
-    this.artisId = artisId;
+  constructor(artistId){
+    this.artisId = artistId;
     this.subscriptors = [];
 	}
 
+  addSubscriptor(email){
+    this.subscriptors.push(email);
+  }
 }  
 
 module.exports = Subscription;
