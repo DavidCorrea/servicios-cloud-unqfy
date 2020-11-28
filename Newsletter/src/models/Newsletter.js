@@ -31,7 +31,7 @@ class Newsletter {
 	}
 
   deleteSubscriptions(artistId) {
-    throw new Error("Not implemented");
+    this.subscriptions = this.subscriptions.filter(subscription => subscription.artistId !== artistId);
   }
 
 }

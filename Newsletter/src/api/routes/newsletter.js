@@ -43,7 +43,14 @@ router.get('/subscriptions', async (req, res, next) => {
 
 
 router.delete('/subscriptions', async (req, res, next) => {
-  res.status(500).send("Not implemented")
+	try{
+		let { artistId } = req.body;
+		newsletter.deleteSubscriptions(Number(artistId));
+		res.status(200).send();
+	} catch(err){
+		console.log(err)
+		res.status(500).send(err);
+	}
 });
 
 
