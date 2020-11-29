@@ -1,20 +1,32 @@
 const { flatMap } = require('../lib/lib');
 const { ResourceAlreadyExistsError } = require('./UnqfyError');
 const Album = require('./Album');
+const Observable = require('./Observable');
+const NewsletterClient = require('../clients/NewsletterClient');
 
-class Artist {
+class Artist extends Observable {
   constructor(id, name, country){
+    super();
+
     this.id = id;
     this.name = name;
     this.country = country;
     this.albums = [];
+
+    this.addObserver(new NewsletterClient());
   }
 
-  addAlbum(albumId, albumName, albumYear) {
+  propsToSerialize() {
+    return ['id', 'name', 'country', 'albums'];
+  }
+
+  async addAlbum(albumId, albumName, albumYear) {
     this._validateNameIsAvailable(albumName);
 
-    const album = new Album(albumId,albumName,albumYear);
+    const album = new Album(albumId, albumName, albumYear);
     this.albums.push(album);
+    // ¿Sería mejor hacer esto sin el await?
+    await this._notify(albumName);
 
     return album;
   }

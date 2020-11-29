@@ -3,18 +3,20 @@
 const chai = require('chai');
 const assert = chai.assert;
 chai.use(require('chai-as-promised'));
+const nock = require('nock');
 
 const UNQfy = require('../../src/models/Unqfy');
 const SpotifyMocks = require('../mocks/spotify');
 const MusixMatchMocks = require('../mocks/musixmatch');
+const NewsletterMocks = require('../mocks/newsletter');
 
 function createAndAddArtist(unqfy, artistName, country) {
   const artist = unqfy.addArtist({ name: artistName, country });
   return artist;
 }
 
-function createAndAddAlbum(unqfy, artistId, albumName, albumYear) {
-  return unqfy.addAlbum(artistId, { name: albumName, year: albumYear });
+async function createAndAddAlbum(unqfy, artistId, albumName, albumYear) {
+  return await unqfy.addAlbum(artistId, { name: albumName, year: albumYear });
 }
 
 function createAndAddTrack(unqfy, albumId, trackName, trackDuraction, trackGenres) {
@@ -24,6 +26,10 @@ function createAndAddTrack(unqfy, albumId, trackName, trackDuraction, trackGenre
 function usersListenToTrack(unqfy, users, track) {
   users.forEach(user => unqfy.userListenTo(user.name, track.title));
 }
+
+beforeEach(() => {
+  NewsletterMocks.mockAnySuccessfulNewAlbumNotificationRequest();
+});
 
 describe('Add, remove and filter data', () => {
   let unqfy = null;
@@ -56,12 +62,12 @@ describe('Add, remove and filter data', () => {
   });
 
   describe('#removeArtist', () => {
-    it('should remove the artist from UNQfy and all of its tracks from the playlists that includes them', () => {
+    it('should remove the artist from UNQfy and all of its tracks from the playlists that includes them', async () => {
       const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
-      const album1 = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+      const album1 = await createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
       const track1 = createAndAddTrack(unqfy, album1.id, 'Roses track 1', 200, ['pop', 'movie']);
       const track2 = createAndAddTrack(unqfy, album1.id, 'Roses track 2', 200, ['pop', 'movie']);
-      const album2 = createAndAddAlbum(unqfy, artist.id, 'Appetite for Peace', 1987);
+      const album2 = await createAndAddAlbum(unqfy, artist.id, 'Appetite for Peace', 1987);
       const track3 = createAndAddTrack(unqfy, album2.id, 'Roses track 3', 200, ['pop', 'movie']);
       const track4 = createAndAddTrack(unqfy, album2.id, 'Roses track 4', 200, ['pop', 'movie']);
       const playlist = unqfy.createPlaylist('Roses playlist', ['pop'], 1400);
@@ -86,35 +92,46 @@ describe('Add, remove and filter data', () => {
   });
 
   describe('#addAlbum', () => {
-    it('should add an album to an artist', () => {
+    it('should add an album to an artist', async () => {
       const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
-      const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+      const album = await createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
   
       assert.equal(album.name, 'Appetite for Destruction');
       assert.equal(album.year, 1987);
     });
   
-    it('should raise an error when adding an album if artist does not exists', () => {
-      assert.throws(() => createAndAddAlbum(unqfy, 9999, 'Album1', 1987), "Artist does not exist");
+    it('should raise an error when adding an album if artist does not exists', async () => {
+      await assert.isRejected(createAndAddAlbum(unqfy, 9999, 'Album1', 1987), "Artist does not exist");
     });
   
-    it('should raise an error if an album with the same name already exists', () => {
+    it('should raise an error if an album with the same name already exists', async () => {
       const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
-      const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+      await createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
   
-      assert.throws(() => createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987), "Couldn't create new Album: Name was already taken");
+      await assert.isRejected(createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987), "Couldn't create new Album: Name was already taken");
     });
   
-    it('should raise an error if an album has an empty name', () => {
+    it('should raise an error if an album has an empty name', async () => {
       const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
-      assert.throws(() => createAndAddAlbum(unqfy, artist.id, '', 1987), "Couldn't create new Album: Name cannot be empty");
+
+      await assert.isRejected(createAndAddAlbum(unqfy, artist.id, '', 1987), "Couldn't create new Album: Name cannot be empty");
+    });
+
+    it("should notify about the new album", async () => {
+      const artist = createAndAddArtist(unqfy, 'Haywyre', 'USA');
+      const albumName = 'Two Fold Pt. 2';
+      const notifyRequest = NewsletterMocks.mockSuccessfulNewAlbumNotificationRequest(artist.id, `${artist.name} has released a new album!`, `Listen now to ${artist.name}'s latest album, "${albumName}"`);
+
+      await createAndAddAlbum(unqfy, artist.id, albumName, 1987);
+
+      assert.isTrue(notifyRequest.isDone());
     });
   });
 
   describe('#removeAlbum', () => {
-    it('should remove an album from its Artist and the album\'s songs from the playlists that includes them', () => {
+    it('should remove an album from its Artist and the album\'s songs from the playlists that includes them', async () => {
       const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
-      const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+      const album = await createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
       const track1 = createAndAddTrack(unqfy, album.id, 'Roses track 1', 200, ['pop', 'movie']);
       const track2 = createAndAddTrack(unqfy, album.id, 'Roses track 2', 200, ['pop', 'movie']);
       const track3 = createAndAddTrack(unqfy, album.id, 'Roses track 3', 200, ['pop', 'movie']);
@@ -139,18 +156,18 @@ describe('Add, remove and filter data', () => {
       assert.throws(() => unqfy.removeAlbum(artist.id, 'Not existant'), "Album does not exist");
     });
 
-    it('should raise an error when trying to remove an album and the artist does not exist', () => {
+    it('should raise an error when trying to remove an album and the artist does not exist', async () => {
       const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
-      const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+      const album = await createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
 
       assert.throws(() => unqfy.removeAlbum('Not existant', album.id), "Artist does not exist");
     });
   });
 
   describe('#addTrack', () => {
-    it('should add a track to an album', () => {
+    it('should add a track to an album', async () => {
       const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
-      const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+      const album = await createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
       const track = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock']);
   
       assert.equal(track.title, 'Welcome to the jungle');
@@ -164,37 +181,37 @@ describe('Add, remove and filter data', () => {
       assert.throws(() => createAndAddTrack(unqfy, undefined, 'Welcome to the jungle', 200, ['rock', 'hard rock']));
     });
   
-    it('should raise an error if a track with the same title already exists', () => {
+    it('should raise an error if a track with the same title already exists', async () => {
       const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
-      const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+      const album = await createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
       const track = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock']);
   
       assert.throws(() => createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock']), "Couldn't create new Track: Title was already taken");
     });
   
-    it('should raise an error if a track has an empty title', () => {
+    it('should raise an error if a track has an empty title', async () => {
       const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
-      const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+      const album = await createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
       assert.throws(() => createAndAddTrack(unqfy, album.id, '', 200, ['rock', 'hard rock']), "Couldn't create new Track: Title cannot be empty");
     });
   
-    it('should raise an error if a track has a duration lower than 1', () => {
+    it('should raise an error if a track has a duration lower than 1', async () => {
       const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
-      const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+      const album = await createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
       assert.throws(() => createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 0, ['rock', 'hard rock']), "Couldn't create new Track: Duration must be bigger than zero");
     });
   
-    it('should raise an error if a track has an empty genres', () => {
+    it('should raise an error if a track has an empty genres', async () => {
       const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
-      const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+      const album = await createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
       assert.throws(() => createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, []), "Couldn't create new Track: genres cannot be empty");
     });
   })
 
   describe('#removeTrack', () => {
-    it('should remove a track from its album and the playlist that includes it', () => {
+    it('should remove a track from its album and the playlist that includes it', async () => {
       const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
-      const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+      const album = await createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
       const track = createAndAddTrack(unqfy, album.id, 'Roses track', 200, ['pop', 'movie']);
       const playlist = unqfy.createPlaylist('Roses playlist', ['pop'], 1400);
       
@@ -207,16 +224,16 @@ describe('Add, remove and filter data', () => {
       assert.isFalse(playlist.hasTrack(track));
     });
 
-    it('should raise an error when trying to remove a track and it does not exist', () => {
+    it('should raise an error when trying to remove a track and it does not exist', async () => {
       const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
-      const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+      const album = await createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
 
       assert.throws(() => unqfy.removeTrack(album.id, 'Not existant'), "Track does not exist");
     });
 
-    it('should raise an error when trying to remove a track and the album does not exist', () => {
+    it('should raise an error when trying to remove a track and the album does not exist', async () => {
       const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
-      const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+      const album = await createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
       const track = createAndAddTrack(unqfy, album.id, 'Roses track', 200, ['pop', 'movie']);
 
       assert.throws(() => unqfy.removeTrack('Not existant', track.id), "Album does not exist");
@@ -242,9 +259,9 @@ describe('Add, remove and filter data', () => {
   });
 
   describe('#userListenTo', () => {
-    it('should keep track of the user listenings', () => {
+    it('should keep track of the user listenings', async () => {
       const artist = createAndAddArtist(unqfy, 'Deadmau5', 'Canada');
-      const album = createAndAddAlbum(unqfy, artist.id, "where's the drop?", 2018);
+      const album = await createAndAddAlbum(unqfy, artist.id, "where's the drop?", 2018);
       const track = createAndAddTrack(unqfy, album.id, 'Strobe', 311, ['Electronica', 'House']);
       const user = unqfy.createUser('John');
   
@@ -253,9 +270,9 @@ describe('Add, remove and filter data', () => {
       assert.isTrue(user.hasListenedTo(track));
     });
 
-    it('should raise an error if an user with the name does not exist', () => {
+    it('should raise an error if an user with the name does not exist', async () => {
       const artist = createAndAddArtist(unqfy, 'Deadmau5', 'Canada');
-      const album = createAndAddAlbum(unqfy, artist.id, "where's the drop?", 2018);
+      const album = await createAndAddAlbum(unqfy, artist.id, "where's the drop?", 2018);
       const track = createAndAddTrack(unqfy, album.id, 'Strobe', 311, ['Electronica', 'House']);
   
       assert.throws(() => unqfy.userListenTo('Not existent', track.title), 'User does not exist');
@@ -269,9 +286,9 @@ describe('Add, remove and filter data', () => {
   });
 
   describe('#tracksUserListenedTo', () => {
-    it('should return tracks that a user has listened to', () => {
+    it('should return tracks that a user has listened to', async () => {
       const artist = createAndAddArtist(unqfy, 'Deadmau5', 'Canada');
-      const album = createAndAddAlbum(unqfy, artist.id, "where's the drop?", 2018);
+      const album = await createAndAddAlbum(unqfy, artist.id, "where's the drop?", 2018);
       const track1 = createAndAddTrack(unqfy, album.id, 'Strobe', 311, ['Electronica', 'House']);
       const track2 = createAndAddTrack(unqfy, album.id, 'Imaginary Friends', 311, ['Electronica', 'House']);
       const track3 = createAndAddTrack(unqfy, album.id, 'Coelacanth', 311, ['Electronica', 'House']);
@@ -293,9 +310,9 @@ describe('Add, remove and filter data', () => {
   });
 
   describe('#timesUserListenedTo', () => {
-    it('should return the times a user listened to a specific track', () => {
+    it('should return the times a user listened to a specific track', async () => {
       const artist = createAndAddArtist(unqfy, 'Deadmau5', 'Canada');
-      const album = createAndAddAlbum(unqfy, artist.id, "where's the drop?", 2018);
+      const album = await createAndAddAlbum(unqfy, artist.id, "where's the drop?", 2018);
       const track = createAndAddTrack(unqfy, album.id, 'Strobe', 311, ['Electronica', 'House']);
       const user = unqfy.createUser('John');
   
@@ -304,9 +321,9 @@ describe('Add, remove and filter data', () => {
       assert.equal(unqfy.timesUserListenedTo(user.name, track.title), 1);
     });
 
-    it('should raise an error if an user with the name does not exist', () => {
+    it('should raise an error if an user with the name does not exist', async () => {
       const artist = createAndAddArtist(unqfy, 'Deadmau5', 'Canada');
-      const album = createAndAddAlbum(unqfy, artist.id, "where's the drop?", 2018);
+      const album = await createAndAddAlbum(unqfy, artist.id, "where's the drop?", 2018);
       const track = createAndAddTrack(unqfy, album.id, 'Strobe', 311, ['Electronica', 'House']);
   
       assert.throws(() => unqfy.timesUserListenedTo('Not existent', track.title), 'User does not exist');
@@ -320,21 +337,21 @@ describe('Add, remove and filter data', () => {
   });
 
   describe('#createThisIsList', () => {
-    it('should return the top three listened songs of an artist', () => {
+    it('should return the top three listened songs of an artist', async () => {
       const user1 = unqfy.createUser('John');
       const user2 = unqfy.createUser('Sarah');
       const user3 = unqfy.createUser('James');
       const user4 = unqfy.createUser('Elizabeth');
 
       const artist = createAndAddArtist(unqfy, 'Haywyre', 'USA');
-      const album = createAndAddAlbum(unqfy, artist.id, "Two Fold Pt. 1", 2014);
+      const album = await createAndAddAlbum(unqfy, artist.id, "Two Fold Pt. 1", 2014);
       const firstMostListenedTrack = createAndAddTrack(unqfy, album.id, "The Schism", 200, ['Future Bass']);
       const secondMostListenedTrack = createAndAddTrack(unqfy, album.id, "Dichotomy", 200, ['Future Bass']);
       const thirdMostListenedTrack = createAndAddTrack(unqfy, album.id, "Doppelgänger", 200, ['Future Bass']);
       const forthMostListenedTrack = createAndAddTrack(unqfy, album.id, "Voice of Reason", 200, ['Future Bass']);
 
       const otherArtist = createAndAddArtist(unqfy, 'Snarky Puppy', 'USA');
-      const otherAlbum = createAndAddAlbum(unqfy, otherArtist.id, 'We Like It Here', 2014);
+      const otherAlbum = await createAndAddAlbum(unqfy, otherArtist.id, 'We Like It Here', 2014);
       const otherMostListenedTrack = createAndAddTrack(unqfy, otherAlbum.id, "Sleeper", 200, ['Jazz Fusion']);
 
       usersListenToTrack(unqfy, [user1], forthMostListenedTrack);
@@ -406,9 +423,9 @@ describe('Add, remove and filter data', () => {
     const musixMatchTrackLyrics = "You're free to touch the sky";
     let track = null;
 
-    beforeEach(() => {
+    beforeEach(async () => {
       const artist = createAndAddArtist(unqfy, 'Muse', 'UK');
-      const album = createAndAddAlbum(unqfy, artist.id, 'Drones', 2015);
+      const album = await createAndAddAlbum(unqfy, artist.id, 'Drones', 2015);
       track = createAndAddTrack(unqfy, album.id, 'Dead Inside', 200, 'Rock');
     });
 
@@ -449,14 +466,14 @@ describe('Add, remove and filter data', () => {
   });
 
   describe('#removePlaylist', () => {
-    it('removes the playlist', () => {
+    it('removes the playlist', async () => {
       const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
-      const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+      const album = await createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
       createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock', 'movie']);
       createAndAddTrack(unqfy, album.id, 'Sweet Child o\' Mine', 1500, ['rock', 'hard rock', 'pop', 'movie']);
 
       const artist2 = createAndAddArtist(unqfy, 'Michael Jackson', 'USA');
-      const album2 = createAndAddAlbum(unqfy, artist2.id, 'Thriller', 1987);
+      const album2 = await createAndAddAlbum(unqfy, artist2.id, 'Thriller', 1987);
       createAndAddTrack(unqfy, album2.id, 'Thriller', 200, ['pop', 'movie']);
       createAndAddTrack(unqfy, album2.id, 'Another song', 500, ['pop']);
       createAndAddTrack(unqfy, album2.id, 'Another song II', 500, ['pop']);
@@ -471,9 +488,9 @@ describe('Add, remove and filter data', () => {
   // Busquedas
 
   describe('#filters', () => {
-    it('should find different things by name', () => {
+    it('should find different things by name', async () => {
       const artist1 = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
-      const album1 = createAndAddAlbum(unqfy, artist1.id, 'Roses Album', 1987);
+      const album1 = await createAndAddAlbum(unqfy, artist1.id, 'Roses Album', 1987);
       const track = createAndAddTrack(unqfy, album1.id, 'Roses track', 200, ['pop', 'movie']);
       const playlist = unqfy.createPlaylist('Roses playlist', ['pop'], 1400);
     
@@ -486,14 +503,14 @@ describe('Add, remove and filter data', () => {
       });
     });
     
-    it('should get all tracks matching genres', () => {
+    it('should get all tracks matching genres', async () => {
       const artist1 = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
-      const album1 = createAndAddAlbum(unqfy, artist1.id, 'Appetite for Destruction', 1987);
+      const album1 = await createAndAddAlbum(unqfy, artist1.id, 'Appetite for Destruction', 1987);
       const t0 = createAndAddTrack(unqfy, album1.id, 'Welcome to the jungle', 200, ['rock', 'hard rock', 'movie']);
       const t1 = createAndAddTrack(unqfy, album1.id, 'Sweet Child o\' Mine', 500, ['rock', 'hard rock', 'pop', 'movie']);
     
       const artist2 = createAndAddArtist(unqfy, 'Michael Jackson', 'USA');
-      const album2 = createAndAddAlbum(unqfy, artist2.id, 'Thriller', 1987);
+      const album2 = await createAndAddAlbum(unqfy, artist2.id, 'Thriller', 1987);
       const t2 = createAndAddTrack(unqfy, album2.id, 'Trhiller', 200, ['pop', 'movie']);
       createAndAddTrack(unqfy, album2.id, 'Another song', 500, ['classic']);
       const t3 = createAndAddTrack(unqfy, album2.id, 'Another song II', 500, ['movie']);
@@ -509,17 +526,17 @@ describe('Add, remove and filter data', () => {
       assert.equal(tracksMatching.includes(t3), true);
     });
     
-    it('should get all tracks matching artist', () => {
+    it('should get all tracks matching artist', async () => {
       const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
-      const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+      const album = await createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
       const t1 = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock']);
       const t2 = createAndAddTrack(unqfy, album.id, 'It\'s so easy', 200, ['rock', 'hard rock']);
     
-      const album2 = createAndAddAlbum(unqfy, artist.id, 'Use Your Illusion I', 1992);
+      const album2 = await createAndAddAlbum(unqfy, artist.id, 'Use Your Illusion I', 1992);
       const t3 = createAndAddTrack(unqfy, album2.id, 'Don\'t Cry', 500, ['rock', 'hard rock']);
     
       const artist2 = createAndAddArtist(unqfy, 'Michael Jackson', 'USA');
-      const album3 = createAndAddAlbum(unqfy, artist2.id, 'Thriller', 1987);
+      const album3 = await createAndAddAlbum(unqfy, artist2.id, 'Thriller', 1987);
       createAndAddTrack(unqfy, album3.id, 'Thriller', 200, ['pop', 'movie']);
       createAndAddTrack(unqfy, album3.id, 'Another song', 500, ['classic']);
       createAndAddTrack(unqfy, album3.id, 'Another song II', 500, ['movie']);
@@ -533,17 +550,17 @@ describe('Add, remove and filter data', () => {
       assert.isTrue(matchingTracks.includes(t3));
     });
 
-    it('should get all albums matching artist', () => {
+    it('should get all albums matching artist', async () => {
       const matchingArtist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
-      const album1FromMatchingArtist = createAndAddAlbum(unqfy, matchingArtist.id, 'Appetite for Destruction', 1987);
+      const album1FromMatchingArtist = await createAndAddAlbum(unqfy, matchingArtist.id, 'Appetite for Destruction', 1987);
       createAndAddTrack(unqfy, album1FromMatchingArtist.id, 'Welcome to the jungle', 200, ['rock', 'hard rock']);
       createAndAddTrack(unqfy, album1FromMatchingArtist.id, 'It\'s so easy', 200, ['rock', 'hard rock']);
     
-      const album2FromMatchingArtist = createAndAddAlbum(unqfy, matchingArtist.id, 'Use Your Illusion I', 1992);
+      const album2FromMatchingArtist = await createAndAddAlbum(unqfy, matchingArtist.id, 'Use Your Illusion I', 1992);
       createAndAddTrack(unqfy, album2FromMatchingArtist.id, 'Don\'t Cry', 500, ['rock', 'hard rock']);
     
       const otherArtist = createAndAddArtist(unqfy, 'Michael Jackson', 'USA');
-      const otherArtistAlbum = createAndAddAlbum(unqfy, otherArtist.id, 'Thriller', 1987);
+      const otherArtistAlbum = await createAndAddAlbum(unqfy, otherArtist.id, 'Thriller', 1987);
       createAndAddTrack(unqfy, otherArtistAlbum.id, 'Thriller', 200, ['pop', 'movie']);
     
       const matchingAlbumsForQueriedArtist = unqfy.getAlbumsMatchingArtist(matchingArtist.name);
@@ -555,12 +572,12 @@ describe('Add, remove and filter data', () => {
       assert.isFalse(matchingAlbumsForQueriedArtist.includes(otherArtistAlbum));
     });
 
-    it('should get all tracks matching album', () => {
+    it('should get all tracks matching album', async () => {
       const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
-      const matchingAlbum = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+      const matchingAlbum = await createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
       const matchingAlbumTrack = createAndAddTrack(unqfy, matchingAlbum.id, 'Welcome to the jungle', 200, ['rock', 'hard rock']);
     
-      const otherAlbum = createAndAddAlbum(unqfy, artist.id, 'Use Your Illusion I', 1992);
+      const otherAlbum = await createAndAddAlbum(unqfy, artist.id, 'Use Your Illusion I', 1992);
       const otherAlbumTrack = createAndAddTrack(unqfy, otherAlbum.id, 'Don\'t Cry', 500, ['rock', 'hard rock']);
     
       const matchingAlbumTracks = unqfy.getTracksMatchingAlbum(matchingAlbum.name);
@@ -577,14 +594,14 @@ describe('Add, remove and filter data', () => {
       let track1, track2, track3, track4;
       let playlist1, playlist2, playlist3;
 
-      beforeEach(() => {
+      beforeEach(async () => {
         artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
-        album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+        album = await createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
         track1 = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock', 'movie']);
         track2 = createAndAddTrack(unqfy, album.id, 'Sweet Child o\' Mine', 300, ['rock', 'hard rock', 'pop', 'movie']);
     
         artist2 = createAndAddArtist(unqfy, 'Michael Jackson', 'USA');
-        album2 = createAndAddAlbum(unqfy, artist2.id, 'Thriller', 1987);
+        album2 = await createAndAddAlbum(unqfy, artist2.id, 'Thriller', 1987);
         track3 = createAndAddTrack(unqfy, album2.id, 'Thriller', 400, ['pop', 'movie']);
         track4 = createAndAddTrack(unqfy, album2.id, 'Another song', 500, ['pop']);
     
@@ -642,14 +659,14 @@ describe('Playlist Creation and properties', () => {
   });
 
   describe('#createPlaylist', () => {
-    it('should create a playlist as requested', () => {
+    it('should create a playlist as requested', async () => {
       const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
-      const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+      const album = await createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
       const t1 = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock', 'movie']);
       createAndAddTrack(unqfy, album.id, 'Sweet Child o\' Mine', 1500, ['rock', 'hard rock', 'pop', 'movie']);
   
       const artist2 = createAndAddArtist(unqfy, 'Michael Jackson', 'USA');
-      const album2 = createAndAddAlbum(unqfy, artist2.id, 'Thriller', 1987);
+      const album2 = await createAndAddAlbum(unqfy, artist2.id, 'Thriller', 1987);
       const t2 = createAndAddTrack(unqfy, album2.id, 'Thriller', 200, ['pop', 'movie']);
       const t3 = createAndAddTrack(unqfy, album2.id, 'Another song', 500, ['pop']);
       const t4 = createAndAddTrack(unqfy, album2.id, 'Another song II', 500, ['pop']);
@@ -679,14 +696,14 @@ describe('Playlist Creation and properties', () => {
   });
 
   describe('createPlaylistFromTracks', () => {
-    it('should create a playlist as requested', () => {
+    it('should create a playlist as requested', async () => {
       const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
-      const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+      const album = await createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
       const track1 = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock', 'movie']);
       const track2 = createAndAddTrack(unqfy, album.id, 'Sweet Child o\' Mine', 1500, ['rock', 'hard rock', 'pop', 'movie']);
   
       const artist2 = createAndAddArtist(unqfy, 'Michael Jackson', 'USA');
-      const album2 = createAndAddAlbum(unqfy, artist2.id, 'Thriller', 1987);
+      const album2 = await createAndAddAlbum(unqfy, artist2.id, 'Thriller', 1987);
       const track3 = createAndAddTrack(unqfy, album2.id, 'Thriller', 200, ['pop', 'movie']);
       const track4 = createAndAddTrack(unqfy, album2.id, 'Another song', 500, ['pop']);
       const track5 = createAndAddTrack(unqfy, album2.id, 'Another song II', 500, ['pop']);

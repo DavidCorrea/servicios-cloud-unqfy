@@ -17,7 +17,6 @@ class ArtistSubscription {
   removeSubscriptor(email){
     this.subscriptors = this.subscriptors.filter(emailSubscriptor => emailSubscriptor !== email);
   }
-
 }  
 
 module.exports = ArtistSubscription;

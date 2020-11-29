@@ -1,11 +1,8 @@
 const fs = require('fs');
-const promisify = require('util').promisify;
 const {google} = require('googleapis');
-const readFile = promisify(fs.readFile)
 
 const CREDENTIALS_PATH = 'credentials.json';
 const TOKEN_PATH = 'token.json';
-
 
 function getGmailClient() {
     const credentials = fs.readFileSync(CREDENTIALS_PATH);
