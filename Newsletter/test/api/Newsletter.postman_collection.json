@@ -32,7 +32,7 @@
 			"response": []
 		},
 		{
-			"name": "subscribe",
+			"name": "Subscribe",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -113,6 +113,35 @@
 					"path": [
 						"api",
 						"subscriptions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Notify",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"artistId\": 1,\r\n  \"subject\": \"Nuevo Album para artsta Chano\", \r\n  \"message\": \"Se ha agregado el album XXX al artista Chano\"\r\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/api/notify",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"notify"
 					]
 				}
 			},
