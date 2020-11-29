@@ -15,6 +15,10 @@ class Newsletter {
   }
 
   async subscribe(artistId, email) {
+    
+    this._validateIsNotEmpty(artistId, 'artistId');
+    this._validateIsNotEmpty(email, 'email');
+
     try{
       await UNQfy.validateArtistExistanceById(artistId)
       let subscription = this.getArtistSubscriptions(artistId);
@@ -29,15 +33,14 @@ class Newsletter {
   }
 
   unsubscribe(artistId, email) {
+    this._validateIsNotEmpty(artistId, 'artistId');
+    this._validateIsNotEmpty(email, 'email');
     let subscription = this.getArtistSubscriptions(artistId);
     subscription.removeSubscriptor(email);
   }
 
-  notify(artistId) {
-    throw new Error("Not implemented");
-  }
-
   getArtistSubscriptions(artistId){
+    this._validateIsNotEmpty(artistId, 'artistId');
     let subscription = this.subscriptions.filter(subcription => subcription.artistId == artistId)[0];
     if(!subscription){
 	    subscription = new ArtistSubscription(artistId);
@@ -47,22 +50,26 @@ class Newsletter {
 	}
 
   deleteSubscriptionsForArtist(artistId) {
+    this._validateIsNotEmpty(artistId, 'artistId');
     this.subscriptions = this.subscriptions.filter(subscription => subscription.artistId !== artistId);
   }
 
   notify(artistId, subject, text){
+    this._validateIsNotEmpty(artistId, 'artistId');
+    this._validateIsNotEmpty(subject, 'artsubjectistId');
+    this._validateIsNotEmpty(text, 'message');
     let artistSubscription = this.getArtistSubscriptions(artistId);
-    artistSubscription.subscriptors.forEach(email => {this.sendEmail(email, process.env.EMAIL_FROM, subject, text)})
+    artistSubscription.subscriptors.forEach(email => {this._sendEmail(email, process.env.EMAIL_FROM, subject, text)})
   }
   
-  sendEmail(emailTo, emailFrom, subject, text){
+  _sendEmail(emailTo, emailFrom, subject, text){
     gmailClient.users.messages.send({
       userId: 'me',
-      requestBody: {raw: this.createMessage(emailTo, emailFrom, subject, text),},
+      requestBody: {raw: this._createMessage(emailTo, emailFrom, subject, text),},
     });
   }
 
-  createMessage(emailTo, emailFrom, subject, text) {
+  _createMessage(emailTo, emailFrom, subject, text) {
     const utf8Subject = `=?utf-8?B?${Buffer.from(subject).toString('base64')}?=`;
     const messageParts = [
       'From: ' + emailFrom,
@@ -83,6 +90,12 @@ class Newsletter {
       .replace(/=+$/, '');
   
     return encodedMessage;
+  }
+
+  _validateIsNotEmpty(value, errorMessageParameter) {
+    if (!value) {
+      throw new BadRequestError(`${errorMessageParameter} cannot be empty`);
+    }
   }
 
 }
