@@ -1,3 +1,5 @@
+const {ResourceAlreadyExistsError} = require('./NewsletterError');
+
 class ArtistSubscription {
   constructor(artistId){
     this.artistId = artistId;
@@ -5,7 +7,11 @@ class ArtistSubscription {
 	}
 
   addSubscriptor(email){
-    this.subscriptors.push(email);
+    if (!this.subscriptors.some((emailSubscriptor) => emailSubscriptor === email)) {
+      this.subscriptors.push(email);
+    }else{
+      throw new ResourceAlreadyExistsError('Subscription', 'email');
+    }
   }
 
   removeSubscriptor(email){

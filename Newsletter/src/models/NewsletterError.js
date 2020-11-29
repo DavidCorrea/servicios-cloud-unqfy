@@ -14,7 +14,7 @@ class ResourceNotFoundError extends NewsletterError {
 
 class ResourceAlreadyExistsError extends NewsletterError {
   constructor(resourceName, resourceField) {
-    super(`Couldn't create new ${resourceName}: ${resourceField} was already taken`);
+    super(`Couldn't create new ${resourceName}: ${resourceField} was already used`);
     this.name = "NewsletterError::ResourceAlreadyExistsError";
   }
 }
