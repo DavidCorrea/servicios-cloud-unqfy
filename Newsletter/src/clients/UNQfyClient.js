@@ -1,4 +1,5 @@
 const axios = require('axios');
+const {ResourceNotFoundError} = require('../models/NewsletterError');
 
 const UNQfyBaseURL = process.env.UNQfyBaseURL || "http://localhost:3000";
 
@@ -12,7 +13,7 @@ const validateArtistExistanceById = async (artistId) => {
     await unqfy.get('/api/artists/'+ artistId);
   }catch(err) {
     if(err.response && err.response.status === 404){
-      throw new Error("No existe el artista.")
+      throw new ResourceNotFoundError("Artist")
     }else {
       throw err;
     }

@@ -8,10 +8,9 @@ router.post('/subscribe', async (req, res, next) => {
 		let { artistId, email } = req.body;
 		await newsletter.subscribe(Number(artistId), email);
 		res.status(200).send();
-	} catch(err){
-		console.log(err)
-		res.status(500).send(err);
-	}
+	} catch(err) {
+    next(err);
+  }
 });
 
 router.post('/unsubscribe', async (req, res, next) => {

@@ -2,9 +2,10 @@ require('dotenv').config();
 require('dotenv').config();
 const promisify = require('util').promisify;
 const {google} = require('googleapis');
+const getGmailClient = require('../../src/clients/gmailClient');
+const { NewsletterError, ResourceNotFoundError, RelatedResourceNotFoundError, ResourceAlreadyExistsError, BadRequestError } = require('./NewsletterError');
 const ArtistSubscription = require('./ArtistSubscription');
 const UNQfy = require('../clients/UNQfyClient');
-const getGmailClient = require('../../src/clients/gmailClient');
 
 const gmailClient = getGmailClient();
 
@@ -14,9 +15,17 @@ class Newsletter {
   }
 
   async subscribe(artistId, email) {
-    await UNQfy.validateArtistExistanceById(artistId)
-    let subscription = this.getArtistSubscriptions(artistId);
-    subscription.addSubscriptor(email);
+    try{
+      await UNQfy.validateArtistExistanceById(artistId)
+      let subscription = this.getArtistSubscriptions(artistId);
+      subscription.addSubscriptor(email);
+    } catch(err){
+      if(err instanceof ResourceNotFoundError) {
+        throw new RelatedResourceNotFoundError('Artist');
+      } else {
+        throw err;
+      }
+    }
   }
 
   unsubscribe(artistId, email) {
