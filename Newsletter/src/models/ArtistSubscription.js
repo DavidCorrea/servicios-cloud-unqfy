@@ -1,4 +1,4 @@
-class Subscription {
+class ArtistSubscription {
   constructor(artistId){
     this.artistId = artistId;
     this.subscriptors = [];
@@ -14,4 +14,4 @@ class Subscription {
 
 }  
 
-module.exports = Subscription;
+module.exports = ArtistSubscription;

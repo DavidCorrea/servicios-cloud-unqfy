@@ -1,5 +1,6 @@
 require('dotenv').config();
-const Subscription = require('./Subscription');
+require('dotenv').config();
+const ArtistSubscription = require('./ArtistSubscription');
 const UNQfy = require('../clients/UNQfyClient');
 
 class Newsletter {
@@ -8,13 +9,13 @@ class Newsletter {
   }
 
   async subscribe(artistId, email) {
-      await UNQfy.validateArtistExistanceById(artistId)
-      let subscription = this.getSubscriptions(artistId);
-      subscription.addSubscriptor(email);
+    await UNQfy.validateArtistExistanceById(artistId)
+    let subscription = this.getArtistSubscriptions(artistId);
+    subscription.addSubscriptor(email);
   }
 
   unsubscribe(artistId, email) {
-    let subscription = this.getSubscriptions(artistId);
+    let subscription = this.getArtistSubscriptions(artistId);
     subscription.removeSubscriptor(email);
   }
 
@@ -22,19 +23,18 @@ class Newsletter {
     throw new Error("Not implemented");
   }
 
-  getSubscriptions(artistId){
+  getArtistSubscriptions(artistId){
     let subscription = this.subscriptions.filter(subcription => subcription.artistId == artistId)[0];
     if(!subscription){
-	    subscription = new Subscription(artistId);
+	    subscription = new ArtistSubscription(artistId);
       this.subscriptions.push(subscription);
     }
     return subscription;
 	}
 
-  deleteSubscriptions(artistId) {
+  deleteSubscriptionsForArtist(artistId) {
     this.subscriptions = this.subscriptions.filter(subscription => subscription.artistId !== artistId);
   }
-
 }
 
 module.exports = Newsletter;

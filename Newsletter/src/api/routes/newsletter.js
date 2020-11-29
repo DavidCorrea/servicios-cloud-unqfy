@@ -33,7 +33,7 @@ router.get('/subscriptions', async (req, res, next) => {
 	const artistId = req.query.artistId || '';
 
   try{
-    let subscriptions = newsletter.getSubscriptions(Number(artistId));
+    let subscriptions = newsletter.getArtistSubscriptions(Number(artistId));
     res.status(200).send(subscriptions);
   } catch(err) {
 		console.log(err)
@@ -45,7 +45,7 @@ router.get('/subscriptions', async (req, res, next) => {
 router.delete('/subscriptions', async (req, res, next) => {
 	try{
 		let { artistId } = req.body;
-		newsletter.deleteSubscriptions(Number(artistId));
+		newsletter.deleteSubscriptionsForArtist(Number(artistId));
 		res.status(200).send();
 	} catch(err){
 		console.log(err)
