@@ -6,7 +6,7 @@ let newsletter = new Newsletter();
 router.post('/subscribe', async (req, res, next) => {
 	try{
 		let { artistId, email } = req.body;
-		newsletter.subscribe(Number(artistId), email);
+		await newsletter.subscribe(Number(artistId), email);
 		res.status(200).send();
 	} catch(err){
 		console.log(err)
