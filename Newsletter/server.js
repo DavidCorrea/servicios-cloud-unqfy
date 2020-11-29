@@ -1,10 +1,10 @@
 require('dotenv').config();
+
 const express = require('express');
-const { NewsletterError, ResourceNotFoundError, RelatedResourceNotFoundError, ResourceAlreadyExistsError, BadRequestError } = require('./src/models/NewsletterError');
+const { ResourceNotFoundError, RelatedResourceNotFoundError, ResourceAlreadyExistsError, BadRequestError } = require('./src/models/NewsletterError');
 const app = express(); 
 const NewsletterLoader = require('./src/lib/Loader');
 const port = process.env.PORT || 3001;
-
 
 // Body-parser (Para acceder al body en un POST/PUT/PATCH)
 const bodyParser = require('body-parser');

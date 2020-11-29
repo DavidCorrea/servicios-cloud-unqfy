@@ -1,10 +1,7 @@
-require('dotenv').config();
 const picklify = require('picklify');
 const fs = require('fs');
-const promisify = require('util').promisify;
-const {google} = require('googleapis');
 const getGmailClient = require('../../src/clients/gmailClient');
-const { NewsletterError, ResourceNotFoundError, RelatedResourceNotFoundError, ResourceAlreadyExistsError, BadRequestError } = require('./NewsletterError');
+const { ResourceNotFoundError, RelatedResourceNotFoundError, BadRequestError } = require('./NewsletterError');
 const ArtistSubscription = require('./ArtistSubscription');
 const UNQfy = require('../clients/UNQfyClient');
 
@@ -16,7 +13,6 @@ class Newsletter {
   }
 
   async subscribe(artistId, email) {
-    
     this._validateIsNotEmpty(artistId, 'artistId');
     this._validateIsNotEmpty(email, 'email');
 
@@ -36,12 +32,14 @@ class Newsletter {
   unsubscribe(artistId, email) {
     this._validateIsNotEmpty(artistId, 'artistId');
     this._validateIsNotEmpty(email, 'email');
+
     let subscription = this.getArtistSubscriptions(artistId);
     subscription.removeSubscriptor(email);
   }
 
   getArtistSubscriptions(artistId){
     this._validateIsNotEmpty(artistId, 'artistId');
+
     let subscription = this.subscriptions.filter(subcription => subcription.artistId == artistId)[0];
     if(!subscription){
 	    subscription = new ArtistSubscription(artistId);
@@ -52,13 +50,15 @@ class Newsletter {
 
   deleteSubscriptionsForArtist(artistId) {
     this._validateIsNotEmpty(artistId, 'artistId');
+
     this.subscriptions = this.subscriptions.filter(subscription => subscription.artistId !== artistId);
   }
 
   notify(artistId, subject, text){
     this._validateIsNotEmpty(artistId, 'artistId');
-    this._validateIsNotEmpty(subject, 'artsubjectistId');
+    this._validateIsNotEmpty(subject, 'subject');
     this._validateIsNotEmpty(text, 'message');
+
     let artistSubscription = this.getArtistSubscriptions(artistId);
     artistSubscription.subscriptors.forEach(email => {this._sendEmail(email, process.env.EMAIL_FROM, subject, text)})
   }
@@ -94,7 +94,7 @@ class Newsletter {
   }
 
   _validateIsNotEmpty(value, errorMessageParameter) {
-    if (!value) {
+    if (value.length === 0) {
       throw new BadRequestError(`${errorMessageParameter} cannot be empty`);
     }
   }
@@ -110,7 +110,6 @@ class Newsletter {
 
     return picklify.unpicklify(JSON.parse(serializedData), classes);
   }
-
 }
 
 module.exports = Newsletter;

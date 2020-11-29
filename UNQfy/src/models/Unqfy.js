@@ -29,15 +29,16 @@ class UNQfy {
     return artist;
   }
 
-  addAlbum(artistId, { name, year }) {
+  async addAlbum(artistId, { name, year }) {
     this._validateIsNotEmpty(name, 'Album', 'Name');
     this._validateIsNotEmpty(year, 'Album', 'Year');
     this._validateIsNotEmpty(artistId, 'Album', 'Artist');
 
-    try{
+    try {
       const artist = this.getArtistById(artistId);
-      return artist.addAlbum(this._nextId(Album), name, year);
-    } catch(error){
+
+      return await artist.addAlbum(this._nextId(Album), name, year);
+    } catch(error) {
       if(error instanceof ResourceNotFoundError) {
         throw new RelatedResourceNotFoundError('Artist');
       } else {
@@ -300,7 +301,9 @@ class UNQfy {
     const artist = this.getArtistByName(artistName);
     const artistAlbums = await Spotify.getArtistAlbums(artistName);
 
-    artistAlbums.forEach((artistAlbum) => this.addAlbum(artist.id, { name: artistAlbum.name, year: artistAlbum.releaseYear }));
+    for (const artistAlbum of artistAlbums) {
+      await this.addAlbum(artist.id, { name: artistAlbum.name, year: artistAlbum.releaseYear });
+    }
   }
 
   async trackLyrics(trackTitle) {
