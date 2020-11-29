@@ -1,5 +1,6 @@
 require('dotenv').config();
-require('dotenv').config();
+const picklify = require('picklify');
+const fs = require('fs');
 const promisify = require('util').promisify;
 const {google} = require('googleapis');
 const getGmailClient = require('../../src/clients/gmailClient');
@@ -96,6 +97,18 @@ class Newsletter {
     if (!value) {
       throw new BadRequestError(`${errorMessageParameter} cannot be empty`);
     }
+  }
+
+  save(filename) {
+    const serializedData = picklify.picklify(this);
+    fs.writeFileSync(filename, JSON.stringify(serializedData, null, 2));
+  }
+
+  static load(filename) {
+    const serializedData = fs.readFileSync(filename, {encoding: 'utf-8'});
+    const classes = [Newsletter, ArtistSubscription];
+
+    return picklify.unpicklify(JSON.parse(serializedData), classes);
   }
 
 }

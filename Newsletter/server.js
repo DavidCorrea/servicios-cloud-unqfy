@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const { NewsletterError, ResourceNotFoundError, RelatedResourceNotFoundError, ResourceAlreadyExistsError, BadRequestError } = require('./src/models/NewsletterError');
 const app = express(); 
+const NewsletterLoader = require('./src/lib/Loader');
 const port = process.env.PORT || 3001;
 
 
@@ -14,6 +15,23 @@ const NewsletterRoute = require('./src/api/routes/newsletter');
 // MIDDLEWARES
 app.use(bodyParser.json()); // parse application/json
 app.use(express.json());
+
+
+app.use((req, res, next) => {
+  const shouldSave = ['POST', 'PATCH', 'PUT', 'DELETE'].includes(req.method);
+  const originalSend = res.send;
+  req.newsletter = NewsletterLoader.getNewsletter();
+
+  res.send = function() {
+    if(shouldSave) {
+      NewsletterLoader.saveNewsletter(req.newsletter);
+    }
+    
+    originalSend.apply(res, arguments);
+  };
+
+  next();
+});
 
 // ROUTES
 app.use("/api", NewsletterRoute);

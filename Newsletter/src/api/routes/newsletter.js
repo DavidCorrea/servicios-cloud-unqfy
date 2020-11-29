@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const Newsletter = require('../../models/Newsletter');
-let newsletter = new Newsletter();
+const Newsletter = require('../../lib/Loader');
 
 router.post('/subscribe', async (req, res, next) => {
+  const newsletter = req.newsletter;
 	try{
 		let { artistId, email } = req.body;
 		await newsletter.subscribe(Number(artistId), email);
@@ -14,6 +14,7 @@ router.post('/subscribe', async (req, res, next) => {
 });
 
 router.post('/unsubscribe', async (req, res, next) => {
+  const newsletter = req.newsletter;
 	try{
 		let { artistId, email } = req.body;
 		newsletter.unsubscribe(Number(artistId), email);
@@ -25,6 +26,7 @@ router.post('/unsubscribe', async (req, res, next) => {
 });
 
 router.post('/notify', async (req, res, next) => {
+  const newsletter = req.newsletter;
 	try{
 		let { artistId, subject, message } = req.body;
 		newsletter.notify(artistId, subject, message);
@@ -36,8 +38,8 @@ router.post('/notify', async (req, res, next) => {
 });
 
 router.get('/subscriptions', async (req, res, next) => {
+  const newsletter = req.newsletter;
 	const artistId = req.query.artistId || '';
-
   try{
     let subscriptions = newsletter.getArtistSubscriptions(Number(artistId));
     res.status(200).send(subscriptions);
@@ -49,6 +51,7 @@ router.get('/subscriptions', async (req, res, next) => {
 
 
 router.delete('/subscriptions', async (req, res, next) => {
+  const newsletter = req.newsletter;
 	try{
 		let { artistId } = req.body;
 		newsletter.deleteSubscriptionsForArtist(Number(artistId));
@@ -58,7 +61,5 @@ router.delete('/subscriptions', async (req, res, next) => {
 		res.status(500).send(err);
 	}
 });
-
-
 
 module.exports = router;
