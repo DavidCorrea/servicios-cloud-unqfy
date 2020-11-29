@@ -1,7 +1,12 @@
 require('dotenv').config();
 require('dotenv').config();
+const promisify = require('util').promisify;
+const {google} = require('googleapis');
 const ArtistSubscription = require('./ArtistSubscription');
 const UNQfy = require('../clients/UNQfyClient');
+const getGmailClient = require('../../src/clients/gmailClient');
+
+const gmailClient = getGmailClient();
 
 class Newsletter {
   constructor() {
@@ -35,6 +40,42 @@ class Newsletter {
   deleteSubscriptionsForArtist(artistId) {
     this.subscriptions = this.subscriptions.filter(subscription => subscription.artistId !== artistId);
   }
+
+  notify(artistId, subject, text){
+    let artistSubscription = this.getArtistSubscriptions(artistId);
+    artistSubscription.subscriptors.forEach(email => {this.sendEmail(email, process.env.EMAIL_FROM, subject, text)})
+  }
+  
+  sendEmail(emailTo, emailFrom, subject, text){
+    gmailClient.users.messages.send({
+      userId: 'me',
+      requestBody: {raw: this.createMessage(emailTo, emailFrom, subject, text),},
+    });
+  }
+
+  createMessage(emailTo, emailFrom, subject, text) {
+    const utf8Subject = `=?utf-8?B?${Buffer.from(subject).toString('base64')}?=`;
+    const messageParts = [
+      'From: ' + emailFrom,
+      'To: ' + emailTo,
+      'Content-Type: text/html; charset=utf-8',
+      'MIME-Version: 1.0',
+      `Subject: ${utf8Subject}`,
+      '',
+      subject,
+      text,
+    ];
+    const message = messageParts.join('\n');
+  
+    const encodedMessage = Buffer.from(message)
+      .toString('base64')
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_')
+      .replace(/=+$/, '');
+  
+    return encodedMessage;
+  }
+
 }
 
 module.exports = Newsletter;

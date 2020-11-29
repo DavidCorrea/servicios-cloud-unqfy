@@ -26,7 +26,14 @@ router.post('/unsubscribe', async (req, res, next) => {
 });
 
 router.post('/notify', async (req, res, next) => {
-  res.status(500).send("Not implemented")
+	try{
+		let { artistId, subject, message } = req.body;
+		newsletter.notify(artistId, subject, message);
+		res.status(200).send();
+	} catch(err){
+		console.log(err)
+		res.status(500).send(err);
+	}
 });
 
 router.get('/subscriptions', async (req, res, next) => {
