@@ -8,7 +8,7 @@ class Monitor {
     this.delay = delay;
     this.running = true;
     this.livenessDetections = {
-      UNQfy: false,
+      UNQfy: undefined,
     };
   }
 
@@ -21,9 +21,10 @@ class Monitor {
   }
 
   async UNQfyLivenessCheck() {
-    let liveness = await UNQfy.validateArtistExistanceById(0);
+    let liveness = await UNQfy.UNQfyLivenessDetection();
     if (liveness !== this.livenessDetections.UNQfy) {
-      console.log(liveness ? "UNQfy esta vivo!!" : "UNQfy se murio :'(");
+      let message = `[${new Date().toTimeString()}] el servicio UNQfy ha ${liveness ? 'vuelto a' : 'dejado de'} funcionar`
+      console.log(message);
     }
     this.livenessDetections.UNQfy = liveness;
   }

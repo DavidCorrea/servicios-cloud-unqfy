@@ -7,15 +7,15 @@ const unqfy = axios.create({
   baseURL:UNQfyBaseURL
 });
 
-const validateArtistExistanceById = async (artistId) => {
+const UNQfyLivenessDetection = async () => {
   try{
-    await unqfy.get('/api/artists/'+ artistId);
-    return true;
+    let res = await unqfy.get('/api/heartbeat');
+    return res.status === 200;
   } catch(err) {
     return false;
   };
 };
 
 module.exports = {
-  validateArtistExistanceById
+  UNQfyLivenessDetection
 };
