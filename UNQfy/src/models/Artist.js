@@ -20,13 +20,12 @@ class Artist extends Observable {
     return ['id', 'name', 'country', 'albums'];
   }
 
-  async addAlbum(albumId, albumName, albumYear) {
+  addAlbum(albumId, albumName, albumYear) {
     this._validateNameIsAvailable(albumName);
 
     const album = new Album(albumId, albumName, albumYear);
     this.albums.push(album);
-    // ¿Sería mejor hacer esto sin el await?
-    await this._notify(albumName);
+    this._notify(albumName);
 
     return album;
   }

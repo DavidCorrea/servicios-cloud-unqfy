@@ -7,10 +7,8 @@ class Observable {
     this.observers.push(observer);
   }
 
-  async _notify(data) {
-    for (const observer of this.observers) {
-      await observer.update(this, data);
-    }
+  _notify(data) {
+    this.observers.forEach(observer => observer.update(this, data));
   }
 }
 

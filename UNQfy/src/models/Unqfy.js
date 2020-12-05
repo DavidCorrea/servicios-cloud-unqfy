@@ -29,7 +29,7 @@ class UNQfy {
     return artist;
   }
 
-  async addAlbum(artistId, { name, year }) {
+  addAlbum(artistId, { name, year }) {
     this._validateIsNotEmpty(name, 'Album', 'Name');
     this._validateIsNotEmpty(year, 'Album', 'Year');
     this._validateIsNotEmpty(artistId, 'Album', 'Artist');
@@ -37,7 +37,7 @@ class UNQfy {
     try {
       const artist = this.getArtistById(artistId);
 
-      return await artist.addAlbum(this._nextId(Album), name, year);
+      return artist.addAlbum(this._nextId(Album), name, year);
     } catch(error) {
       if(error instanceof ResourceNotFoundError) {
         throw new RelatedResourceNotFoundError('Artist');
@@ -301,9 +301,7 @@ class UNQfy {
     const artist = this.getArtistByName(artistName);
     const artistAlbums = await Spotify.getArtistAlbums(artistName);
 
-    for (const artistAlbum of artistAlbums) {
-      await this.addAlbum(artist.id, { name: artistAlbum.name, year: artistAlbum.releaseYear });
-    }
+    artistAlbums.forEach((artistAlbum) => this.addAlbum(artist.id, { name: artistAlbum.name, year: artistAlbum.releaseYear }));
   }
 
   async trackLyrics(trackTitle) {

@@ -25,13 +25,13 @@ router.get("/", (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/", (req, res, next) => {
   const unqfy = req.unqfy;
   let { name, year } = req.body;
   let artistId = isNaN(Number(req.body.artistId)) ? '' : Number(req.body.artistId) ;
 
   try{
-    let created = await unqfy.addAlbum(artistId, { name, year });
+    let created = unqfy.addAlbum(artistId, { name, year });
     res.status(201).send(created);
   } catch(err){
     next(err);

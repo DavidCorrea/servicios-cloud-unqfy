@@ -5,7 +5,6 @@ const mockAnySuccessfulNewAlbumNotificationRequest = () => {
   nock.cleanAll();
 
   nock(NewsletterClient.baseURL())
-    .persist()
     .post('/api/notify', body => true)
     .reply(200);
 };
