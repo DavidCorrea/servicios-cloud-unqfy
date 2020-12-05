@@ -7,8 +7,8 @@ const monitor = new Monitor();
 router.post('/switch', async (req, res, next) => {
 	try{
 	let { status } = req.body;
-		let res = monitor.switch(status)
-		res.status(200).send(res);
+		let result = req.monitor.switch(status)
+		res.status(200).send(result);
 	} catch(err) {
     next(err);
   }
@@ -17,7 +17,7 @@ router.post('/switch', async (req, res, next) => {
 
 router.get('/livenessDetections', async (req, res, next) => {
   try{
-    let livenessDetections = monitor.getlivenessDetections();
+    let livenessDetections = req.monitor.getlivenessDetections();
     res.status(200).send(livenessDetections);
 	} catch(err) {
     next(err);

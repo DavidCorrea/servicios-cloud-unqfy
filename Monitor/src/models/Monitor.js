@@ -8,12 +8,14 @@ class Monitor {
     this.delay = delay;
     this.running = true;
     this.livenessDetections = {
-      [UNQfy]: false,
+      UNQfy: false,
     };
   }
 
   async livenessChecks(){
-    await this.UNQfyLivenessCheck();
+    if(this.running){
+      await this.UNQfyLivenessCheck();
+    }
     await timer(this.delay);
     this.livenessChecks();
   }
@@ -27,11 +29,12 @@ class Monitor {
   }
 
   getlivenessDetections(){
-    return this.livenessDetections;
+    return (this.running ? this.livenessDetections : {});
   }
 
   switch(status){
     this.running = status;
+    return this.running;
   }
 }
 

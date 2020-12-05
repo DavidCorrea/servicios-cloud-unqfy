@@ -6,6 +6,7 @@ const app = express();
 const port = process.env.PORT || 3002;
 
 const DELAY = 15000;
+const monitor = new Monitor(DELAY);
 
 
 // Body-parser (Para acceder al body en un POST/PUT/PATCH)
@@ -17,6 +18,12 @@ const MonitorRoute = require('./src/api/routes/monitor');
 // MIDDLEWARES
 app.use(bodyParser.json());
 app.use(express.json());
+
+
+app.use((req, res, next) => {
+  req.monitor = monitor;
+  next();
+});
 
 // ROUTES
 app.use("/api", MonitorRoute);
@@ -50,7 +57,6 @@ app.listen(port, () => {
 
 
 function main() {
-  const monitor = new Monitor(DELAY);
   monitor.livenessChecks();
 }
 
