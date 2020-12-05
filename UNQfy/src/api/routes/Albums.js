@@ -6,8 +6,8 @@ router.get("/:id", (req, res, next) => {
   let id = req.params.id;
 
   try{
-    let artist =  unqfy.getAlbumById(Number(id));
-    res.status(200).send(artist);
+    let album =  unqfy.getAlbumById(Number(id));
+    res.status(200).send(album.serialize({ deep: true }));
   } catch(err) {
     next(err);
   }
@@ -19,7 +19,7 @@ router.get("/", (req, res, next) => {
 
   try{
     const albums =  unqfy.searchByName(nameToLookFor).albums;
-    res.status(200).send(albums);
+    res.status(200).send(albums.map(album => album.serialize({ deep: true })));
   } catch(err) {
     next(err);
   }
@@ -31,8 +31,8 @@ router.post("/", (req, res, next) => {
   let artistId = isNaN(Number(req.body.artistId)) ? '' : Number(req.body.artistId) ;
 
   try{
-    let created = unqfy.addAlbum(artistId, { name, year });
-    res.status(201).send(created);
+    let createdAlbum = unqfy.addAlbum(artistId, { name, year });
+    res.status(201).send(createdAlbum.serialize({ deep: true }));
   } catch(err){
     next(err);
   }
@@ -45,7 +45,7 @@ router.patch("/:id", (req, res, next) => {
   try{
     let album =  unqfy.getAlbumById(Number(id));
     album.year = req.body.year;
-    res.status(200).send(album);
+    res.status(200).send(album.serialize({ deep: true }));
   } catch(err) {
     next(err);
   }

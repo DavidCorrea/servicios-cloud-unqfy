@@ -33,6 +33,15 @@ class Playlist {
     const tracksToRemoveIds = tracksToRemove.map(trackToRemove => trackToRemove.id);
     this.tracks = this.tracks.filter((track) => !tracksToRemoveIds.includes(track.id));
   }
+
+  serialize({ deep = false } = {}) {
+    return {
+      id: this.id,
+      name: this.name,
+      tracks: this.tracks.map(track => deep ? track.serialize() : track.title),
+      duration: this.duration()
+    }
+  }
 }
 
 module.exports = Playlist;

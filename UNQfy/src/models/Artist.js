@@ -46,6 +46,15 @@ class Artist extends Observable {
     return this.allTracks().includes(track);
   }
 
+  serialize({ deep = false } = {}) {
+    return {
+      id: this.id,
+      name: this.name,
+      country: this.country,
+      albums: this.albums.map(album => deep ? album.serialize({ deep }) : album.name)
+    }
+  }
+
   _validateNameIsAvailable(name) {
     if (this.albums.some((album) => album.name === name)) {
       throw new ResourceAlreadyExistsError('Album', 'Name');

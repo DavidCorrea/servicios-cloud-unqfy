@@ -26,9 +26,18 @@ class Album {
     this.tracks = this.tracks.filter(track => track.id !== trackToRemove.id);
   }
 
+  serialize({ deep = false } = {}) {
+    return {
+      id: this.id,
+      name: this.name,
+      year: this.year,
+      tracks: this.tracks.map(track => deep ? track.serialize() : track.title)
+    }
+  }
+
   _validateTitleIsAvailable(title) {
     if (this.tracks.some(track => track.title === title)) {
-      throw new ResourceAlreadyExistsError('Track', 'Title');;
+      throw new ResourceAlreadyExistsError('Track', 'Title');
     }
   }
 }  

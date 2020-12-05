@@ -116,38 +116,6 @@ function arrayFieldValueFromArgs(args, field) {
   return fieldValueFromArgs(args, field).split(",");
 }
 
-function serializeArtist({name, country, albums}) {
-  return { 
-    name, 
-    country, 
-    albums: albums.map(album => album.name)
-  }
-}
-
-function serializeAlbum({name, year, tracks}) {
-  return { 
-    name, 
-    year, 
-    tracks: tracks.map(track => track.title) 
-  }
-}
-
-function serializeTrack({title, duration, genres}) {
-  return { 
-    title, 
-    duration, 
-    genres 
-  }
-}
-
-function serializePlaylist(playlist) {
-  return { 
-    name: playlist.name, 
-    tracks: playlist.tracks.map(track => track.title), 
-    duration: playlist.duration() 
-  }
-}
-
 function log(title, object) {
   console.log(`${title}: ${JSON.stringify(object, undefined, 2)}`);
 }
@@ -225,10 +193,10 @@ async function executeCommandWithArgs(unqfy, command, args) {
       const name = fieldValueFromArgs(args, 'name');
       const searchResult = unqfy.searchByName(name);
       const serializedSearchResult = {
-        artists: searchResult.artists.map(serializeArtist),
-        albums: searchResult.albums.map(serializeAlbum),
-        tracks: searchResult.tracks.map(serializeTrack),
-        playlists: searchResult.playlists.map(serializePlaylist),
+        artists: searchResult.artists.map(artist => artist.serialize()),
+        albums: searchResult.albums.map(album => album.serialize()),
+        tracks: searchResult.tracks.map(track => track.serialize()),
+        playlists: searchResult.playlists.map(playlist => playlist.serialize()),
       };
 
       log(`All artists, albums, tracks, and playlists that include "${name}"`, serializedSearchResult);
@@ -236,52 +204,52 @@ async function executeCommandWithArgs(unqfy, command, args) {
     }
     case TRACKS_BY_ARTIST: {
       const artistName = fieldValueFromArgs(args, 'artistName');
-      const artistTracks = unqfy.getTracksMatchingArtist(artistName).map(serializeTrack);
+      const artistTracks = unqfy.getTracksMatchingArtist(artistName).map(track => track.serialize());
 
       log(`${artistName}'s tracks`, artistTracks);
       break;
     }
     case TRACKS_BY_GENRES: {
       const genres = arrayFieldValueFromArgs(args, 'genres');
-      const tracksMatchingGenres = unqfy.getTracksMatchingGenres(genres).map(serializeTrack);
+      const tracksMatchingGenres = unqfy.getTracksMatchingGenres(genres).map(track => track.serialize());
 
       log(`Tracks that have ${genres} as genre(s)`, tracksMatchingGenres);
       break;
     }
     case ALBUMS_BY_ARTIST: {
       const artistName = fieldValueFromArgs(args, 'artistName');
-      const albumsMatchingArtist = unqfy.getAlbumsMatchingArtist(artistName).map(serializeAlbum);
+      const albumsMatchingArtist = unqfy.getAlbumsMatchingArtist(artistName).map(album => album.serialize());
 
       log(`${artistName}'s albums`, albumsMatchingArtist);
       break;
     }
     case ALBUM_TRACKS: {
       const albumName = fieldValueFromArgs(args, 'albumName');
-      const albumTracks = unqfy.getTracksMatchingAlbum(albumName).map(serializeTrack);
+      const albumTracks = unqfy.getTracksMatchingAlbum(albumName).map(track => track.serialize());
 
       log(`Tracks for "${albumName}" album`, albumTracks);
       break;
     }
     case ALL_ARTISTS: {
-      const artists = unqfy.allArtists().map(serializeArtist);
+      const artists = unqfy.allArtists().map(artist => artist.serialize());
 
       log('All artists', artists);
       break;
     }
     case ALL_ALBUMS: {
-      const albums = unqfy.allAlbums().map(serializeAlbum);
+      const albums = unqfy.allAlbums().map(album => album.serialize());
 
       log('All albums', albums);
       break;
     }
     case ALL_TRACKS: {
-      const tracks = unqfy.allTracks().map(serializeTrack);
+      const tracks = unqfy.allTracks().map(track => track.serialize());
 
       log('All tracks', tracks);
       break;
     }
     case ALL_PLAYLISTS: {
-      const playlists = unqfy.allPlaylists().map(serializePlaylist);
+      const playlists = unqfy.allPlaylists().map(playlist => playlist.serialize());
 
       log('All playlists', playlists);
       break;
@@ -301,7 +269,7 @@ async function executeCommandWithArgs(unqfy, command, args) {
     }
     case TRACKS_USER_LISTENED_TO: {
       const userName = fieldValueFromArgs(args, 'userName');
-      const tracksUserListenedTo = unqfy.tracksUserListenedTo(userName).map(serializeTrack);
+      const tracksUserListenedTo = unqfy.tracksUserListenedTo(userName).map(track => track.serialize());
 
       log(`Tracks ${userName} listened to`, tracksUserListenedTo);
       break;
@@ -316,7 +284,7 @@ async function executeCommandWithArgs(unqfy, command, args) {
     }
     case CREATE_THIS_IS_LIST: {
       const artistName = fieldValueFromArgs(args, 'artistName');
-      const mostListenedTracksFromArtist = unqfy.createThisIsList(artistName).map(serializeTrack);
+      const mostListenedTracksFromArtist = unqfy.createThisIsList(artistName).map(track => track.serialize());
 
       log(`${artistName}'s top 3 listened tracks`, mostListenedTracksFromArtist);
       break;

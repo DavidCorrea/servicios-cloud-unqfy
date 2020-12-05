@@ -20,6 +20,11 @@ class Track {
 
     return this.lyrics;
   }
+
+  // We return the same object to keep the objects' serialization consistent.
+  serialize() {
+    return this;
+  }
 }  
 
 module.exports = Track;
