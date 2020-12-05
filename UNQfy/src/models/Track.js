@@ -21,9 +21,15 @@ class Track {
     return this.lyrics;
   }
 
-  // We return the same object to keep the objects' serialization consistent.
+  // We return a new object with the same values to keep the objects' serialization consistent.
   serialize() {
-    return this;
+    return {
+      id: this.id,
+      title: this.title,
+      duration: this.duration,
+      genres: this.genres,
+      lyrics: this.lyrics
+    };
   }
 }  
 

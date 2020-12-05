@@ -8,6 +8,7 @@ const UNQfy = require('../../src/models/Unqfy');
 const SpotifyMocks = require('../mocks/spotify');
 const MusixMatchMocks = require('../mocks/musixmatch');
 const NewsletterMocks = require('../mocks/newsletter');
+const LoggingMocks = require('../mocks/logging');
 
 function createAndAddArtist(unqfy, artistName, country) {
   const artist = unqfy.addArtist({ name: artistName, country });
@@ -28,6 +29,7 @@ function usersListenToTrack(unqfy, users, track) {
 
 beforeEach(() => {
   NewsletterMocks.mockAnySuccessfulNewAlbumNotificationRequest();
+  LoggingMocks.mockAnySuccessfulLogRequest();
 });
 
 describe('Add, remove and filter data', () => {
@@ -57,6 +59,16 @@ describe('Add, remove and filter data', () => {
   
     it('should raise an error if an artist has an empty country', () => {
       assert.throws(() => createAndAddArtist(unqfy, 'Guns n\' Roses', ''), "Couldn't create new Artist: Country cannot be empty");
+    });
+
+    it("should log about the new artist", (done) => {
+      const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+      const logRequest = LoggingMocks.mockSuccessfulLogRequest('UNQfy', 'ADD', 'Artist', artist.serialize());
+
+      setTimeout(() => { 
+        assert.isTrue(logRequest.isDone());
+        done();
+      });
     });
   });
 
@@ -88,6 +100,18 @@ describe('Add, remove and filter data', () => {
     it('should raise an error when trying to remove an album and the artist does not exist', () => {
       assert.throws(() => unqfy.removeArtist('Not existant'), "Artist does not exist");
     });
+
+    it("should log about the removed artist", (done) => {
+      const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+      const logRequest = LoggingMocks.mockSuccessfulLogRequest('UNQfy', 'REMOVE', 'Artist', artist.serialize());
+
+      unqfy.removeArtist(artist.id);
+
+      setTimeout(() => { 
+        assert.isTrue(logRequest.isDone());
+        done();
+      });
+    });
   });
 
   describe('#addAlbum', () => {
@@ -116,14 +140,28 @@ describe('Add, remove and filter data', () => {
       assert.throws(() => createAndAddAlbum(unqfy, artist.id, '', 1987), "Couldn't create new Album: Name cannot be empty");
     });
 
-    it("should notify about the new album", () => {
+    it("should notify about the new album", (done) => {
       const artist = createAndAddArtist(unqfy, 'Haywyre', 'USA');
       const albumName = 'Two Fold Pt. 2';
       const notifyRequest = NewsletterMocks.mockSuccessfulNewAlbumNotificationRequest(artist.id, `${artist.name} has released a new album!`, `Listen now to ${artist.name}'s latest album, "${albumName}"`);
 
       createAndAddAlbum(unqfy, artist.id, albumName, 1987);
 
-      setTimeout(() => assert.isTrue(notifyRequest.isDone()));
+      setTimeout(() => { 
+        assert.isTrue(notifyRequest.isDone());
+        done();
+      });
+    });
+
+    it("should log about the new album", (done) => {
+      const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+      const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+      const logRequest = LoggingMocks.mockSuccessfulLogRequest('Artist', 'ADD', 'Album', album.serialize());
+
+      setTimeout(() => { 
+        assert.isTrue(logRequest.isDone());
+        done();
+      });
     });
   });
 
@@ -160,6 +198,19 @@ describe('Add, remove and filter data', () => {
       const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
 
       assert.throws(() => unqfy.removeAlbum('Not existant', album.id), "Artist does not exist");
+    });
+
+    it("should log about the removed album", (done) => {
+      const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+      const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+      const logRequest = LoggingMocks.mockSuccessfulLogRequest('Artist', 'REMOVE', 'Album', album.serialize());
+
+      unqfy.removeAlbum(artist.id, album.id);
+
+      setTimeout(() => { 
+        assert.isTrue(logRequest.isDone());
+        done();
+      });
     });
   });
 
@@ -209,6 +260,18 @@ describe('Add, remove and filter data', () => {
 
       assert.throws(() => createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, []), "Couldn't create new Track: genres cannot be empty");
     });
+
+    it("should log about the new track", (done) => {
+      const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+      const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+      const track = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock']);
+      const logRequest = LoggingMocks.mockSuccessfulLogRequest('Album', 'ADD', 'Track', track.serialize());
+
+      setTimeout(() => { 
+        assert.isTrue(logRequest.isDone());
+        done();
+      });
+    });
   })
 
   describe('#removeTrack', () => {
@@ -240,6 +303,20 @@ describe('Add, remove and filter data', () => {
       const track = createAndAddTrack(unqfy, album.id, 'Roses track', 200, ['pop', 'movie']);
 
       assert.throws(() => unqfy.removeTrack('Not existant', track.id), "Album does not exist");
+    });
+
+    it("should log about the removed track", (done) => {
+      const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+      const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+      const track = createAndAddTrack(unqfy, album.id, 'Roses track', 200, ['pop', 'movie']);
+      const logRequest = LoggingMocks.mockSuccessfulLogRequest('Album', 'REMOVE', 'Track', track.serialize());
+
+      unqfy.removeTrack(album.id, track.id);
+
+      setTimeout(() => { 
+        assert.isTrue(logRequest.isDone());
+        done();
+      });
     });
   });
 

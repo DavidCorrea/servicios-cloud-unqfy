@@ -3,6 +3,7 @@ const { ResourceAlreadyExistsError } = require('./UnqfyError');
 const Album = require('./Album');
 const Observable = require('./Observable');
 const NewsletterClient = require('../clients/NewsletterClient');
+const LoggingClient = require('../clients/LoggingClient');
 
 class Artist extends Observable {
   constructor(id, name, country){
@@ -14,6 +15,7 @@ class Artist extends Observable {
     this.albums = [];
 
     this.addObserver(new NewsletterClient());
+    this.addObserver(new LoggingClient());
   }
 
   propsToSerialize() {
@@ -25,7 +27,7 @@ class Artist extends Observable {
 
     const album = new Album(albumId, albumName, albumYear);
     this.albums.push(album);
-    this._notify(albumName);
+    this._notify({ action: 'add', object: album });
 
     return album;
   }
@@ -36,6 +38,7 @@ class Artist extends Observable {
 
   removeAlbum(albumToRemove) {
     this.albums = this.albums.filter(album => album.id !== albumToRemove.id);
+    this._notify({ action: 'remove', object: albumToRemove });
   }
 
   allTracks() {
