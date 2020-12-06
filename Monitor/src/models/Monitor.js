@@ -1,7 +1,5 @@
-const UNQfy = require('../clients/UNQfyClient');
-const Newsletter = require('../clients/NewsletterClient');
+const serviceClient = require('../clients/ServiceClient');
 const Discord = require('../clients/DiscordClient');
-
 
 
 class Monitor {
@@ -29,21 +27,17 @@ class Monitor {
   }
 
   async UNQfyLivenessDetection() {
-    let liveness = await UNQfy.UNQfyLivenessDetection();
+    let liveness = await serviceClient.ServiceLivenessDetection(process.env.UNQfyBaseURL);
     if (liveness !== this.livenessDetections.UNQfy) {
-      let message = `[${new Date().toTimeString()}] el servicio UNQfy ha ${liveness ? 'vuelto a' : 'dejado de'} funcionar`;
-      Discord.discordNotify(message)
-      console.log(message);
+      Discord.discordNotify('UNQfy',liveness)
     }
     this.livenessDetections.UNQfy = liveness;
   }
   
   async NewsletterLivenessDetection() {
-    let liveness = await Newsletter.NewsletterLivenessDetection();
+    let liveness = await serviceClient.ServiceLivenessDetection(process.env.NewsletterBaseURL);
     if (liveness !== this.livenessDetections.Newsletter) {
-      let message = `[${new Date().toTimeString()}] el servicio Newsletter ha ${liveness ? 'vuelto a' : 'dejado de'} funcionar`;
-      Discord.discordNotify(message)
-      console.log(message);
+      Discord.discordNotify('Newsletter',liveness)
     }
     this.livenessDetections.Newsletter = liveness;
   }
