@@ -1,0 +1,43 @@
+{
+	"info": {
+		"_postman_id": "a3cb2b85-e703-4723-993c-02e1256f165b",
+		"name": "Logging",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Turn on/off",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3003/api/switch",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3003",
+					"path": [
+						"api",
+						"switch"
+					]
+				},
+				"description": "Turn the logger on or off"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

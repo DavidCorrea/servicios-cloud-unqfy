@@ -6,17 +6,17 @@ class LoggingClient {
   }
 
   static baseURL() {
-    return process.env.LOGGING_CLIENT_BASE_URL || 'http://localhost:3002';
+    return process.env.LOGGING_CLIENT_BASE_URL || 'http://localhost:3003';
   }
 
   async update(observable, { action, object }) {
-    const capitalizedAction = action.toUpperCase();
-    const updatedObjectType = observable.constructor.name;
-    const objectType = object.constructor.name;
+    const updatedObjectType = observable.constructor.name.toLowerCase();
+    const objectType = object.constructor.name.toLowerCase();
+    const message = `${updatedObjectType}.${action}.${objectType}`;
     const serializedObject = object.serialize();
 
     try {
-      await this.client.post('/api/log', { updatedObjectType, action: capitalizedAction, objectType, serializedObject });
+      await this.client.post('/api/log', { message, object: serializedObject });
     } catch (err) {
       // We don't really care if it fails. We should log the failure and that's it.
     }

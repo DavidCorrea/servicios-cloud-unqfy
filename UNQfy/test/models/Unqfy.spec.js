@@ -63,7 +63,7 @@ describe('Add, remove and filter data', () => {
 
     it("should log about the new artist", (done) => {
       const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
-      const logRequest = LoggingMocks.mockSuccessfulLogRequest('UNQfy', 'ADD', 'Artist', artist.serialize());
+      const logRequest = LoggingMocks.mockSuccessfulLogRequest('unqfy.add.artist', artist.serialize());
 
       setTimeout(() => { 
         assert.isTrue(logRequest.isDone());
@@ -103,7 +103,7 @@ describe('Add, remove and filter data', () => {
 
     it("should log about the removed artist", (done) => {
       const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
-      const logRequest = LoggingMocks.mockSuccessfulLogRequest('UNQfy', 'REMOVE', 'Artist', artist.serialize());
+      const logRequest = LoggingMocks.mockSuccessfulLogRequest('unqfy.remove.artist', artist.serialize());
 
       unqfy.removeArtist(artist.id);
 
@@ -156,7 +156,7 @@ describe('Add, remove and filter data', () => {
     it("should log about the new album", (done) => {
       const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
       const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
-      const logRequest = LoggingMocks.mockSuccessfulLogRequest('Artist', 'ADD', 'Album', album.serialize());
+      const logRequest = LoggingMocks.mockSuccessfulLogRequest('artist.add.album', album.serialize());
 
       setTimeout(() => { 
         assert.isTrue(logRequest.isDone());
@@ -203,7 +203,7 @@ describe('Add, remove and filter data', () => {
     it("should log about the removed album", (done) => {
       const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
       const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
-      const logRequest = LoggingMocks.mockSuccessfulLogRequest('Artist', 'REMOVE', 'Album', album.serialize());
+      const logRequest = LoggingMocks.mockSuccessfulLogRequest('artist.remove.album', album.serialize());
 
       unqfy.removeAlbum(artist.id, album.id);
 
@@ -265,7 +265,7 @@ describe('Add, remove and filter data', () => {
       const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
       const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
       const track = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock']);
-      const logRequest = LoggingMocks.mockSuccessfulLogRequest('Album', 'ADD', 'Track', track.serialize());
+      const logRequest = LoggingMocks.mockSuccessfulLogRequest('album.add.track', track.serialize());
 
       setTimeout(() => { 
         assert.isTrue(logRequest.isDone());
@@ -309,7 +309,7 @@ describe('Add, remove and filter data', () => {
       const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
       const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
       const track = createAndAddTrack(unqfy, album.id, 'Roses track', 200, ['pop', 'movie']);
-      const logRequest = LoggingMocks.mockSuccessfulLogRequest('Album', 'REMOVE', 'Track', track.serialize());
+      const logRequest = LoggingMocks.mockSuccessfulLogRequest('album.remove.track', track.serialize());
 
       unqfy.removeTrack(album.id, track.id);
 

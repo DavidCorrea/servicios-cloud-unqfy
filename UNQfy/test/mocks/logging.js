@@ -9,11 +9,11 @@ const mockAnySuccessfulLogRequest = () => {
     .reply(200);
 };
 
-const mockSuccessfulLogRequest = (updatedObjectType, action, objectType, serializedObject) => {
+const mockSuccessfulLogRequest = (message, object) => {
   nock.cleanAll();
 
   return nock(LoggingClient.baseURL())
-    .post('/api/log', { updatedObjectType, action, objectType, serializedObject })
+    .post('/api/log', { message, object })
     .reply(200);
 };
 
