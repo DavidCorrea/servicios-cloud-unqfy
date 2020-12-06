@@ -67,6 +67,10 @@ app.use((error, req, res, next) => {
   }
 });
 
+app.get("/api/heartbeat",(req, res, next) => {
+    res.status(200).send();
+});
+
 app.use((req, res, next) => {
   res.status(404).send({ status: 404, errorCode: 'RESOURCE_NOT_FOUND' });
 });

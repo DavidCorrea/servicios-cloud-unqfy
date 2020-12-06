@@ -94,7 +94,7 @@ class Newsletter {
   }
 
   _validateIsNotEmpty(value, errorMessageParameter) {
-    if (value === null || value === '') {
+    if (value === undefined ||value === null || value === '') {
       throw new BadRequestError(`${errorMessageParameter} cannot be empty`);
     }
   }
