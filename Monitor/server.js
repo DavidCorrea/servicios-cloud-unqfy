@@ -46,11 +46,5 @@ app.use((req, res, next) => {
 
 app.listen(port, () => {
   console.log("Servidor corriendo!");
-});
-
-
-function main() {
   monitor.livenessChecks();
-}
-
-main();
+});
