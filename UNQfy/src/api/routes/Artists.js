@@ -2,17 +2,13 @@ const express = require('express');
 const router = express.Router();
 const { BadRequestError } = require('../../models/UnqfyError');
 
-const serializeArtist = ({ id, name, country, albums }) => {
-  return { id, name, country, albums };
-}
-
 router.get("/:id", (req, res, next) => {
   const unqfy = req.unqfy;
   let id = req.params.id;
 
   try{
     let artist =  unqfy.getArtistById(Number(id));
-    res.status(200).send(serializeArtist(artist));
+    res.status(200).send(artist.serialize({ deep: true }));
   } catch(err) {
     next(err);
   }
@@ -24,7 +20,7 @@ router.get("/", (req, res, next) => {
 
   try{
     const artists = unqfy.searchByName(nameToLookFor).artists;
-    res.status(200).send(artists.map(artist => serializeArtist(artist)));
+    res.status(200).send(artists.map(artist => artist.serialize({ deep: true })));
   } catch(err) {
     next(err);
   }
@@ -35,8 +31,8 @@ router.post("/", (req, res, next) => {
   
   try{
     let artist = detructuringArtist(req); // destructuring
-    let created = unqfy.addArtist(artist);
-    res.status(201).send(serializeArtist(created));
+    let createdArtist = unqfy.addArtist(artist);
+    res.status(201).send(createdArtist.serialize({ deep: true }));
   } catch(err){
     next(err);
   }
@@ -50,7 +46,7 @@ router.put("/:id", (req, res, next) => {
     let artist =  unqfy.getArtistById(Number(id));
     artist.name = req.body.name
     artist.country = req.body.country
-    res.status(200).send(serializeArtist(artist));
+    res.status(200).send(artist.serialize({ deep: true }));
   } catch(err) {
     next(err);
   }

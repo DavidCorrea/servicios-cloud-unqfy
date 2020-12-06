@@ -9,13 +9,23 @@ const Playlist = require('./Playlist');
 const User = require('./User');
 const Reproduction = require('./Reproduction');
 const Spotify = require('../clients/SpotifyClient');
+const Observable = require('./Observable');
+const LoggingClient = require('../clients/LoggingClient');
 
-class UNQfy {
+class UNQfy extends Observable {
   constructor() {
+    super();
+
     this.ids = {}
     this.artists = [];
     this.playlists = [];
     this.users = [];
+
+    this.addObserver(new LoggingClient());
+  }
+
+  propsToSerialize() {
+    return ['ids', 'artists', 'playlists', 'users'];
   }
 
   addArtist({ name, country }) {
@@ -25,6 +35,7 @@ class UNQfy {
 
     const artist = new Artist(this._nextId(Artist), name, country);
     this.artists.push(artist);
+    this._notify({ action: 'add', object: artist });
 
     return artist;
   }
@@ -207,6 +218,7 @@ class UNQfy {
 
     this._removeTracksFromAllPlaylists(artistToRemove.allTracks());
     this.artists = this.artists.filter((artist) => artist.id !== artistToRemove.id);
+    this._notify({ action: 'remove', object: artistToRemove });
   }
 
   removeAlbum(artistId, albumId) {

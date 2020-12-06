@@ -9,9 +9,9 @@ class NewsletterClient {
     return process.env.NEWSLETTER_CLIENT_BASE_URL || 'http://localhost:3001';
   }
 
-  async update(artist, albumName) {
+  async update(artist, { object }) {
     const subject = `${artist.name} has released a new album!`;
-    const message = `Listen now to ${artist.name}'s latest album, "${albumName}"`;
+    const message = `Listen now to ${artist.name}'s latest album, "${object.name}"`;
 
     try {
       await this.client.post('/api/notify', { artistId: artist.id, subject, message });

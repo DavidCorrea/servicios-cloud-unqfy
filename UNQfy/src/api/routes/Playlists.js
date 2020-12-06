@@ -2,15 +2,6 @@ const express = require('express');
 const router = express.Router();
 const { BadRequestError } = require('../../models/UnqfyError');
 
-const serializePlaylist = (playlist) => {
-  return {
-    id: playlist.id,
-    name: playlist.name,
-    tracks: playlist.tracks,
-    duration: playlist.duration()
-  }
-}
-
 const validateValueFromRequestExists = (value, field) => {
   if (!value) {
     throw new BadRequestError(`'${field}' must be present`);
@@ -23,7 +14,7 @@ router.get("/:id", (req, res, next) => {
 
   try {
     const playlist = unqfy.getPlaylistById(playlistId);
-    res.status(200).send(serializePlaylist(playlist));
+    res.status(200).send(playlist.serialize({ deep: true }));
   } catch(error) {
     next(error);
   }
@@ -39,7 +30,7 @@ router.get("/", (req, res, next) => {
     const filters = { name, durationLesserThan, durationGreaterThan };
 
     const playlists = unqfy.searchPlaylists({ filters });
-    res.status(200).send(playlists.map((playlist) => serializePlaylist(playlist)));
+    res.status(200).send(playlists.map((playlist) => playlist.serialize({ deep: true })));
   } catch(error) {
     next(error);
   }
@@ -57,13 +48,13 @@ router.post("/", (req, res, next) => {
       validateValueFromRequestExists(maxDuration, 'maxDuration');
 
       const createdPlaylist = unqfy.createPlaylist(name, genres, Number(maxDuration));
-      res.status(201).send(serializePlaylist(createdPlaylist));
+      res.status(201).send(createdPlaylist.serialize({ deep: true }));
     } else {
       validateValueFromRequestExists(tracks, 'tracks');
       
       const tracksIds = tracks.map(track => Number(track));
       const createdPlaylist = unqfy.createPlaylistFromTracks(name, tracksIds);
-      res.status(201).send(serializePlaylist(createdPlaylist));
+      res.status(201).send(createdPlaylist.serialize({ deep: true }));
     }
   } catch(error) {
     next(error);

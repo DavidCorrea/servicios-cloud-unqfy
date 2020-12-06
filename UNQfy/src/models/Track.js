@@ -20,6 +20,17 @@ class Track {
 
     return this.lyrics;
   }
+
+  // We return a new object with the same values to keep the objects' serialization consistent.
+  serialize() {
+    return {
+      id: this.id,
+      title: this.title,
+      duration: this.duration,
+      genres: this.genres,
+      lyrics: this.lyrics
+    };
+  }
 }  
 
 module.exports = Track;
