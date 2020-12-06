@@ -17,7 +17,6 @@ class BadRequestError extends MonitorError {
     super(`Bad request: ${message}`);
     this.name = "MonitorError::BadRequestError";
   }
-
 }
 
 module.exports = {

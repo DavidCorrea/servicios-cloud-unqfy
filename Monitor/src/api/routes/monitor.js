@@ -6,8 +6,7 @@ const monitor = new Monitor();
 
 router.post('/switch', async (req, res, next) => {
 	try{
-	let { status } = req.body;
-		let result = req.monitor.switch(status)
+		let result = req.monitor.switch()
 		res.status(200).send(result);
 	} catch(err) {
     next(err);

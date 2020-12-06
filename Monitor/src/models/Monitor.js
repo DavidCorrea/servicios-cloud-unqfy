@@ -52,11 +52,9 @@ class Monitor {
     return (this.running ? this.livenessDetections : {});
   }
 
-  switch(status){
-    if(this.running !== status){
-      status ? this.turnOn() : this.turnOff();
-      this.running = status;
-    }
+  switch(){
+    this.running = !this.running
+    this.running ? this.turnOn() : this.turnOff();
     return this.running;
   }
 }

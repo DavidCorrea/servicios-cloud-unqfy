@@ -32,8 +32,6 @@ app.use((error, req, res, next) => {
 
   if(error instanceof SyntaxError) {
     res.status(400).send({ status: 400, errorCode: 'BAD_REQUEST' });
-  } else if(error instanceof BadRequestError) {
-    res.status(400).send({ status: 400, errorCode: 'BAD_REQUEST' });
   } else {
     res.status(500).send({ status: 500, errorCode: 'INTERNAL_SERVER_ERROR' });
   }
