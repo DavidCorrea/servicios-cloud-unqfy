@@ -6,16 +6,13 @@ class Monitor {
   constructor() {
     this.interval = 15000;
     this.running = true;
-    this.livenessDetections = {
-      UNQfy: undefined,
-      Newsletter: undefined,
-    };
+    this.livenessDetections = {};
     this.timer = this.turnOn();
   }
 
    async livenessChecks(){
-    await this.UNQfyLivenessDetection();
-    await this.NewsletterLivenessDetection();
+    await this.livenessDetection(process.env.UNQfyBaseURL,'UNQfy');
+    await this.livenessDetection(process.env.NewsletterBaseURL,'Newsletter');
   }
 
   turnOn(){
@@ -26,20 +23,12 @@ class Monitor {
     clearInterval(this.timer);
   }
 
-  async UNQfyLivenessDetection() {
-    let liveness = await serviceClient.ServiceLivenessDetection(process.env.UNQfyBaseURL);
-    if (liveness !== this.livenessDetections.UNQfy) {
-      Discord.discordNotify('UNQfy',liveness)
+  async livenessDetection(baseURL, serviceName) {
+    let liveness = await serviceClient.ServiceLivenessDetection(baseURL);
+    if (liveness !== this.livenessDetections[serviceName]) {
+      Discord.discordNotify(serviceName,liveness)
     }
-    this.livenessDetections.UNQfy = liveness;
-  }
-  
-  async NewsletterLivenessDetection() {
-    let liveness = await serviceClient.ServiceLivenessDetection(process.env.NewsletterBaseURL);
-    if (liveness !== this.livenessDetections.Newsletter) {
-      Discord.discordNotify('Newsletter',liveness)
-    }
-    this.livenessDetections.Newsletter = liveness;
+    this.livenessDetections[serviceName] = liveness;
   }
 
   getlivenessDetections(){
