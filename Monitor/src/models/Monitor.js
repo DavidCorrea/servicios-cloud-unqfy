@@ -7,7 +7,8 @@ class Monitor {
     this.interval = 15000;
     this.running = true;
     this.livenessDetections = {};
-    this.timer = this.turnOn();
+    this.timer = undefined;
+    this.turnOn();
   }
 
    async livenessChecks(){
@@ -16,7 +17,7 @@ class Monitor {
   }
 
   turnOn(){
-    setInterval(async ()=>{await this.livenessChecks()},this.interval);
+    this.timer = setInterval(async ()=>{await this.livenessChecks()},this.interval);
   }
 
   turnOff(){
