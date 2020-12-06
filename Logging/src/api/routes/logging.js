@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 const logger = require('../../models/Logger');
 
+router.get("/heartbeat",(req, res, next) => {
+  res.status(200).send();
+});
+
 router.post('/log', async (req, res, next) => {
 	try{
     const { message, object } = req.body;
