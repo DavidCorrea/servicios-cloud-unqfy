@@ -14,6 +14,7 @@ class Monitor {
    async livenessChecks(){
     await this.livenessDetection(process.env.UNQfyBaseURL,'UNQfy');
     await this.livenessDetection(process.env.NewsletterBaseURL,'Newsletter');
+    await this.livenessDetection(process.env.LoggingBaseURL,'Logging');
   }
 
   turnOn(){
