@@ -34,12 +34,6 @@ app.use((error, req, res, next) => {
     res.status(400).send({ status: 400, errorCode: 'BAD_REQUEST' });
   } else if(error instanceof BadRequestError) {
     res.status(400).send({ status: 400, errorCode: 'BAD_REQUEST' });
-  } else if(error instanceof ResourceNotFoundError) {
-    res.status(404).send({ status: 404, errorCode: 'RESOURCE_NOT_FOUND' });
-  } else if(error instanceof RelatedResourceNotFoundError) {
-    res.status(404).send({ status: 404, errorCode: 'RELATED_RESOURCE_NOT_FOUND' });
-  } else if(error instanceof ResourceAlreadyExistsError) {
-    res.status(409).send({ status: 409, errorCode: 'RESOURCE_ALREADY_EXISTS' });
   } else {
     res.status(500).send({ status: 500, errorCode: 'INTERNAL_SERVER_ERROR' });
   }
