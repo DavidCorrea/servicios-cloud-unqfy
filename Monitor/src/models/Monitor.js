@@ -1,27 +1,31 @@
 const UNQfy = require('../clients/UNQfyClient');
 const Newsletter = require('../clients/NewsletterClient');
 const Discord = require('../clients/DiscordClient');
-const timer = ms => new Promise( res => setTimeout(res, ms));
 
 
 
 class Monitor {
-  constructor(delay) {
-    this.delay = delay;
+  constructor() {
+    this.interval = 15000;
     this.running = true;
     this.livenessDetections = {
       UNQfy: undefined,
       Newsletter: undefined,
     };
+    this.timer = this.turnOn();
   }
 
-  async livenessChecks(){
-    if(this.running){
-      await this.UNQfyLivenessDetection();
-      await this.NewsletterLivenessDetection();
-    }
-    await timer(this.delay);
-    this.livenessChecks();
+   async livenessChecks(){
+    await this.UNQfyLivenessDetection();
+    await this.NewsletterLivenessDetection();
+  }
+
+  turnOn(){
+    setInterval(async ()=>{await this.livenessChecks()},this.interval);
+  }
+
+  turnOff(){
+    clearInterval(this.timer);
   }
 
   async UNQfyLivenessDetection() {
@@ -49,7 +53,10 @@ class Monitor {
   }
 
   switch(status){
-    this.running = status;
+    if(this.running !== status){
+      status ? this.turnOn() : this.turnOff();
+      this.running = status;
+    }
     return this.running;
   }
 }

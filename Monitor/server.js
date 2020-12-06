@@ -5,8 +5,7 @@ const { ResourceNotFoundError, RelatedResourceNotFoundError, ResourceAlreadyExis
 const app = express(); 
 const port = process.env.PORT || 3002;
 
-const DELAY = 15000;
-const monitor = new Monitor(DELAY);
+const monitor = new Monitor();
 
 
 // Body-parser (Para acceder al body en un POST/PUT/PATCH)
