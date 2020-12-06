@@ -34,10 +34,11 @@ class UNQfy {
     this._validateIsNotEmpty(year, 'Album', 'Year');
     this._validateIsNotEmpty(artistId, 'Album', 'Artist');
 
-    try{
+    try {
       const artist = this.getArtistById(artistId);
+
       return artist.addAlbum(this._nextId(Album), name, year);
-    } catch(error){
+    } catch(error) {
       if(error instanceof ResourceNotFoundError) {
         throw new RelatedResourceNotFoundError('Artist');
       } else {

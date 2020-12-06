@@ -7,6 +7,7 @@ chai.use(require('chai-as-promised'));
 const UNQfy = require('../../src/models/Unqfy');
 const SpotifyMocks = require('../mocks/spotify');
 const MusixMatchMocks = require('../mocks/musixmatch');
+const NewsletterMocks = require('../mocks/newsletter');
 
 function createAndAddArtist(unqfy, artistName, country) {
   const artist = unqfy.addArtist({ name: artistName, country });
@@ -24,6 +25,10 @@ function createAndAddTrack(unqfy, albumId, trackName, trackDuraction, trackGenre
 function usersListenToTrack(unqfy, users, track) {
   users.forEach(user => unqfy.userListenTo(user.name, track.title));
 }
+
+beforeEach(() => {
+  NewsletterMocks.mockAnySuccessfulNewAlbumNotificationRequest();
+});
 
 describe('Add, remove and filter data', () => {
   let unqfy = null;
@@ -100,14 +105,25 @@ describe('Add, remove and filter data', () => {
   
     it('should raise an error if an album with the same name already exists', () => {
       const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
-      const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+      createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
   
       assert.throws(() => createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987), "Couldn't create new Album: Name was already taken");
     });
   
     it('should raise an error if an album has an empty name', () => {
       const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+
       assert.throws(() => createAndAddAlbum(unqfy, artist.id, '', 1987), "Couldn't create new Album: Name cannot be empty");
+    });
+
+    it("should notify about the new album", () => {
+      const artist = createAndAddArtist(unqfy, 'Haywyre', 'USA');
+      const albumName = 'Two Fold Pt. 2';
+      const notifyRequest = NewsletterMocks.mockSuccessfulNewAlbumNotificationRequest(artist.id, `${artist.name} has released a new album!`, `Listen now to ${artist.name}'s latest album, "${albumName}"`);
+
+      createAndAddAlbum(unqfy, artist.id, albumName, 1987);
+
+      setTimeout(() => assert.isTrue(notifyRequest.isDone()));
     });
   });
 
@@ -167,7 +183,8 @@ describe('Add, remove and filter data', () => {
     it('should raise an error if a track with the same title already exists', () => {
       const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
       const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
-      const track = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock']);
+
+      createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock']);
   
       assert.throws(() => createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock']), "Couldn't create new Track: Title was already taken");
     });
@@ -175,18 +192,21 @@ describe('Add, remove and filter data', () => {
     it('should raise an error if a track has an empty title', () => {
       const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
       const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+
       assert.throws(() => createAndAddTrack(unqfy, album.id, '', 200, ['rock', 'hard rock']), "Couldn't create new Track: Title cannot be empty");
     });
   
     it('should raise an error if a track has a duration lower than 1', () => {
       const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
       const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+
       assert.throws(() => createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 0, ['rock', 'hard rock']), "Couldn't create new Track: Duration must be bigger than zero");
     });
   
     it('should raise an error if a track has an empty genres', () => {
       const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
       const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+
       assert.throws(() => createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, []), "Couldn't create new Track: genres cannot be empty");
     });
   })

@@ -1,11 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const Newsletter = require('../../lib/Loader');
 
 router.post('/subscribe', async (req, res, next) => {
   const newsletter = req.newsletter;
 	try{
-		let { artistId, email } = req.body;
+    let { artistId, email } = req.body;
 		await newsletter.subscribe(Number(artistId), email);
 		res.status(200).send();
 	} catch(err) {

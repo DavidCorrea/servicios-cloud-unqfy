@@ -13,6 +13,6 @@ module.exports = {
 		return newsletter;
 	},
   saveNewsletter: (newsletter) => {
-	newsletter.save(DATA_FILENAME);
+	  newsletter.save(DATA_FILENAME);
   }
 }

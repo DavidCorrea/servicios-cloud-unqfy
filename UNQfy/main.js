@@ -176,7 +176,7 @@ async function executeCommandWithArgs(unqfy, command, args) {
       const artist = fieldValueFromArgs(args, 'artist');
       const year = fieldValueFromArgs(args, 'year');
 
-      unqfy.addAlbum(unqfy.getArtistIdByName(artist),{name, year});
+      unqfy.addAlbum(unqfy.getArtistIdByName(artist), {name, year});
       break;
     }
     case REMOVE_ALBUM: {
