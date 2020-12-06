@@ -2,7 +2,7 @@ const axios = require('axios');
 const { UnqfyError } = require('../models/UnqfyError');
 
 const baseURL = 'http://api.musixmatch.com/ws/1.1';
-const apiKey = '7072af37ec9d5e6c267d78197022972d'; // This should be in an .env file.
+const apiKey = process.env.MUSIXMATCH_API_KEY;
 
 const musixMatch = axios.create({
   baseURL

@@ -6,7 +6,7 @@ class LoggingClient {
   }
 
   static baseURL() {
-    return process.env.LOGGING_CLIENT_BASE_URL || 'http://localhost:3003';
+    return process.env.LOGGING_API_HOST || 'http://localhost:3003';
   }
 
   async update(observable, { action, object }) {
@@ -18,6 +18,7 @@ class LoggingClient {
     try {
       await this.client.post('/api/log', { message, object: serializedObject });
     } catch (err) {
+      console.log(err);
       // We don't really care if it fails. We should log the failure and that's it.
     }
   }

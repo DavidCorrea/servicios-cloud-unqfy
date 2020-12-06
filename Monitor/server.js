@@ -3,7 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const { ResourceNotFoundError, RelatedResourceNotFoundError, ResourceAlreadyExistsError, BadRequestError } = require('./src/models/MonitorError');
 const app = express(); 
-const port = process.env.PORT || 3002;
+const port = process.env.PORT || 3003;
 
 const monitor = new Monitor();
 

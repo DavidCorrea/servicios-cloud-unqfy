@@ -4,7 +4,7 @@ const express = require('express');
 const { ResourceNotFoundError, RelatedResourceNotFoundError, ResourceAlreadyExistsError, BadRequestError } = require('./src/models/NewsletterError');
 const app = express(); 
 const NewsletterLoader = require('./src/lib/Loader');
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3002;
 
 // Body-parser (Para acceder al body en un POST/PUT/PATCH)
 const bodyParser = require('body-parser');

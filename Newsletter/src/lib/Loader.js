@@ -1,4 +1,4 @@
-const DATA_FILENAME = 'data.json';
+const DATA_FILENAME = 'data/data.json';
 const fs = require('fs');
 const Newsletter = require('../models/Newsletter');
 
