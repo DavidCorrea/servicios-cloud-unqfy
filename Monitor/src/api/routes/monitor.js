@@ -1,8 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const Monitor = require('../../models/Monitor');
-
-const monitor = new Monitor();
 
 router.post('/switch', async (req, res, next) => {
 	try{
