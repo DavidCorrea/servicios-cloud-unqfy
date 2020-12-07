@@ -6,7 +6,7 @@ class NewsletterClient {
   }
 
   static baseURL() {
-    return process.env.NEWSLETTER_CLIENT_BASE_URL || 'http://localhost:3001';
+    return process.env.NEWSLETTER_API_HOST || 'http://localhost:3001';
   }
 
   async update(artist, { object }) {

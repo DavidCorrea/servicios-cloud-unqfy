@@ -1,7 +1,7 @@
 const axios = require('axios');
 const {ResourceNotFoundError} = require('../models/NewsletterError');
 
-const UNQfyBaseURL = process.env.UNQfyBaseURL || "http://localhost:3000";
+const UNQfyBaseURL = process.env.UNQFY_API_HOST || "http://localhost:3000";
 
 const unqfy = axios.create({
   baseURL:UNQfyBaseURL

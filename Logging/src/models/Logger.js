@@ -14,7 +14,7 @@ class Logger {
           format: format.combine(format.colorize(), timestampFormat, format.align(), messageFormat) 
         }),
         new winston.transports.File({ 
-          filename: 'unqfy.log',
+          filename: 'logs/unqfy.log',
           format: format.combine(timestampFormat, format.align(), messageFormat)
         }),
         new Loggly({

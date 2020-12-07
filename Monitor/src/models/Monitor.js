@@ -4,7 +4,7 @@ const Discord = require('../clients/DiscordClient');
 
 class Monitor {
   constructor() {
-    this.interval = 15000;
+    this.interval = 3000;
     this.running = true;
     this.livenessDetections = {};
     this.timer = undefined;
@@ -12,9 +12,9 @@ class Monitor {
   }
 
    async livenessChecks(){
-    await this.livenessDetection(process.env.UNQfyBaseURL,'UNQfy');
-    await this.livenessDetection(process.env.NewsletterBaseURL,'Newsletter');
-    await this.livenessDetection(process.env.LoggingBaseURL,'Logging');
+    await this.livenessDetection(process.env.UNQFY_API_HOST, 'UNQfy');
+    await this.livenessDetection(process.env.NEWSLETTER_API_HOST, 'Newsletter');
+    await this.livenessDetection(process.env.LOGGING_API_HOST, 'Logging');
   }
 
   turnOn(){

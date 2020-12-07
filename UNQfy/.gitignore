@@ -1,5 +1,6 @@
 # App related
 data.json
+data/data.json
 spotifyCreds.json
 
 # Logs
