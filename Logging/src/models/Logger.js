@@ -53,6 +53,7 @@ class Logger {
 
   switch() {
     this.logger.silent = !this.logger.silent;
+    console.log(`Logger has been turned ${this.logger.silent ? 'off' : 'on'}.`);
   }
 
   isActive() {
