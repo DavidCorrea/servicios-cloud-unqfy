@@ -16,7 +16,7 @@ class NewsletterClient {
     try {
       await this.client.post('/api/notify', { artistId: artist.id, subject, message });
     } catch (err) {
-      // We don't really care if it fails. We should log the failure and that's it.
+      console.log(`Could not connect with Newsletter Service: ${err.message}`);
     }
   }
 }

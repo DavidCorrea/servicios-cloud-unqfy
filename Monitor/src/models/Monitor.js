@@ -40,6 +40,7 @@ class Monitor {
   switch(){
     this.running = !this.running
     this.running ? this.turnOn() : this.turnOff();
+    console.log(`Monitor has been turned ${this.running ? 'on' : 'off'}.`);
     return this.running;
   }
 }

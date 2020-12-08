@@ -18,8 +18,7 @@ class LoggingClient {
     try {
       await this.client.post('/api/log', { message, object: serializedObject });
     } catch (err) {
-      console.log(err);
-      // We don't really care if it fails. We should log the failure and that's it.
+      console.log(`Could not connect with Logging Service: ${err.message}`);
     }
   }
 }
